@@ -15,7 +15,7 @@ import { readGregorianDates } from "@utils/esharqPrefs";
 import { forceGregorianForArabic } from "@utils/gregorianCalendar";
 import { setGregorianDates } from "@utils/gregorianDates";
 import definePlugin from "@utils/types";
-import { moment, UserSettingsActionCreators } from "@webpack/common";
+import { moment } from "@webpack/common";
 
 // 🔴 البادئة `_` ليست تجميلاً: مُولِّد سجلّ الإضافات يستورد **كل مدخل** في
 // هذا المجلد ويُسجّله بـ`module.name`. وبلا البادئة سُجّل هذا الجدول إضافةً
@@ -110,8 +110,10 @@ export default definePlugin({
         }
 
         try {
-            const locale = UserSettingsActionCreators.PreloadedUserSettingsActionCreators
-                .getCurrentValue().localization.locale.value ?? "en-US";
+            // Avoid a brittle Webpack module lookup here: Discord's internal
+            // PreloadedUserSettings module is not stable across client builds.
+            // The document language follows the active Discord locale.
+            const locale = document.documentElement.lang || navigator.language || "en-US";
             // لغة ديسكورد هي الفيصل لا إعداد إضافاتنا: هذه مُدَدٌ داخل جمل
             // ديسكورد نفسه، فمن يقرؤه بالإنجليزية يجب أن تبقى إنجليزية.
             if (!/^ar\b/i.test(locale)) return;
