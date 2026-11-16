@@ -66,12 +66,11 @@ jobs:
                   done
                   find release -size 0 -delete
                   rm -f release/package.json release/*.map
-            - name: Upload SaudiCord Stable
+            - name: Publish versioned SaudiCord release
               if: ${{ github.repository == 'xxm-cmyk/SaudiCord' && vars.ACT != 'true' }}
               env:
                   GH_TOKEN: ${{ github.token }}
               run: |
-                  HASH=$(git rev-parse --short HEAD)
                   VERSION=$(node -p "require('./package.json').version")
                   TAG="v$VERSION"
                   gh release create "$TAG" --target "$GITHUB_SHA" --title "SaudiCord $VERSION" --notes "Official Release" 2>/dev/null || \
