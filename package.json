@@ -3,13 +3,13 @@
     "private": "true",
     "version": "1.15.6.0",
     "description": "SaudiCord — Arabic-first Discord client mod",
-    "homepage": "https://github.com/xxm-cmyk/-SaudiCord-#readme",
+    "homepage": "https://github.com/xxm-cmyk/SaudiCord#readme",
     "bugs": {
-        "url": "https://github.com/xxm-cmyk/-SaudiCord-/issues"
+        "url": "https://github.com/xxm-cmyk/SaudiCord/issues"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/xxm-cmyk/-SaudiCord-.git"
+        "url": "git+https://github.com/xxm-cmyk/SaudiCord.git"
     },
     "license": "GPL-3.0-or-later",
     "author": "LOSTSTR <noreply@github.com>",
