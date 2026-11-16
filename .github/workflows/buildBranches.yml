@@ -24,7 +24,7 @@ on:
 env:
     FORCE_COLOR: true
     GITHUB_TOKEN: ${{ secrets.ETOKEN }}
-    REPO: xxm-cmyk/-SaudiCord-
+    REPO: xxm-cmyk/SaudiCord
     USERNAME: GitHub-Actions
 
 permissions:
@@ -34,7 +34,7 @@ jobs:
     Build:
         name: Build SaudiCord
         runs-on: ubuntu-latest
-        if: github.repository == 'xxm-cmyk/-SaudiCord-' && vars.BUILD_BRANCHES == 'true'
+        if: github.repository == 'xxm-cmyk/SaudiCord' && vars.BUILD_BRANCHES == 'true'
 
         steps:
             - uses: actions/checkout@v6
