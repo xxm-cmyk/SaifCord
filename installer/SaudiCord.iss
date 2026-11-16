@@ -1,5 +1,5 @@
 #define MyAppName "SaudiCord"
-#define MyAppVersion "1.15.6.2"
+#define MyAppVersion "1.15.6.3"
 #define MyAppPublisher "SaudiCord"
 #define MyAppExeName "node.exe"
 
