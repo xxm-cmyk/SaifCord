@@ -613,7 +613,7 @@ function patchFactory(moduleId: PropertyKey, originalFactory: AnyModuleFactory):
                                 const center = markerIndex >= 0 ? markerIndex : anchorIndex;
                                 const start = Math.max(0, center - 220);
                                 const end = Math.min(source.length, center + 280);
-                                const excerpt = source.slice(start, end).replaceAll("\\r", " ").replaceAll("\\n", " ").replaceAll("\\t", " ");
+                                const excerpt = source.slice(start, end).replaceAll("\r", " ").replaceAll("\n", " ").replaceAll("\t", " ");
                                 samples.push({ moduleId: String(moduleId), excerpt });
                             }
                         }
