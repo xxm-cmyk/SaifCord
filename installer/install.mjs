@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 import {
-    copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync,
+    copyFileSync, cpSync, existsSync, mkdirSync, readdirSync, readFileSync,
     renameSync, rmSync, statSync, writeFileSync
 } from "node:fs";
 import { dirname, join } from "node:path";
@@ -40,6 +40,10 @@ function guarded(fn, target = "ملف Discord") {
             fail("تعذّر تعديل " + target + " لأن Windows يمنع الوصول إليه (" + e.code + "). أغلق Discord من شريط النظام، ثم أعد المحاولة.\nالتفاصيل: " + (e.message ?? e));
         throw e;
     }
+}
+function copyPathSync(source, destination) {
+    // Discord installations may use either a packed app.asar file or an unpacked directory.
+    cpSync(source, destination, { recursive: true, errorOnExist: true, force: false });
 }
 function getRunningDiscordProcesses() {
     if (process.platform !== "win32") return [];
@@ -177,19 +181,19 @@ if (!existsSync(SAUDI_BACKUP)) {
     // Prefer it as the uninstall restore point, while preserving the currently active app.asar.
     const restoreSource = existsSync(LEGACY_BACKUP) ? LEGACY_BACKUP : APP;
     if (restoreSource === APP) {
-        copyFileSync(APP, SAUDI_BACKUP);
+        guarded(() => copyPathSync(APP, SAUDI_BACKUP), "النسخة الاحتياطية الأصلية من Discord");
     } else {
         const quarantineRoot = join(PAYLOAD_DIR, "previous-clients-backup");
         mkdirSync(quarantineRoot, { recursive: true });
-        copyFileSync(APP, join(quarantineRoot, "active-app-before-install.asar"));
-        copyFileSync(restoreSource, SAUDI_BACKUP);
+        guarded(() => copyPathSync(APP, join(quarantineRoot, "active-app-before-install.asar")), "نسخة Discord قبل التثبيت");
+        guarded(() => copyPathSync(restoreSource, SAUDI_BACKUP), "النسخة الأصلية لاستعادة Discord");
     }
 }
 // The bundled Vencord-compatible patcher resolves the clean Discord archive
 // through Electron's special _app.asar path. Keep that compatibility copy
 // alongside our named restore point, without overwriting an existing one.
 if (!existsSync(LEGACY_BACKUP)) {
-    copyFileSync(SAUDI_BACKUP, LEGACY_BACKUP);
+    guarded(() => copyPathSync(SAUDI_BACKUP, LEGACY_BACKUP), "نسخة Discord الاحتياطية المتوافقة");
 }
 const indexJs = `// SaudiCord bridge
 require(${JSON.stringify(PAYLOAD)});
