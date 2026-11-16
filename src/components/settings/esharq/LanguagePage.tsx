@@ -136,6 +136,28 @@ export function LanguagePage() {
                         );
                     })()}
                 </Forms.FormText>
+                {(() => {
+                    const samples = ((globalThis as any).__saudicordArabicPatchDiagnostics?.samples ?? []) as Array<{ moduleId: string; excerpt: string }>;
+                    if (!samples.length) return null;
+                    return (
+                        <div style={{ marginTop: UNIT * 2 }}>
+                            <Forms.FormText>
+                                {t(
+                                    "عينات محلية من وحدات محمّلات الرسائل التي فشلت مطابقتها. انسخ المعرّف والمقتطف وأرسلهما هنا؛ لا تُرسل هذه البيانات تلقائياً لأي جهة.",
+                                    "Local excerpts from message-loader modules whose patches failed. Copy the module ID and excerpt and send them here; this data is not automatically sent anywhere."
+                                )}
+                            </Forms.FormText>
+                            {samples.map(sample => (
+                                <div key={sample.moduleId} style={{ marginTop: UNIT, padding: UNIT * 2, borderRadius: RADIUS, background: SURFACE[0] }}>
+                                    <Forms.FormText>Module ID: {sample.moduleId}</Forms.FormText>
+                                    <pre style={{ whiteSpace: "pre-wrap", overflowWrap: "anywhere", fontSize: 11, maxHeight: 160, overflow: "auto", userSelect: "text" }}>
+                                        {sample.excerpt}
+                                    </pre>
+                                </div>
+                            ))}
+                        </div>
+                    );
+                })()}
             </Card>
 
             <Card
