@@ -1,4 +1,10 @@
 name: SaudiCord Release
+
+# Prevent parallel commits from uploading duplicate assets to the same version tag.
+concurrency:
+    group: saudicord-release-${{ github.ref }}
+    cancel-in-progress: false
+
 on:
     push:
         branches:
