@@ -26,8 +26,8 @@ SaudiCord هو فرع مستقل يهدف إلى تقديم تجربة ديسك�
 - Git
 
 ~~~bash
-git clone https://github.com/xxm-cmyk/-SaudiCord-.git
-cd -SaudiCord-
+git clone https://github.com/xxm-cmyk/SaudiCord.git
+cd SaudiCord
 pnpm install --frozen-lockfile
 pnpm build
 ~~~
