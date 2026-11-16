@@ -39,8 +39,8 @@ function getErrorMessage(e: any) {
 
     if (message.includes("403") && /rate limit/i.test(message)) {
         return t(
-            "تجاوزتَ حدّ طلبات GitHub (60 طلباً في الساعة لكلّ عنوان شبكة).\nحاول بعد ساعة — لا عطل في إشراق.",
-            "You hit GitHub's request limit (60 per hour per IP address).\nTry again in an hour — nothing is broken in Esharq."
+            "تجاوزتَ حدّ طلبات GitHub (60 طلباً في الساعة لكلّ عنوان شبكة).\nحاول بعد ساعة — لا عطل في سعودي كورد.",
+            "You hit GitHub's request limit (60 per hour per IP address).\nTry again in an hour — nothing is broken in SaudiCord."
         );
     }
 
@@ -78,8 +78,8 @@ export function runWithDispatch(dispatch: React.Dispatch<React.SetStateAction<bo
             openModal(props => (
                 <ConfirmModal
                     {...props}
-                    title="Oops!"
-                    confirmText="OK"
+                    title={t("حدث خطأ", "An error occurred")}
+                    confirmText={t("حسناً", "OK")}
                     variant="primary"
                 >
                     <ErrorCard>
