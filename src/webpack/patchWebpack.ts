@@ -598,7 +598,26 @@ function patchFactory(moduleId: PropertyKey, originalFactory: AnyModuleFactory):
                 }
 
                 if (newPatchedCode === patchedCode) {
-                    if (arabicPatchStats) arabicPatchStats.missed++;
+                    if (arabicPatchStats) {
+                        arabicPatchStats.missed++;
+
+                        // Keep a small, local-only source excerpt for diagnosing
+                        // Discord bundle changes. Never transmit or persist it.
+                        if (patch.plugin === "SaudiCordArabicLocale" && String(patch.find).includes("makeMessagesProxy")) {
+                            const diagnostics = (globalThis as any).__saudicordArabicPatchDiagnostics;
+                            const samples: Array<{ moduleId: string; excerpt: string }> = diagnostics.samples ??= [];
+                            if (!samples.some(sample => sample.moduleId === String(moduleId)) && samples.length < 20) {
+                                const source = originalFactoryCode;
+                                const markerIndex = source.indexOf('"en-US"');
+                                const anchorIndex = source.indexOf("makeMessagesProxy");
+                                const center = markerIndex >= 0 ? markerIndex : anchorIndex;
+                                const start = Math.max(0, center - 220);
+                                const end = Math.min(source.length, center + 280);
+                                const excerpt = source.slice(start, end).replace(/[\\r\\n\\t]+/g, " ").replace(/[\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F]/g, "");
+                                samples.push({ moduleId: String(moduleId), excerpt });
+                            }
+                        }
+                    }
                     if (!(patch.noWarn || replacement.noWarn)) {
                         logger.warn(`Patch by ${patch.plugin} had no effect (Module id is ${String(moduleId)}): ${replacement.match}`);
                         if (IS_DEV) {
