@@ -20,6 +20,7 @@ import {
 import { ClientHealthPage } from "@components/settings/esharq/ClientHealthPage";
 import { ComingSoon } from "@components/settings/esharq/ComingSoon";
 import { CommunityPluginsPage } from "@components/settings/esharq/CommunityPluginsPage";
+import { DevelopersPage } from "@components/settings/esharq/DevelopersPage";
 import { CrashBisectPage } from "@components/settings/esharq/CrashBisectPage";
 import { IconFinderPage } from "@components/settings/esharq/IconFinderPage";
 import { LanguagePage } from "@components/settings/esharq/LanguagePage";
@@ -297,7 +298,7 @@ export default definePlugin({
             VencordTab, PluginsTab, ThemesTab, UpdaterTab,
             ChangelogTab, CloudTab, BackupAndRestoreTab,
             // صفحات بناها سعودي كورد — لا تُشتقّ من الأصل.
-            LanguagePage, ClientHealthPage, VoiceLabPage, CommunityPluginsPage, StartupTimingsPage, IconFinderPage, SupportBundlePage, SurveillancePage, PluginPermissionsPage, PerformanceBudgetsPage, PrivacySecurityPage, CrashBisectPage, MyProfilePage, ThemeCreatorPage, ThemeLibraryPage
+            LanguagePage, ClientHealthPage, VoiceLabPage, CommunityPluginsPage, StartupTimingsPage, IconFinderPage, SupportBundlePage, SurveillancePage, PluginPermissionsPage, PerformanceBudgetsPage, PrivacySecurityPage, CrashBisectPage, MyProfilePage, DevelopersPage, ThemeCreatorPage, ThemeLibraryPage
         };
         // أيقونة مميّزة لكل صفحة — لا ترس واحد للكلّ (قرار المالك).
         const iconFor: Record<string, ComponentType<IconProps>> = {
@@ -315,6 +316,7 @@ export default definePlugin({
             // الأدوات
             "voice-lab": HeadphonesIcon, "startup-timings": ClockIcon,
             "language": WebsiteIcon, "icon-finder": MagnifyingGlassIcon,
+            "developers": HammerAndChiselIcon,
             // البيانات والدعم
             "sync": CloudIcon, "backup-restore": BackupRestoreIcon,
             "support-bundle": AttachmentIcon
