@@ -48,13 +48,14 @@
         "intl:build": "node scripts/saudicord/buildArabicTable.mjs",
         "intl:queue": "node scripts/saudicord/intlQueue.mjs",
         "intl:lint": "node scripts/saudicord/intlLint.mjs",
+        "intl:verify": "pnpm intl:build && git diff --exit-code -- src/plugins/_core/_arabicMessages.json",
         "testCoverage": "tsx scripts/saudicord/coverageSelfTest.ts",
         "testPrefs": "tsx scripts/saudicord/prefsSelfTest.ts",
         "testRedact": "tsx scripts/saudicord/redactSelfTest.ts",
         "testCommunity": "tsx scripts/saudicord/communityValidateSelfTest.ts",
         "testIntlAst": "node scripts/saudicord/intlAstSelfTest.mjs",
         "testThemeLibrary": "tsx scripts/saudicord/themeLibraryParseSelfTest.ts",
-        "testSaudiCord": "node scripts/saudicordCheck.mjs && node scripts/lintOverlayOptions.mjs && pnpm testCoverage && pnpm testPrefs && pnpm testRedact && pnpm testCommunity && pnpm testThemeLibrary && pnpm testIntlAst && pnpm intl:lint && node scripts/saudicordSecurityAudit.mjs && tsc --noEmit -p tsconfig.saudicord.json && stylelint \"src/esharqplugins/**/*.css\""
+        "testSaudiCord": "node scripts/saudicordCheck.mjs && node scripts/lintOverlayOptions.mjs && pnpm testCoverage && pnpm testPrefs && pnpm testRedact && pnpm testCommunity && pnpm testThemeLibrary && pnpm testIntlAst && pnpm intl:lint && pnpm intl:verify && node scripts/saudicordSecurityAudit.mjs && tsc --noEmit -p tsconfig.saudicord.json && stylelint \"src/esharqplugins/**/*.css\""
     },
     "dependencies": {
         "@ffmpeg/ffmpeg": "^0.12.10",
