@@ -117,7 +117,7 @@ export default function ReleaseBrowser() {
                             <Span color={release.prerelease ? "text-warning" : "text-positive"} size="sm">
                                 {release.prerelease
                                     ? t("نسخة تجريبية", "Pre-release")
-                                    : index === 0
+                                    : release.id === releases.find(item => !item.prerelease)?.id
                                         ? t("أحدث إصدار مستقر", "Latest stable")
                                         : t("مستقر", "Stable")}
                             </Span>
