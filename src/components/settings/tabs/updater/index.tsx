@@ -36,6 +36,7 @@ import { React } from "@webpack/common";
 import gitHash from "~git-hash";
 
 import { HashLink, Newer, Updatable } from "./Components";
+import ReleaseBrowser from "./ReleaseBrowser";
 
 interface CommonProps {
     repo: string;
@@ -169,6 +170,17 @@ function Updater() {
 
             <Card
                 index={3}
+                title={t("إصدارات GitHub", "GitHub releases")}
+                subtitle={t(
+                    "تصفّح الإصدارات المنشورة واختر النسخة التي تريد تنزيلها.",
+                    "Browse published releases and choose the version you want to download."
+                )}
+            >
+                <ReleaseBrowser />
+            </Card>
+
+            <Card
+                index={4}
                 title={t("تفضيلات التحديث", "Update preferences")}
                 subtitle={t(
                     "تحكّم في كيفية تحديث SaudiCord.",
