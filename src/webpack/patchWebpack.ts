@@ -526,6 +526,17 @@ function patchFactory(moduleId: PropertyKey, originalFactory: AnyModuleFactory):
 
     for (let i = 0; i < patches.length; i++) {
         const patch = patches[i];
+        const arabicPatchStats = patch.plugin === "SaudiCordArabicLocale"
+            ? (() => {
+                const root = globalThis as any;
+                const diagnostics = root.__saudicordArabicPatchDiagnostics ??= { factoriesScanned: 0, anchors: {} };
+                const anchor = typeof patch.find === "string" ? patch.find : "regular-expression";
+                const stats = diagnostics.anchors[anchor] ??= { scanned: 0, matched: 0, applied: 0, missed: 0, errors: 0 };
+                diagnostics.factoriesScanned++;
+                stats.scanned++;
+                return stats;
+            })()
+            : null;
 
         const buildNumber = getBuildNumber();
         const shouldCheckBuildNumber = buildNumber !== -1;
@@ -545,6 +556,7 @@ function patchFactory(moduleId: PropertyKey, originalFactory: AnyModuleFactory):
         if (!moduleMatches) {
             continue;
         }
+        if (arabicPatchStats) arabicPatchStats.matched++;
 
         // Save the result from the previous patch so we can restore it in case a patch group fails.
         const previousPatchedCode = patchedCode;
@@ -586,6 +598,7 @@ function patchFactory(moduleId: PropertyKey, originalFactory: AnyModuleFactory):
                 }
 
                 if (newPatchedCode === patchedCode) {
+                    if (arabicPatchStats) arabicPatchStats.missed++;
                     if (!(patch.noWarn || replacement.noWarn)) {
                         logger.warn(`Patch by ${patch.plugin} had no effect (Module id is ${String(moduleId)}): ${replacement.match}`);
                         if (IS_DEV) {
@@ -634,7 +647,9 @@ function patchFactory(moduleId: PropertyKey, originalFactory: AnyModuleFactory):
                 patchedCode = newPatchedCode;
                 patchedSource = newPatchedSource;
                 patchedFactory = newPatchedFactory;
+                if (arabicPatchStats) arabicPatchStats.applied++;
             } catch (err) {
+                if (arabicPatchStats) arabicPatchStats.errors++;
                 // FIXME: Maybe fix this properly
                 const shouldSuppressError = patch.plugin === "ContextMenuAPI" && err instanceof SyntaxError && err.message.includes("arguments");
                 if (!shouldSuppressError) {
