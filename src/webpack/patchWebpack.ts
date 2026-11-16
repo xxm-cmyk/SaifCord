@@ -619,7 +619,14 @@ function patchFactory(moduleId: PropertyKey, originalFactory: AnyModuleFactory):
                         }
                     }
                     if (!(patch.noWarn || replacement.noWarn)) {
-                        logger.warn(`Patch by ${patch.plugin} had no effect (Module id is ${String(moduleId)}): ${replacement.match}`);
+                        const arabicSample = arabicPatchStats && patch.plugin === "SaudiCordArabicLocale"
+                            ? ((globalThis as any).__saudicordArabicPatchDiagnostics?.samples as Array<{ moduleId: string; excerpt: string }> | undefined)
+                                ?.find(sample => sample.moduleId === String(moduleId))
+                            : undefined;
+                        logger.warn(
+                            `Patch by ${patch.plugin} had no effect (Module id is ${String(moduleId)}): ${replacement.match}`,
+                            arabicSample ? `\nSaudiCord Arabic diagnostic (local only, module ${arabicSample.moduleId}):\n${arabicSample.excerpt}` : ""
+                        );
                         if (IS_DEV) {
                             logger.debug("Function Source:\n", patchedCode);
                         }
