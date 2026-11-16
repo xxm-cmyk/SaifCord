@@ -56,7 +56,7 @@ export function DevelopersPage() {
     const [busy, setBusy] = useState<"message" | "friend" | null>(null);
 
     useEffect(() => {
-        if (developer) return;
+        if (getCachedOwner()) return;
         let active = true;
 
         RestAPI.get({ url: `/users/${OWNER_ID}` })
