@@ -41,17 +41,46 @@ function guarded(fn, target = "ملف Discord") {
         throw e;
     }
 }
-function assertDiscordClosed() {
-    if (process.platform !== "win32") return;
+function getRunningDiscordProcesses() {
+    if (process.platform !== "win32") return [];
     let output = "";
     try { output = execFileSync("tasklist", ["/FO", "CSV", "/NH"], { encoding: "utf8", windowsHide: true }); }
-    catch { return; }
-    const running = output.split(/\r?\n/).filter(line =>
-        /^(?:"?Discord(?:PTB|Canary)?\.exe"?),/i.test(line)
-    );
-    if (running.length) {
-        const names = [...new Set(running.map(line => line.split(",")[0].replaceAll('"', "")))];
-        fail("لا تزال عملية Discord تعمل بالخلفية: " + names.join("، ") + ". أغلقها من إدارة المهام ثم أعد المحاولة.");
+    catch { return []; }
+    return [...new Set(output.split(/\r?\n/)
+        .filter(line => /^(?:"?Discord(?:PTB|Canary)?\.exe"?),/i.test(line))
+        .map(line => line.split(",")[0].replaceAll('"', "")))];
+}
+function assertDiscordClosed() {
+    if (process.platform !== "win32") return;
+
+    // First ask Discord to close normally so it can finish pending local work.
+    const running = getRunningDiscordProcesses();
+    for (const name of running) {
+        try {
+            execFileSync("taskkill", ["/IM", name, "/T"], {
+                stdio: "ignore",
+                windowsHide: true
+            });
+        } catch {}
+    }
+
+    // Give Discord a moment to exit cleanly before forcing any remaining process closed.
+    Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 2000);
+    const remaining = getRunningDiscordProcesses();
+    for (const name of remaining) {
+        try {
+            execFileSync("taskkill", ["/F", "/IM", name, "/T"], {
+                stdio: "ignore",
+                windowsHide: true
+            });
+        } catch {}
+    }
+
+    Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 500);
+    const stillRunning = getRunningDiscordProcesses();
+    if (stillRunning.length) {
+        fail("تعذّر إغلاق Discord تلقائياً: " + stillRunning.join("، ") +
+            ". أغلقه يدوياً من إدارة المهام ثم أعد المحاولة.");
     }
 }
 function latestResources(base) {
