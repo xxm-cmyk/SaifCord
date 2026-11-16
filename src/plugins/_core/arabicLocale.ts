@@ -39,6 +39,9 @@ import arabicMessages from "./_arabicMessages.json";
 // `buildArabicTable.mjs` يفحص كل جزء قبل الكتابة ويفشل على أي شكل آخر.
 installArabicTable(arabicMessages as unknown as ArabicMessageTable);
 
+// Diagnostics are initialized before Webpack starts scanning module factories.
+(globalThis as any).__saudicordArabicPatchDiagnostics ??= { factoriesScanned: 0, anchors: {} };
+
 // 🔴 وقت الاستيراد كذلك، وللسبب نفسه: ديسكورد ينسّق تواريخ قبل تشغيل الإضافات،
 // فالتأخير يترك أوّل ما يُرسَم هجريّاً ثمّ يتصحّح — وهو أسوأ من ثبات الخطأ.
 forceGregorianForArabic();
@@ -73,7 +76,6 @@ export default definePlugin({
         {
             find: LANGUAGE_TABLE_ANCHOR,
             all: true,
-            noWarn: true,
             replacement: {
                 match: ENABLE_ARABIC_PATTERN,
                 replace: ENABLE_ARABIC_REPLACEMENT
@@ -85,7 +87,6 @@ export default definePlugin({
             // فقط)، والاسم المُصغَّر يُلتقط بمرجع خلفي لا يُثبَّت.
             find: MESSAGE_LOADER_ANCHOR,
             all: true,
-            noWarn: true,
             replacement: {
                 match: MESSAGE_LOADER_PATTERN,
                 replace: MESSAGE_LOADER_REPLACEMENT
