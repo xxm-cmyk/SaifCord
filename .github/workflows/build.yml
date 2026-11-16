@@ -7,7 +7,7 @@ on:
 env:
     FORCE_COLOR: true
     GITHUB_TOKEN: ${{ github.token }}
-    EQUICORD_REMOTE: xxm-cmyk/-SaudiCord-
+    EQUICORD_REMOTE: xxm-cmyk/SaudiCord
 
 permissions:
     contents: write
@@ -67,7 +67,7 @@ jobs:
                   find release -size 0 -delete
                   rm -f release/package.json release/*.map
             - name: Upload SaudiCord Stable
-              if: ${{ github.repository == 'xxm-cmyk/-SaudiCord-' && vars.ACT != 'true' }}
+              if: ${{ github.repository == 'xxm-cmyk/SaudiCord' && vars.ACT != 'true' }}
               env:
                   GH_TOKEN: ${{ github.token }}
               run: |
@@ -123,7 +123,7 @@ jobs:
                   & $iscc installer/SaudiCord.iss
                   if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
             - name: Upload SaudiCord Setup
-              if: ${{ github.repository == 'xxm-cmyk/-SaudiCord-' && vars.ACT != 'true' }}
+              if: ${{ github.repository == 'xxm-cmyk/SaudiCord' && vars.ACT != 'true' }}
               env:
                   GH_TOKEN: ${{ github.token }}
               shell: pwsh
