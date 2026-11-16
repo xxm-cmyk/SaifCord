@@ -62,7 +62,7 @@ export const LANGUAGE_TABLE_ANCHOR = "\"englishName\":\"Arabic\"";
  * `\2` مرجع خلفي لاسم معامل webpack المُصغَّر — يُلتقط ولا يُثبَّت.
  */
 export const MESSAGE_LOADER_PATTERN =
-    /("en-US":\(\)=>([A-Za-z_$][\w$]*)\.e\("\d+"\)\.then\(\2\.bind\(\2,\d+\)\))\}/g;
+    /("en-US":\(\)=>[A-Za-z_$][\w$]*\.e\(\d+\)\.then\([^)]+\))\}/g;
 
 /**
  * الحمولة **مرآة حيّة** لا لقطة.
