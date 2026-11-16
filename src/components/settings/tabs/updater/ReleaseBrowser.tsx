@@ -114,7 +114,7 @@ export default function ReleaseBrowser() {
                     <Card key={release.id} style={{ gap: 8 }}>
                         <Flex style={{ alignItems: "center", justifyContent: "space-between", gap: 8, flexWrap: "wrap" }}>
                             <Span weight="semibold">{title}</Span>
-                            <Span color={release.prerelease ? "text-warning" : "text-positive"} size="sm">
+                            <Span color="text-subtle" size="sm">
                                 {release.prerelease
                                     ? t("نسخة تجريبية", "Pre-release")
                                     : release.id === releases.find(item => !item.prerelease)?.id
