@@ -1,7 +1,7 @@
 {
     "name": "saudicord",
     "private": "true",
-    "version": "1.15.6.3",
+    "version": "1.15.6.4",
     "description": "SaudiCord — Arabic-first Discord client mod",
     "homepage": "https://github.com/xxm-cmyk/SaudiCord#readme",
     "bugs": {
