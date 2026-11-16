@@ -1,5 +1,5 @@
 #define MyAppName "SaudiCord"
-#define MyAppVersion "1.15.6.1"
+#define MyAppVersion "1.15.6.2"
 #define MyAppPublisher "SaudiCord"
 #define MyAppExeName "node.exe"
 
@@ -22,6 +22,10 @@ UninstallDisplayName=SaudiCord
 UninstallFilesDir={localappdata}\Programs\SaudiCord
 CloseApplications=yes
 RestartApplications=no
+
+; Remove files from the previous SaudiCord installer before copying this build's payload.
+[InstallDelete]
+Type: filesandordirs; Name: "{app}\*"
 
 [Files]
 Source: "payload\node.exe"; DestDir: "{app}"; Flags: ignoreversion
