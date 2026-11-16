@@ -17,7 +17,6 @@ import {
 import { settings as micSettings } from "@plugins/MicPro/settings";
 import { t } from "@utils/esharqI18n";
 import { identity } from "@utils/misc";
-import { findByPropsLazy } from "@webpack";
 import { FluxDispatcher, MediaEngineStore, React, Select, useEffect, useRef, useState } from "@webpack/common";
 
 import { Card, NoticeStrip } from "./Card";
@@ -40,8 +39,6 @@ import { VoiceLabTools } from "./VoiceLabTools";
  * ولهذا يسمعه الطرف الآخر فعلاً.
  */
 
-/** الوحدة التي يقرأ منها ديسكورد أجهزته — نفس ما تستعمله لوحة الصوت. */
-const configModule = findByPropsLazy("getOutputVolume");
 
 function Row({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode; }) {
     return (
@@ -72,7 +69,7 @@ function Seg<T extends string | number>({ options, value, onPick }: {
 /** أجهزة الإدخال/الإخراج — تُبدَّل بنفس حدث ديسكورد، فتنعكس في لوحته أيضاً. */
 function DeviceSelect({ kind }: { kind: "input" | "output"; }) {
     const event = kind === "input" ? "AUDIO_SET_INPUT_DEVICE" : "AUDIO_SET_OUTPUT_DEVICE";
-    const read = () => String(kind === "input" ? configModule.getInputDeviceId() : configModule.getOutputDeviceId());
+    const read = () => String(kind === "input" ? MediaEngineStore.getInputDeviceId() : MediaEngineStore.getOutputDeviceId());
     const [current, setCurrent] = useState(read);
 
     useEffect(() => {
@@ -82,7 +79,7 @@ function DeviceSelect({ kind }: { kind: "input" | "output"; }) {
     }, [kind]);
 
     const devices: { id: string; name: string; }[] =
-        Object.values(kind === "input" ? configModule.getInputDevices() : configModule.getOutputDevices());
+        Object.values(kind === "input" ? MediaEngineStore.getInputDevices() : MediaEngineStore.getOutputDevices());
 
     return (
         <Select
