@@ -75,21 +75,8 @@ jobs:
                   TAG="v$VERSION"
                   gh release create "$TAG" --target "$GITHUB_SHA" --title "SaudiCord $VERSION" --notes "Official Release" 2>/dev/null || \
                   gh release edit "$TAG" --title "SaudiCord $VERSION" --notes "Official Release"
-                  # Delete matching assets through the GitHub REST API.
-                  # This avoids silently ignoring gh release delete-asset failures
-                  # and then failing the upload with "asset under the same name already exists".
-                  RELEASE_ID=$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$TAG" --jq '.id')
-                  for file in dist/release/*; do
-                    [ -f "$file" ] || continue
-                    name=$(basename "$file")
-                    asset_id=$(gh api "repos/$GITHUB_REPOSITORY/releases/$RELEASE_ID/assets" | \
-                      jq -r --arg name "$name" '.[] | select(.name == $name) | .id' | head -n 1)
-                    if [ -n "$asset_id" ]; then
-                      echo "Removing existing release asset: $name ($asset_id)"
-                      gh api --method DELETE "repos/$GITHUB_REPOSITORY/releases/assets/$asset_id"
-                    fi
-                  done
-                  gh release upload "$TAG" dist/release/*
+                  # Replace assets with matching names instead of failing on re-runs.
+                  gh release upload "$TAG" dist/release/* --clobber
 
     WindowsInstaller:
         name: Build Windows EXE Installer
