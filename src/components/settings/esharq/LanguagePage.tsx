@@ -97,12 +97,25 @@ export function LanguagePage() {
             >
                 <FormSwitch
                     value={arabicOn}
-                    onChange={(value: boolean) => {
-                        // 🔴 الإطفاء يُعيد الإنجليزية لا «اللغة السابقة»: ديسكورد
-                        // لا يحتفظ بسابقة، واختراع واحدة يعني تخمين ما لم يقله أحد.
+                    onChange={async (value: boolean) => {
+                        // لا نُظهر المفتاح مفعّلاً قبل أن يؤكد مخزن ديسكورد
+                        // أن اللغة حُفظت فعلاً.
                         const next = value ? ARABIC_LOCALE : "en-US";
-                        setLocaleState(next);
-                        void setLocale(next);
+                        const previous = currentLocale();
+                        try {
+                            await setLocale(next);
+                            const actual = currentLocale();
+                            if (actual !== next) {
+                                throw new Error(`Discord kept locale "${actual}" instead of "${next}".`);
+                            }
+                            setLocaleState(actual);
+                        } catch (error) {
+                            setLocaleState(previous);
+                            Alerts.show({
+                                title: t("تعذّر تغيير لغة ديسكورد", "Couldn't change Discord's language"),
+                                body: error instanceof Error ? error.message : String(error)
+                            });
+                        }
                     }}
                     title={t("استخدم العربية في ديسكورد", "Use Arabic in Discord")}
                     description={t(
@@ -111,6 +124,18 @@ export function LanguagePage() {
                     )}
                     hideBorder
                 />
+                <Forms.FormText style={{ marginTop: UNIT, opacity: 0.72, fontSize: 12 }}>
+                    {(() => {
+                        const diagnostics = (globalThis as any).__saudicordArabicPatchDiagnostics;
+                        const language = diagnostics?.anchors?.['"englishName":"Arabic"'];
+                        const loaders = diagnostics?.anchors?.makeMessagesProxy;
+                        const failures = (language?.missed ?? 0) + (loaders?.missed ?? 0) + (language?.errors ?? 0) + (loaders?.errors ?? 0);
+                        return t(
+                            `تشخيص التعريب — جدول اللغات: ${language?.applied ?? 0} تطبيق / ${language?.matched ?? 0} تطابق، محمّلات الرسائل: ${loaders?.applied ?? 0} تطبيق / ${loaders?.matched ?? 0} تطابق، فشل: ${failures}.`,
+                            `Arabic diagnostics — language table: ${language?.applied ?? 0} applied / ${language?.matched ?? 0} matched; message loaders: ${loaders?.applied ?? 0} applied / ${loaders?.matched ?? 0} matched; failures: ${failures}.`
+                        );
+                    })()}
+                </Forms.FormText>
             </Card>
 
             <Card
