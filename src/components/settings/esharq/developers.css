@@ -1,0 +1,174 @@
+.saudicord-devs {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    color: var(--text-default, #dbdee1);
+}
+
+.saudicord-devs-card,
+.saudicord-devs-credits {
+    border: 1px solid var(--border-subtle, var(--background-modifier-accent));
+    border-radius: 12px;
+    background: var(--background-secondary, #2b2d31);
+    padding: 20px;
+}
+
+.saudicord-devs-profile {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+}
+
+.saudicord-devs-avatar-wrap {
+    flex: 0 0 auto;
+    width: 76px;
+    height: 76px;
+}
+
+.saudicord-devs-avatar {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--background-tertiary, #1e1f22);
+}
+
+.saudicord-devs-avatar-placeholder {
+    border: 1px solid var(--background-modifier-accent);
+}
+
+.saudicord-devs-identity {
+    min-width: 0;
+}
+
+.saudicord-devs-name {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 19px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.saudicord-devs-name svg {
+    flex: 0 0 auto;
+    color: var(--text-brand, #5865f2);
+}
+
+.saudicord-devs-username {
+    margin-top: 3px;
+    color: var(--header-secondary, #b5bac1);
+    font-size: 13px;
+}
+
+.saudicord-devs-role {
+    margin-top: 8px;
+    color: var(--text-muted, #949ba4);
+    font-size: 12px;
+}
+
+.saudicord-devs-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.saudicord-devs-actions button {
+    min-height: 36px;
+    padding: 0 16px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--background-tertiary, #1e1f22);
+    color: var(--text-default, #dbdee1);
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.saudicord-devs-actions button.primary {
+    background: var(--brand-experiment, #5865f2);
+    color: white;
+}
+
+.saudicord-devs-actions button:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+.saudicord-devs-credits-heading h2 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.saudicord-devs-credits-heading p {
+    margin: 6px 0 16px;
+    color: var(--header-secondary, #b5bac1);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.saudicord-devs-credit-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 0;
+    border-top: 1px solid var(--background-modifier-accent);
+}
+
+.saudicord-devs-credit-row div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.saudicord-devs-credit-row strong {
+    font-size: 13px;
+}
+
+.saudicord-devs-credit-row span,
+.saudicord-devs-credit-row small {
+    color: var(--header-secondary, #b5bac1);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.saudicord-devs-credit-row small {
+    text-align: end;
+    overflow-wrap: anywhere;
+}
+
+.saudicord-devs-legal {
+    margin: 14px 0 0;
+    color: var(--text-muted, #949ba4);
+    font-size: 11px;
+    line-height: 1.8;
+}
+
+@media (width <= 520px) {
+    .saudicord-devs-card,
+    .saudicord-devs-credits {
+        padding: 15px;
+    }
+
+    .saudicord-devs-avatar-wrap {
+        width: 60px;
+        height: 60px;
+    }
+
+    .saudicord-devs-credit-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 3px;
+    }
+
+    .saudicord-devs-credit-row small {
+        text-align: start;
+    }
+}
