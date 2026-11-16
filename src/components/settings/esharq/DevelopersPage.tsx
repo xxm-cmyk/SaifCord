@@ -7,8 +7,7 @@
 import "./developers.css";
 
 import { OwnerCrownIcon } from "@components/Icons";
-import { ChannelActionCreators, IconUtils, RestAPI, Toasts, UserStore } from "@webpack/common";
-import { useEffect, useState } from "@webpack/common";
+import { ChannelActionCreators, IconUtils, RestAPI, Toasts, UserStore, useEffect, useState } from "@webpack/common";
 
 const OWNER_ID = "1457893719121596619";
 const CDN = "https://cdn.discordapp.com";
