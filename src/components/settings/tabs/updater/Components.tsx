@@ -64,7 +64,10 @@ export function Newer(props: CommonProps) {
     return (
         <>
             <Paragraph>
-                Your local copy has more recent commits than the remote repository. This usually happens when you've made local changes. Please stash or reset them before updating.
+                {t(
+                    "نسختك المحلية تحتوي على تعديلات أحدث من المستودع. يحدث هذا عادةً عند إجراء تغييرات محلية؛ احفظها أو أعد ضبط النسخة قبل التحديث.",
+                    "Your local copy has more recent commits than the remote repository. This usually happens when you've made local changes. Please stash or reset them before updating."
+                )}
             </Paragraph>
             <Changes {...props} updates={changes} />
         </>
