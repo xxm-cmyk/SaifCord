@@ -248,7 +248,8 @@
         "{subgameName} • Roblox",
         "{value, number} {statisticName}",
         "{description} - <$b>{count, number}</$b>",
-        "{createdAt, date, long} · {expiryLabel}"
+        "{createdAt, date, long} · {expiryLabel}",
+        "{completed}/{total}"
     ],
     "أسماء عناصر ومجموعات المتجر": [
         "Wumpus Box",
