@@ -39,7 +39,7 @@
                     <TextBlock Text="S" Foreground="#48F18A" FontSize="25" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
                 <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="SAUDICORD" FontSize="18" FontWeight="Bold" Foreground="#F2FFF6" CharacterSpacing="120"/>
+                    <TextBlock Text="SAUDICORD" FontSize="18" FontWeight="Bold" Foreground="#F2FFF6"/>
                     <TextBlock Text="WINDOWS INSTALLER  •  V1.00" FontSize="10" Foreground="#7E9A88" Margin="1,3,0,0"/>
                 </StackPanel>
                 <Button x:Name="SettingsButton" Content="⚙  الإعدادات" Style="{StaticResource ActionButton}" Padding="14,9" DockPanel.Dock="Right" Click="SettingsButton_Click"/>
@@ -49,8 +49,12 @@
                 <StackPanel VerticalAlignment="Center" Margin="0,0,32,0">
                     <TextBlock Text="تجربة Discord،&#xA;بهوية سعودية." FontSize="36" FontWeight="Bold" LineHeight="48" Foreground="#F4FFF7"/>
                     <TextBlock Text="ثبّت SaudiCord أو أصلح التثبيت الحالي أو أزله بأمان." FontSize="14" Foreground="#9BAEA2" TextWrapping="Wrap" Margin="0,15,0,26"/>
-                    <TextBlock Text="مسار التثبيت" Foreground="#A8B8AD" FontSize="12" Margin="0,0,0,7"/>
-                    <TextBox x:Name="InstallPathBox" Text="{Binding DefaultInstallPath}" Height="39" Padding="10,8" Background="#101913" Foreground="#EAF8EE" BorderBrush="#294B35" BorderThickness="1"/>
+                    <Border Background="#101913" BorderBrush="#294B35" BorderThickness="1" CornerRadius="8" Padding="12">
+                        <StackPanel>
+                            <TextBlock Text="طريقة التثبيت" Foreground="#A8B8AD" FontSize="11"/>
+                            <TextBlock Text="يُطبّق SaudiCord مباشرة على نسخة Discord Stable المثبّتة على جهازك، مع الاحتفاظ بنسخة الاستعادة." Foreground="#DCEBE0" FontSize="12" TextWrapping="Wrap" Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </Border>
                     <Button x:Name="InstallButton" Content="⬇   تثبيت SaudiCord" Style="{StaticResource ActionButton}" Background="#176B37" BorderBrush="#36E879" Margin="0,20,0,9" Click="InstallButton_Click"/>
                     <Button x:Name="RepairButton" Content="⟳   إصلاح / إعادة تثبيت" Style="{StaticResource ActionButton}" Margin="0,0,0,9" Click="RepairButton_Click"/>
                     <Button x:Name="UninstallButton" Content="－   إزالة SaudiCord واستعادة Discord" Style="{StaticResource ActionButton}" Click="UninstallButton_Click"/>
