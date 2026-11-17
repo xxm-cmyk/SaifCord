@@ -1,0 +1,86 @@
+<Window x:Class="SaudiCord.Setup.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="SaudiCord Setup" Width="920" Height="620" MinWidth="820" MinHeight="560"
+        WindowStartupLocation="CenterScreen" Background="#080C09" Foreground="#F2F7F3"
+        FontFamily="Segoe UI" ResizeMode="CanResizeWithGrip">
+    <Window.Resources>
+        <Style x:Key="ActionButton" TargetType="Button">
+            <Setter Property="Foreground" Value="#EFFFF4"/>
+            <Setter Property="Background" Value="#14251B"/>
+            <Setter Property="BorderBrush" Value="#28563A"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="18,13"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="9" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True"><Setter Property="Background" Value="#1B3826"/><Setter Property="BorderBrush" Value="#36E879"/></Trigger>
+                            <Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value="0.45"/></Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Canvas x:Name="GridCanvas" IsHitTestVisible="False" Opacity="0.7"/>
+        <Grid Margin="34">
+            <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+            <DockPanel Grid.Row="0" LastChildFill="True">
+                <Border Width="42" Height="42" CornerRadius="12" Background="#153321" DockPanel.Dock="Left" Margin="0,0,13,0">
+                    <TextBlock Text="S" Foreground="#48F18A" FontSize="25" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="SAUDICORD" FontSize="18" FontWeight="Bold" Foreground="#F2FFF6" CharacterSpacing="120"/>
+                    <TextBlock Text="WINDOWS INSTALLER  •  V1.00" FontSize="10" Foreground="#7E9A88" Margin="1,3,0,0"/>
+                </StackPanel>
+                <Button x:Name="SettingsButton" Content="⚙  الإعدادات" Style="{StaticResource ActionButton}" Padding="14,9" DockPanel.Dock="Right" Click="SettingsButton_Click"/>
+            </DockPanel>
+            <Grid Grid.Row="1" Margin="0,34,0,24">
+                <Grid.ColumnDefinitions><ColumnDefinition Width="1.12*"/><ColumnDefinition Width="0.88*"/></Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center" Margin="0,0,32,0">
+                    <TextBlock Text="تجربة Discord،&#xA;بهوية سعودية." FontSize="36" FontWeight="Bold" LineHeight="48" Foreground="#F4FFF7"/>
+                    <TextBlock Text="ثبّت SaudiCord أو أصلح التثبيت الحالي أو أزله بأمان." FontSize="14" Foreground="#9BAEA2" TextWrapping="Wrap" Margin="0,15,0,26"/>
+                    <TextBlock Text="مسار التثبيت" Foreground="#A8B8AD" FontSize="12" Margin="0,0,0,7"/>
+                    <TextBox x:Name="InstallPathBox" Text="{Binding DefaultInstallPath}" Height="39" Padding="10,8" Background="#101913" Foreground="#EAF8EE" BorderBrush="#294B35" BorderThickness="1"/>
+                    <Button x:Name="InstallButton" Content="⬇   تثبيت SaudiCord" Style="{StaticResource ActionButton}" Background="#176B37" BorderBrush="#36E879" Margin="0,20,0,9" Click="InstallButton_Click"/>
+                    <Button x:Name="RepairButton" Content="⟳   إصلاح / إعادة تثبيت" Style="{StaticResource ActionButton}" Margin="0,0,0,9" Click="RepairButton_Click"/>
+                    <Button x:Name="UninstallButton" Content="－   إزالة SaudiCord واستعادة Discord" Style="{StaticResource ActionButton}" Click="UninstallButton_Click"/>
+                </StackPanel>
+                <Border Grid.Column="1" Background="#101713" BorderBrush="#203B2A" BorderThickness="1" CornerRadius="15" Padding="20">
+                    <StackPanel>
+                        <TextBlock Text="إدارة Discord" FontSize="16" FontWeight="Bold" Margin="0,0,0,7"/>
+                        <TextBlock Text="إغلاق النسخ المفتوحة قبل التثبيت أو الإصلاح." Foreground="#91A49A" FontSize="12" TextWrapping="Wrap" Margin="0,0,0,18"/>
+                        <Button x:Name="KillButton" Content="✕   إغلاق Discord بالكامل" Style="{StaticResource ActionButton}" Click="KillButton_Click"/>
+                        <Separator Background="#294033" Margin="0,22,0,18"/>
+                        <TextBlock Text="سجل العمليات" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                        <TextBox x:Name="LogBox" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Background="#090E0B" Foreground="#A8E8BA" BorderBrush="#203B2A" Padding="10" Height="190" FontFamily="Consolas" FontSize="11"/>
+                        <ProgressBar x:Name="ActivityBar" Height="4" Margin="0,15,0,0" IsIndeterminate="False" Foreground="#36E879" Background="#203B2A"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+            <DockPanel Grid.Row="2">
+                <TextBlock Text="SaudiCord • أداة تثبيت مستقلة لويندوز" Foreground="#607467" FontSize="11"/>
+                <TextBlock Text="Windows 10 / 11  •  x64" Foreground="#607467" FontSize="11" DockPanel.Dock="Right"/>
+            </DockPanel>
+        </Grid>
+        <Border x:Name="SettingsOverlay" Visibility="Collapsed" Background="#E9080C09">
+            <Border Width="430" Padding="25" Background="#101713" BorderBrush="#36E879" BorderThickness="1" CornerRadius="14" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel>
+                    <TextBlock Text="الإعدادات" FontSize="21" FontWeight="Bold" Margin="0,0,0,20"/>
+                    <CheckBox x:Name="AnimationToggle" Content="تعطيل حركة المربعات للأجهزة الضعيفة" Foreground="#E8F5EC" IsChecked="False" Margin="0,0,0,20"/>
+                    <TextBlock Text="عند تعطيل الحركة تبقى الشبكة ثابتة لتقليل استهلاك الموارد." Foreground="#91A49A" TextWrapping="Wrap" Margin="0,0,0,20"/>
+                    <Button Content="حفظ وإغلاق" Style="{StaticResource ActionButton}" Click="CloseSettings_Click"/>
+                </StackPanel>
+            </Border>
+        </Border>
+    </Grid>
+</Window>
