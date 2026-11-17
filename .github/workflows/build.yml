@@ -108,14 +108,16 @@ jobs:
                   Copy-Item installer/install.mjs installer/payload/install.mjs
                   Copy-Item scripts/saudicord/asar.mjs installer/payload/asar.mjs
                   Copy-Item dist/desktop.asar installer/payload/saudicord.asar
-            - name: Install Inno Setup
-              run: choco install innosetup --yes --no-progress
-            - name: Compile EXE
+            - name: Setup .NET 8
+              uses: actions/setup-dotnet@v4
+              with:
+                  dotnet-version: 8.0.x
+            - name: Publish native WPF installer
               shell: pwsh
               run: |
-                  $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
-                  & $iscc installer/SaudiCord.iss
+                  dotnet publish installer/WindowsApp/SaudiCord.Setup.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o installer/output
                   if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+                  Rename-Item installer/output/SaudiCord.Setup.exe SaudiCord-Setup.exe
             - name: Upload SaudiCord Setup
               if: ${{ github.repository == 'xxm-cmyk/SaudiCord' && vars.ACT != 'true' }}
               env:
