@@ -2,6 +2,8 @@ using System.Diagnostics;
 using System.IO;
 using Path = System.IO.Path;
 using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Windows.Interop;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -21,6 +23,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         Loaded += (_, _) => BuildGrid();
+        SourceInitialized += (_, _) => ApplyNativeDarkTitleBar();
         SizeChanged += (_, _) => BuildGrid();
         MouseMove += (_, e) => _mouse = e.GetPosition(GridCanvas);
         CompositionTarget.Rendering += AnimateGrid;
@@ -34,35 +37,24 @@ public partial class MainWindow : Window
         Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SaudiCord", "InstallerPayload");
 
 
-    private void MinimizeButton_Click(object sender, RoutedEventArgs e) =>
-        WindowState = WindowState.Minimized;
+    [DllImport("dwmapi.dll", PreserveSig = true)]
+    private static extern int DwmSetWindowAttribute(IntPtr hwnd, int attribute, ref int value, int valueSize);
 
-    private void MaximizeButton_Click(object sender, RoutedEventArgs e) =>
-        ToggleWindowState();
-
-    private void CloseWindowButton_Click(object sender, RoutedEventArgs e) => Close();
-
-    private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    private void ApplyNativeDarkTitleBar()
     {
-        if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
-        {
-            ToggleWindowState();
-            e.Handled = true;
-        }
-    }
+        var hwnd = new WindowInteropHelper(this).Handle;
+        if (hwnd == IntPtr.Zero) return;
 
-    private void ToggleWindowState()
-    {
-        WindowState = WindowState == WindowState.Maximized
-            ? WindowState.Normal
-            : WindowState.Maximized;
-        UpdateWindowStateGlyph();
-    }
+        // Retain native Windows caption controls while blending the caption into the app surface.
+        var darkMode = 1;
+        _ = DwmSetWindowAttribute(hwnd, 20, ref darkMode, sizeof(int));
+        _ = DwmSetWindowAttribute(hwnd, 19, ref darkMode, sizeof(int));
 
-    private void UpdateWindowStateGlyph()
-    {
-        if (MaximizeButton is not null)
-            MaximizeButton.Content = WindowState == WindowState.Maximized ? "\uE923" : "\uE922";
+        // Explicit caption colors are supported on Windows 11; older versions ignore them.
+        var captionColor = 0x000C0808;
+        var textColor = 0x00F2F7F3;
+        _ = DwmSetWindowAttribute(hwnd, 35, ref captionColor, sizeof(int));
+        _ = DwmSetWindowAttribute(hwnd, 36, ref textColor, sizeof(int));
     }
 
     private void BuildGrid()
