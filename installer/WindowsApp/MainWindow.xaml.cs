@@ -24,12 +24,46 @@ public partial class MainWindow : Window
         SizeChanged += (_, _) => BuildGrid();
         MouseMove += (_, e) => _mouse = e.GetPosition(GridCanvas);
         CompositionTarget.Rendering += AnimateGrid;
+        StateChanged += (_, _) => UpdateWindowStateGlyph();
+        UpdateWindowStateGlyph();
         Log("مرحباً بك في مثبّت SaudiCord المستقل.");
         Log("اختر تثبيت أو إصلاح أو إزالة للمتابعة.");
     }
 
     private static string PayloadDirectory =>
         Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SaudiCord", "InstallerPayload");
+
+
+    private void MinimizeButton_Click(object sender, RoutedEventArgs e) =>
+        WindowState = WindowState.Minimized;
+
+    private void MaximizeButton_Click(object sender, RoutedEventArgs e) =>
+        ToggleWindowState();
+
+    private void CloseWindowButton_Click(object sender, RoutedEventArgs e) => Close();
+
+    private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
+        {
+            ToggleWindowState();
+            e.Handled = true;
+        }
+    }
+
+    private void ToggleWindowState()
+    {
+        WindowState = WindowState == WindowState.Maximized
+            ? WindowState.Normal
+            : WindowState.Maximized;
+        UpdateWindowStateGlyph();
+    }
+
+    private void UpdateWindowStateGlyph()
+    {
+        if (MaximizeButton is not null)
+            MaximizeButton.Content = WindowState == WindowState.Maximized ? "\\uE923" : "\\uE922";
+    }
 
     private void BuildGrid()
     {
