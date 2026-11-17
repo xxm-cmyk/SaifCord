@@ -27,8 +27,6 @@ public partial class MainWindow : Window
         SizeChanged += (_, _) => BuildGrid();
         MouseMove += (_, e) => _mouse = e.GetPosition(GridCanvas);
         CompositionTarget.Rendering += AnimateGrid;
-        StateChanged += (_, _) => UpdateWindowStateGlyph();
-        UpdateWindowStateGlyph();
         Log("مرحباً بك في مثبّت SaudiCord المستقل.");
         Log("اختر تثبيت أو إصلاح أو إزالة للمتابعة.");
     }
