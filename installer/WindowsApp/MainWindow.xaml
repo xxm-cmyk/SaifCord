@@ -175,9 +175,10 @@
                     CornerRadius="16" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <StackPanel>
                     <TextBlock Text="الإعدادات" FontSize="22" FontWeight="Bold" Margin="0,0,0,22"/>
-                    <CheckBox x:Name="AnimationToggle" Content="تعطيل حركة المربعات للأجهزة الضعيفة"
-                              Foreground="#E8F5EC" FontSize="13" IsChecked="False"
-                              TextWrapping="Wrap" Margin="0,0,0,18"/>
+                    <CheckBox x:Name="AnimationToggle" Foreground="#E8F5EC"
+                              FontSize="13" IsChecked="False" Margin="0,0,0,18">
+                        <TextBlock Text="تعطيل حركة المربعات للأجهزة الضعيفة" TextWrapping="Wrap"/>
+                    </CheckBox>
                     <TextBlock Text="عند تعطيل الحركة تبقى الشبكة ثابتة لتقليل استهلاك الموارد."
                                Foreground="#91A49A" FontSize="12" TextWrapping="Wrap"
                                LineHeight="20" Margin="0,0,0,22"/>
