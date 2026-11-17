@@ -51,8 +51,8 @@ public partial class MainWindow : Window
         _ = DwmSetWindowAttribute(hwnd, 19, ref darkMode, sizeof(int));
 
         // Explicit caption colors are supported on Windows 11; older versions ignore them.
-        var captionColor = 0x000C0808;
-        var textColor = 0x00F2F7F3;
+        var captionColor = 0x00090C08;
+        var textColor = 0x00F3F7F2;
         _ = DwmSetWindowAttribute(hwnd, 35, ref captionColor, sizeof(int));
         _ = DwmSetWindowAttribute(hwnd, 36, ref textColor, sizeof(int));
     }
