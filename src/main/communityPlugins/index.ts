@@ -28,8 +28,8 @@
 
 import { DATA_DIR } from "@main/utils/constants";
 import { IpcEvents } from "@shared/IpcEvents";
-import { createHash } from "crypto";
-import { dialog, ipcMain, shell } from "electron";
+import { createHash, randomBytes } from "crypto";
+import { dialog, ipcMain, net, shell } from "electron";
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "fs";
 import { basename, join, relative, sep } from "path";
 import { transform } from "sucrase";
@@ -712,9 +712,108 @@ export function getBundle(): BundledPlugin[] {
     return out;
 }
 
+
+/**
+ * Download a catalog plugin from the fixed SaudiCord repository.
+ * The renderer supplies only an ID. Files are pinned to a full commit, checked
+ * against SHA-256, then passed through the exact local import/security pipeline.
+ */
+export async function installCatalogPlugin(id: string): Promise<ImportResult> {
+    const failure = (rule: string, message: string): ImportResult => ({
+        ok: false,
+        findings: [{ severity: "error", rule, message }]
+    });
+    if (!/^[a-z0-9][a-z0-9-]{1,47}$/.test(id)) return failure("catalog-id", "معرّف الإضافة غير صالح.");
+
+    let staging = "";
+    try {
+        const catalogResponse = await net.fetch(
+            "https://raw.githubusercontent.com/xxm-cmyk/SaudiCord/main/community-plugins/catalog.json",
+            { redirect: "error", headers: { Accept: "application/json" } }
+        );
+        if (!catalogResponse.ok) return failure("catalog-fetch", "تعذّر تحميل الكتالوج (HTTP " + catalogResponse.status + ").");
+        const catalogText = await catalogResponse.text();
+        if (Buffer.byteLength(catalogText, "utf8") > 1024 * 1024) return failure("catalog-size", "حجم الكتالوج أكبر من الحد المسموح.");
+        const catalog = JSON.parse(catalogText);
+        if (catalog?.schemaVersion !== 1 || catalog?.repository !== "xxm-cmyk/SaudiCord" || !Array.isArray(catalog.plugins)) {
+            return failure("catalog-schema", "صيغة كتالوج سعودي كورد غير صالحة.");
+        }
+
+        const plugin = catalog.plugins.find((item: any) => item?.id === id);
+        if (!plugin) return failure("catalog-missing", "هذه الإضافة غير موجودة في الكتالوج.");
+        if (typeof plugin.commit !== "string" || !/^[0-9a-f]{40}$/.test(plugin.commit)
+            || typeof plugin.name !== "string" || !plugin.name.trim()
+            || typeof plugin.version !== "string"
+            || !Array.isArray(plugin.files) || plugin.files.length < 1 || plugin.files.length > LIMITS.files
+            || typeof plugin.entry !== "string") {
+            return failure("catalog-metadata", "بيانات الإضافة ناقصة أو غير صالحة.");
+        }
+
+        const seen = new Set<string>();
+        let totalBytes = 0;
+        let hasEntry = false;
+        staging = join(COMMUNITY_DIR, ".staging-" + randomBytes(12).toString("hex"));
+        mkdirSync(staging, { recursive: true });
+
+        for (const file of plugin.files) {
+            const rel = file?.path;
+            if (typeof rel !== "string" || rel.length > 200 || rel.startsWith("/")
+                || rel.includes("\\") || rel.split("/").some((part: string) => !part || part === "." || part === "..")
+                || !/\.(?:ts|tsx|js|jsx|css|json)$/i.test(rel) || seen.has(rel)
+                || typeof file.sha256 !== "string" || !/^[0-9a-f]{64}$/.test(file.sha256)) {
+                return failure("catalog-path", "مسار أو بصمة غير صالحة في بيانات الإضافة: " + String(rel) + ".");
+            }
+            seen.add(rel);
+            if (rel === plugin.entry) hasEntry = true;
+
+            const encodedPath = rel.split("/").map(encodeURIComponent).join("/");
+            const url = "https://raw.githubusercontent.com/xxm-cmyk/SaudiCord/" + plugin.commit
+                + "/community-plugins/plugins/" + id + "/" + encodedPath;
+            const response = await net.fetch(url, { redirect: "error" });
+            if (!response.ok) return failure("source-fetch", "تعذّر تنزيل " + rel + " (HTTP " + response.status + ").");
+
+            const declaredLength = Number(response.headers.get("content-length") ?? "0");
+            if (declaredLength > LIMITS.fileBytes) return failure("source-size", "الملف " + rel + " أكبر من الحد المسموح.");
+            const bytes = new Uint8Array(await response.arrayBuffer());
+            totalBytes += bytes.byteLength;
+            if (bytes.byteLength > LIMITS.fileBytes || totalBytes > LIMITS.totalBytes) {
+                return failure("source-size", "تجاوزت ملفات الإضافة حدود الحجم المسموح بها.");
+            }
+            const digest = createHash("sha256").update(bytes).digest("hex");
+            if (digest !== file.sha256) return failure("source-hash", "فشلت مطابقة بصمة SHA-256 للملف " + rel + ".");
+
+            const destination = join(staging, ...rel.split("/"));
+            mkdirSync(join(destination, ".."), { recursive: true });
+            writeFileSync(destination, bytes);
+        }
+
+        if (!hasEntry) return failure("catalog-entry", "ملف البداية غير موجود ضمن قائمة الملفات.");
+        const result = importFolder(staging, plugin.name);
+        if (!result.ok || !result.entry) return result;
+
+        // A catalog install always requires a fresh, explicit enable action.
+        setEnabled(result.entry.id, false);
+        result.findings.push({
+            severity: "warning",
+            rule: "catalog-installed-disabled",
+            message: "تم تنزيل " + plugin.name + " v" + plugin.version + " من الإصدار المثبّت "
+                + plugin.commit.slice(0, 12) + ". بقيت معطّلة؛ راجع نتائج الفحص والمصدر قبل التفعيل.",
+            hint: "الفحص الثابت يقلّل المخاطر ولا يعزل الإضافة ولا يضمن خلوّها من السلوك الضار."
+        });
+        return result;
+    } catch (error: any) {
+        return failure("catalog-install", "تعذّر تثبيت الإضافة: " + String(error?.message ?? error));
+    } finally {
+        if (staging) {
+            try { rmSync(staging, { recursive: true, force: true }); } catch { /* best effort */ }
+        }
+    }
+}
+
 export function registerCommunityPluginIpc() {
     ipcMain.handle(IpcEvents.COMMUNITY_LIST, () => list());
     ipcMain.handle(IpcEvents.COMMUNITY_PICK_AND_IMPORT, () => pickAndImport());
+    ipcMain.handle(IpcEvents.COMMUNITY_INSTALL_CATALOG, (_e, id: string) => installCatalogPlugin(id));
     ipcMain.handle(IpcEvents.COMMUNITY_REMOVE, (_e, id: string) => remove(id));
     ipcMain.handle(IpcEvents.COMMUNITY_SET_ENABLED, (_e, id: string, enabled: boolean) => setEnabled(id, enabled));
     ipcMain.handle(IpcEvents.COMMUNITY_OPEN_FOLDER, (_e, id: string) => openFolder(id));
