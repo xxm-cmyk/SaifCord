@@ -110,6 +110,8 @@ function PluginRow({ entry, loadError, onChanged, onRescan, rescanning }: {
     rescanning: boolean;
 }) {
     const [busy, setBusy] = useState(false);
+    const [actionError, setActionError] = useState<string | null>(null);
+    const [restartNotice, setRestartNotice] = useState<string | null>(null);
 
     // كائن الإضافة المُسجَّل — لا يوجد إلّا بعد تحميلها فعلاً (أي بعد إعادة
     // التشغيل). `registeredAs` قد يختلف عن اسم المجلد حين يتعارض اسمان.
@@ -134,11 +136,19 @@ function PluginRow({ entry, loadError, onChanged, onRescan, rescanning }: {
 
     const toggle = async (value: boolean) => {
         setBusy(true);
+        setActionError(null);
+        setRestartNotice(null);
         try {
-            await native()?.setEnabled(entry.id, value);
+            const saved = await native()?.setEnabled(entry.id, value);
+            if (saved !== true) throw new Error("تعذّر حفظ حالة الإضافة.");
+            setRestartNotice(value
+                ? t("حُفظ التفعيل. أعد تشغيل ديسكورد لتبدأ الإضافة.", "Enabled state saved. Restart Discord to start the plugin.")
+                : t("حُفظ التعطيل. أعد تشغيل ديسكورد لإيقاف الإضافة الحالية.", "Disabled state saved. Restart Discord to stop the currently running plugin."));
+            onChanged();
+        } catch (e: any) {
+            setActionError(String(e?.message ?? e));
         } finally {
             setBusy(false);
-            onChanged();
         }
     };
 
@@ -307,11 +317,11 @@ export function CommunityPluginsPage() {
                 unlocked={false}
                 title={t("إضافات المجتمع", "Community plugins")}
                 subtitle={t("قسم يُشغّل إضافات كتبها أشخاص من خارج إشراق.",
-                    "A section that runs plugins written by people outside Esharq.")}
+                    "A section that runs plugins written by people outside SaudiCord.")}
                 slideLabel={t("اسحب لفتح القسم", "Slide to open the section")}
                 warnings={[
                     t("هذه إضافات ليست من إشراق. نحن نوفّر الميزة التي تُشغّلها فقط — لا نكتبها ولا نُراجعها ولا نُحدّثها.",
-                        "These plugins are not Esharq's. We only provide the feature that runs them — we don't write, review or update them."),
+                        "These plugins are not part of SaudiCord. We only provide the feature that runs them — we don't write, review or update them."),
                     // 🔴 كان البند الأوّل يقول «ولا نُصلحها» — وصار العميل يُصلح
                     // فروق البنية فعلاً. تركُ الجملة يجعل وعدنا كاذباً أوّل مرّة،
                     // فتُحدَّد حدود ما نفعله بدل أن يُنفى أصله.
@@ -320,9 +330,9 @@ export function CommunityPluginsPage() {
                     t("الإضافة تعمل داخل ديسكورد بصلاحيات أي إضافة، فتستطيع ما تستطيعه أي إضافة. لا تُشغّل إلّا ما تثق بمصدره أنت.",
                         "A plugin runs inside Discord with the same privileges as any plugin, so it can do whatever any plugin can. Only run what you trust."),
                     t("ما تستورده يبقى على جهازك وحده: لا يُرفَع ولا يُشارَك، ولا يصل إشراق ولا أي مستخدم آخر، ولا يدخل النسخ الاحتياطية ولا المزامنة.",
-                        "What you import stays on your machine alone: never uploaded or shared, never reaching Esharq or any other user, and never included in backups or sync."),
+                        "What you import stays on your machine alone: never uploaded or shared, never reaching SaudiCord or any other user, and never included in backups or sync."),
                     t("القرار قرارك وحدك، وإشراق لا يتحمّل مسؤولية ما تستورده ولا ما ينتج عنه.",
-                        "The decision is yours alone. Esharq takes no responsibility for what you import, or for what comes of it.")
+                        "The decision is yours alone. SaudiCord takes no responsibility for what you import, or for what comes of it.")
                 ]}
                 onUnlock={() => {
                     Settings.plugins.Settings.communityPluginsUnlocked = true;
@@ -347,8 +357,15 @@ function CommunityPluginsContent({ onRelock }: { onRelock: () => void; }) {
     const [rescanId, setRescanId] = useState<string | null>(null);
     /** حصيلة آخر فحصٍ يدويّ: ما بُدّل وما تُرك. */
     const [rescanResult, setRescanResult] = useState<{ name: string; findings: Finding[]; } | null>(null);
+    const [listError, setListError] = useState<string | null>(null);
 
-    const refresh = () => { native()?.list().then(setEntries).catch(() => setEntries([])); };
+    const refresh = () => {
+        setListError(null);
+        native()?.list().then(setEntries).catch((e: any) => {
+            setEntries(null);
+            setListError(String(e?.message ?? e));
+        });
+    };
     useEffect(refresh, []);
 
     if (native() == null) {
@@ -378,7 +395,7 @@ function CommunityPluginsContent({ onRelock }: { onRelock: () => void; }) {
 وما لا نعرف له مقابلاً يبقى كما هو ويُقال لك باسمه — البديل المخترَع أسوأ من عطلٍ صريح، لأنّه يعمل ويكذب.
 
 كل هذا على جهازك: لا يُرفَع مصدرٌ ولا يُرسَل طلب. وسترى ما تغيّر قبل أن تُفعّل شيئاً.`,
-                        `The fix is applied to the copy Esharq keeps. Your original folder is read, never written to.
+                        `The fix is applied to the SaudiCord-managed copy. Your original folder is read, never written to.
 
 Only structural differences change: a module name from another fork is replaced with its counterpart here, and an import form our compiler does not understand. No logic is added, and no working line is removed.
 
@@ -434,7 +451,7 @@ All of this is on your machine: no source is uploaded and no request is sent. An
         <>
             <NoticeStrip tone="danger">
                 {t("هذه إضافات ليست من إشراق: لا نكتبها ولا نُراجعها ولا نُحدّثها. تعمل بصلاحيات أي إضافة داخل ديسكورد، وما تستورده يبقى على جهازك وحده. القرار قرارك.",
-                    "These plugins are not Esharq's: we don't write, review or update them. They run with the same privileges as any plugin inside Discord, and what you import stays on your machine alone. The decision is yours.")}
+                    "These plugins are not part of SaudiCord: we don't write, review or update them. They run with the same privileges as any plugin inside Discord, and what you import stays on your machine alone. The decision is yours.")}
             </NoticeStrip>
 
             <Card index={0}
@@ -491,7 +508,7 @@ All of this is on your machine: no source is uploaded and no request is sent. An
                         {/* مجلدك لا يُمَسّ — يُقال في كل مرّة، لا مرّةً في نصٍّ يُقرأ ثمّ يُنسى. */}
                         <div className="esharq-cp-compat-why">
                             {t("عُدّلت نسخة إشراق وحدها؛ مجلدك الأصلي كما تركتَه.",
-                                "Only Esharq's copy was edited; your original folder is exactly as you left it.")}
+                                "Only the SaudiCord-managed copy was edited; your original folder is exactly as you left it.")}
                         </div>
                         <Findings findings={rescanResult.findings} />
                     </div>
@@ -501,7 +518,7 @@ All of this is on your machine: no source is uploaded and no request is sent. An
             <Card index={1}
                 title={t("المستورَدة", "Imported")}
                 subtitle={t("تفعيلها وتعطيلها من هنا — ولا تظهر في قائمة إضافات إشراق.",
-                    "Enable and disable them here — they never appear in the Esharq plugins list.")}>
+                    "Enable and disable them here — they never appear in the built-in SaudiCord plugins list.")}>
                 {entries === null ? (
                     <div className="esharq-cp-empty">{t("جارٍ القراءة…", "Reading…")}</div>
                 ) : list.length === 0 ? (
@@ -531,7 +548,7 @@ All of this is on your machine: no source is uploaded and no request is sent. An
                 </div>
                 <NoticeStrip>
                     {t("وحدات Node مثل fs وchild_process لا تعمل هنا — ليس منعاً منّا، بل لأن صفحة ديسكورد تعمل بلا Node، وهذا يسري على إضافات إشراق نفسها.",
-                        "Node modules such as fs and child_process do not work here — not a restriction we impose, but because Discord's page runs without Node. The same applies to Esharq's own plugins.")}
+                        "Node modules such as fs and child_process do not work here — not a restriction we impose, but because Discord's page runs without Node. The same applies to SaudiCord's built-in plugins.")}
                 </NoticeStrip>
             </Card>
         </>
