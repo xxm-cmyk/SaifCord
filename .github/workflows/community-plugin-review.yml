@@ -1,0 +1,29 @@
+name: Community plugin review checks
+
+on:
+  pull_request:
+    paths:
+      - "community-plugins/**"
+      - ".github/scripts/validate-community-catalog.mjs"
+      - ".github/workflows/community-plugin-review.yml"
+  push:
+    branches: [main]
+    paths:
+      - "community-plugins/**"
+      - ".github/scripts/validate-community-catalog.mjs"
+      - ".github/workflows/community-plugin-review.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate-catalog:
+    name: Validate catalog metadata and source
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out proposed source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Validate catalog, paths, limits, and hashes
+        run: node .github/scripts/validate-community-catalog.mjs
