@@ -716,6 +716,58 @@ export function getBundle(): BundledPlugin[] {
 }
 
 
+
+export interface CommunityCatalogPlugin {
+    id: string;
+    name: string;
+    description: string;
+    authors: string[];
+    version: string;
+    commit: string;
+    entry: string;
+    files: { path: string; sha256: string; }[];
+}
+
+/** قراءة الكتالوج عبر العملية الرئيسية لتفادي قيود CSP في مُصيّر Discord. */
+export async function listCatalog(): Promise<CommunityCatalogPlugin[]> {
+    const response = await net.fetch(
+        "https://raw.githubusercontent.com/xxm-cmyk/SaudiCord/main/community-plugins/catalog.json",
+        { redirect: "error", headers: { Accept: "application/json" } }
+    );
+    if (!response.ok) throw new Error("تعذّر تحميل الكتالوج (HTTP " + response.status + ").");
+    const source = await response.text();
+    if (Buffer.byteLength(source, "utf8") > 1024 * 1024) throw new Error("حجم الكتالوج أكبر من الحد المسموح.");
+    const catalog = JSON.parse(source);
+    if (catalog?.schemaVersion !== 1 || catalog?.repository !== "xxm-cmyk/SaudiCord" || !Array.isArray(catalog.plugins)) {
+        throw new Error("صيغة كتالوج سعودي كورد غير صالحة.");
+    }
+
+    return catalog.plugins.filter((plugin: any) => {
+        if (!plugin || typeof plugin.id !== "string" || !/^[a-z0-9][a-z0-9-]{1,47}$/.test(plugin.id)
+            || typeof plugin.name !== "string" || !plugin.name.trim() || plugin.name.length > 80
+            || typeof plugin.description !== "string" || plugin.description.length > 500
+            || !Array.isArray(plugin.authors) || plugin.authors.length < 1 || plugin.authors.length > 5
+            || plugin.authors.some((author: unknown) => typeof author !== "string" || !author.trim() || author.length > 80)
+            || typeof plugin.version !== "string" || !/^\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)?$/.test(plugin.version)
+            || typeof plugin.commit !== "string" || !/^[0-9a-f]{40}$/.test(plugin.commit)
+            || typeof plugin.entry !== "string" || !/^(?:[A-Za-z0-9_-]+\/)*index\.(?:ts|tsx|js|jsx)$/.test(plugin.entry)
+            || !Array.isArray(plugin.files) || plugin.files.length < 1 || plugin.files.length > LIMITS.files) return false;
+
+        const seen = new Set<string>();
+        let hasEntry = false;
+        for (const file of plugin.files) {
+            const rel = file?.path;
+            if (typeof rel !== "string" || rel.length > 200 || rel.startsWith("/") || rel.includes("\\")
+                || rel.split("/").some((part: string) => !part || part === "." || part === "..")
+                || !/\.(?:ts|tsx|js|jsx|css|json)$/i.test(rel) || seen.has(rel)
+                || typeof file.sha256 !== "string" || !/^[0-9a-f]{64}$/.test(file.sha256)) return false;
+            seen.add(rel);
+            if (rel === plugin.entry) hasEntry = true;
+        }
+        return hasEntry;
+    });
+}
+
 /**
  * Download a catalog plugin from the fixed SaudiCord repository.
  * The renderer supplies only an ID. Files are pinned to a full commit, checked
@@ -817,6 +869,7 @@ export function registerCommunityPluginIpc() {
     ipcMain.handle(IpcEvents.COMMUNITY_LIST, () => list());
     ipcMain.handle(IpcEvents.COMMUNITY_PICK_AND_IMPORT, () => pickAndImport());
     ipcMain.handle(IpcEvents.COMMUNITY_INSTALL_CATALOG, (_e, id: string) => installCatalogPlugin(id));
+    ipcMain.handle(IpcEvents.COMMUNITY_CATALOG_LIST, () => listCatalog());
     ipcMain.handle(IpcEvents.COMMUNITY_REMOVE, (_e, id: string) => remove(id));
     ipcMain.handle(IpcEvents.COMMUNITY_SET_ENABLED, (_e, id: string, enabled: boolean) => setEnabled(id, enabled));
     ipcMain.handle(IpcEvents.COMMUNITY_OPEN_FOLDER, (_e, id: string) => openFolder(id));
