@@ -15,7 +15,7 @@ import { ACCENT, RADIUS, SURFACE, UNIT } from "./tokens";
 import { PermanentStereoCard } from "./VoiceLabStereo";
 
 /**
- * **الأدوات الخارجية** — برامج ليست من إشراق، ولا تُشحن معه، ولا يُنزَّل منها
+ * **الأدوات الخارجية** — برامج ليست من سعودي كورد، ولا تُشحن معه، ولا يُنزَّل منها
  * شيء عند تثبيته. لا يبدأ أي تنزيل إلّا بضغطة زرّ صريحة بعد تحذير مكتوب،
  * والقرار للمستخدم وحده.
  *
@@ -97,7 +97,7 @@ function confirm(title: string, body: string, onConfirm: () => void) {
  * **بوّابة القسم الاختياري.**
  *
  * القسم كلّه مقفل حتى يسحب المستخدم الشريط بنفسه. والقفل ليس زينةً: ما وراءه
- * ما **يُبدّل ملفّات ديسكورد على القرص** — «ستيريو دائم» من إشراق، وأدوات
+ * ما **يُبدّل ملفّات ديسكورد على القرص** — «ستيريو دائم» من سعودي كورد، وأدوات
  * ليست منّا إحداها تُحمّل نماذج تُنفّذ كوداً. فمن يفتحه يفتحه وقد قرأ.
  *
  * 🔴 والقفل مقياسه **الخطر لا المِلكية**: «ستيريو دائم» بطاقتنا نحن، ومع ذلك
@@ -123,20 +123,20 @@ function ToolsGate({ index, onUnlock }: { index: number; onUnlock: () => void; }
             <NoticeStrip tone="danger">
                 <b>{t("اقرأ قبل الفتح:", "Read before opening:")}</b>
                 <ul style={{ margin: `${UNIT}px 0 0`, paddingInlineStart: UNIT * 2.5 }}>
-                    <li>{t("إشراق لا يتحمّل مسؤولية ما في هذا القسم ولا ما ينتج عن استعماله — القرار قرارك وحدك.",
-                        "Esharq takes no responsibility for what is in this section, or for anything that comes of using it — the decision is yours alone.")}</li>
+                    <li>{t("سعودي كورد لا يتحمّل مسؤولية ما في هذا القسم ولا ما ينتج عن استعماله — القرار قرارك وحدك.",
+                        "SaudiCord takes no responsibility for what is in this section, or for anything that comes of using it — the decision is yours alone.")}</li>
                     <li>{t("أُضيف بناءً على طلب الأعضاء، لا لأننا نوصي به.",
                         "It was added because members asked for it, not because we recommend it.")}</li>
-                    <li>{t("«ستيريو دائم» من إشراق، لكنه يُبدّل ملفّ صوت ديسكورد على قرصك: يُسقط توقيعه الرقمي، وتعديل ملفّات ديسكورد مخالف لشروطه، وقد يعترضه مضادّ الفيروسات أو يستعيده تحديثٌ قادم. نحفظ نسختك الأصلية وفيه زرّ رجوع.",
-                        "“Permanent stereo” is Esharq's own, but it replaces Discord's voice module on your disk: it breaks the digital signature, modifying Discord's files is against its terms, and antivirus may flag it or a future update may restore the original. We keep your original and it has a revert button.")}</li>
-                    <li>{t("الأدوات الخارجية ليست من إشراق: لا نكتبها ولا نُراجع تحديثاتها، وتبقى كما يشحنها أصحابها. وما نُضيفه هو التثبيت على التزام بعينه والتحقّق من البصمة قبل أي استعمال.",
-                        "The external tools are not Esharq's: we neither write them nor review their updates, and they stay exactly as their authors ship them. What we add is pinning to a specific commit and verifying the hash before any use.")}</li>
+                    <li>{t("«ستيريو دائم» من سعودي كورد، لكنه يُبدّل ملفّ صوت ديسكورد على قرصك: يُسقط توقيعه الرقمي، وتعديل ملفّات ديسكورد مخالف لشروطه، وقد يعترضه مضادّ الفيروسات أو يستعيده تحديثٌ قادم. نحفظ نسختك الأصلية وفيه زرّ رجوع.",
+                        "“Permanent stereo” is SaudiCord's own, but it replaces Discord's voice module on your disk: it breaks the digital signature, modifying Discord's files is against its terms, and antivirus may flag it or a future update may restore the original. We keep your original and it has a revert button.")}</li>
+                    <li>{t("الأدوات الخارجية ليست من سعودي كورد: لا نكتبها ولا نُراجع تحديثاتها، وتبقى كما يشحنها أصحابها. وما نُضيفه هو التثبيت على التزام بعينه والتحقّق من البصمة قبل أي استعمال.",
+                        "The external tools are not SaudiCord's: we neither write them nor review their updates, and they stay exactly as their authors ship them. What we add is pinning to a specific commit and verifying the hash before any use.")}</li>
                     <li>{t("🔴 نماذج الأصوات بصيغة ‎.pth‎ تُنفّذ كوداً لحظة تحميلها. لا تأخذ نموذجاً إلّا من مصدر تثق به.",
                         "🔴 Voice models in .pth format execute code the moment they load. Only take a model from a source you trust.")}</li>
                     <li>{t("لا يبدأ تنزيل ولا ترقيع ولا تثبيت إلّا بضغطة صريحة منك بعد فتح القسم — فتحُه وحده لا يفعل شيئاً.",
                         "No download, patch or install starts without an explicit press from you after opening — opening alone does nothing.")}</li>
-                    <li>{t("أعطال الأدوات الخارجية تُراجَع عند أصحابها؛ ليس لإشراق يدٌ فيها ولا دعمٌ لها.",
-                        "Problems with the external tools go to their own authors; Esharq has no hand in them and offers no support for them.")}</li>
+                    <li>{t("أعطال الأدوات الخارجية تُراجَع عند أصحابها؛ ليس لسعودي كورد يدٌ فيها ولا دعمٌ لها.",
+                        "Problems with the external tools go to their own authors; SaudiCord has no hand in them and offers no support for them.")}</li>
                 </ul>
             </NoticeStrip>
 
@@ -206,8 +206,8 @@ export function VoiceLabTools({ index, onChanged }: { index: number; onChanged: 
                     "You opened it yourself after the warning. Nothing is downloaded or patched without a press from you.")}
                 badge={t("مفتوح", "Unlocked")} badgeTone="ok">
                 <NoticeStrip>
-                    {t("«ستيريو دائم» من إشراق ويُرقّع ملفّ صوت ديسكورد على قرصك، ومعه نسخة أصلية وزرّ إزالة. أمّا الأدوات الخارجية فليست من إشراق ولا يحزمها ولا يُنزّلها عند تثبيته — تبقى كما يشحنها أصحابها، والمصادر مكتوبة في كل بطاقة لمن أراد قراءتها قبل التثبيت.",
-                        "“Permanent stereo” is Esharq's own and patches Discord's voice module on your disk, with an original backup and a Remove button. The external tools are not Esharq's: it neither bundles nor downloads them at install time — they stay exactly as their authors ship them, and each card lists its sources so you can read them first.")}
+                    {t("«ستيريو دائم» من سعودي كورد ويُرقّع ملفّ صوت ديسكورد على قرصك، ومعه نسخة أصلية وزرّ إزالة. أمّا الأدوات الخارجية فليست من سعودي كورد ولا يحزمها ولا يُنزّلها عند تثبيته — تبقى كما يشحنها أصحابها، والمصادر مكتوبة في كل بطاقة لمن أراد قراءتها قبل التثبيت.",
+                        "“Permanent stereo” is SaudiCord's own and patches Discord's voice module on your disk, with an original backup and a Remove button. The external tools are not SaudiCord's: it neither bundles nor downloads them at install time — they stay exactly as their authors ship them, and each card lists its sources so you can read them first.")}
                 </NoticeStrip>
                 {error !== null && <NoticeStrip tone="danger">{error}</NoticeStrip>}
 
@@ -221,7 +221,7 @@ export function VoiceLabTools({ index, onChanged }: { index: number; onChanged: 
                 </Row>
             </Card>
 
-            {/* ── ستيريو دائم — من إشراق، لكنه خلف البوّابة لأنه يمسّ ملفّاً ── */}
+            {/* ── ستيريو دائم — من سعودي كورد، لكنه خلف البوّابة لأنه يمسّ ملفّاً ── */}
             <PermanentStereoCard index={index + 1} onChanged={onChanged} />
 
             {/* ── الأداة الخارجية Stereo Hub ────────────────────────────────── */}
@@ -241,8 +241,8 @@ export function VoiceLabTools({ index, onChanged }: { index: number; onChanged: 
                                     "Its author discontinued the project in August 2026: no updates and no new voice modules, and it may break with any upcoming Discord release.")}</li>
                                 <li>{t("تستبدل ملفّ صوت ديسكورد عندك بنسخة جاهزة من بناء 1.0.9243 (يوليو 2026) — أي قد تكون أقدم من بنائك الحالي.",
                                     "It replaces your Discord voice module with a prebuilt copy from build 1.0.9243 (July 2026) — likely older than the one you run.")}</li>
-                                <li>{t("الأداة الأصلية لا تتحقّق من بصمة ما تُنزّله. نسخة إشراق تُنزّلها من التزام مُجمَّد وتتحقّق من بايتاتها قبل أي استعمال.",
-                                    "The original tool verifies no hashes. Esharq downloads it from a frozen commit and verifies its bytes before any use.")}</li>
+                                <li>{t("الأداة الأصلية لا تتحقّق من بصمة ما تُنزّله. نسخة سعودي كورد تُنزّلها من التزام مُجمَّد وتتحقّق من بايتاتها قبل أي استعمال.",
+                                    "The original tool verifies no hashes. SaudiCord downloads it from a frozen commit and verifies its bytes before any use.")}</li>
                                 <li>{t("تحتاج Python 3.8 أو أحدث لتشغيلها، وتحفظ نسخة احتياطية من ملفّك الأصلي وفيها زرّ رجوع.",
                                     "It needs Python 3.8+ to run, keeps a backup of your original module, and has a Revert button.")}</li>
                                 <li>{t("لا تُستعمل مع «ستيريو دائم» ولا مع «ستيريو الجلسة» في الوقت نفسه — ثلاثتها تستهدف الملفّ نفسه، فاختر واحداً.",
