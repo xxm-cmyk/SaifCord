@@ -26,6 +26,17 @@ interface Finding {
     hint?: string;
 }
 
+interface CatalogPlugin {
+    id: string;
+    name: string;
+    description: string;
+    author: string;
+    version: string;
+    sourceUrl: string;
+    commit: string;
+    sha256: string;
+}
+
 interface Entry {
     id: string;
     folderName: string;
@@ -260,7 +271,7 @@ function PluginRow({ entry, loadError, onChanged, onRescan, rescanning }: {
                 <div className="esharq-cp-actions">
                     {/*
                       * 🔴 إضافات المجتمع تُسجَّل بـ`hidden: true` لتُدار من هنا وحدها،
-                      * فلا تظهر في صفحة إضافات إشراق — ومعها اختفى **الطريق الوحيد**
+                      * فلا تظهر في صفحة إضافات سعودي كورد — ومعها اختفى **الطريق الوحيد**
                       * إلى إعداداتها. من ثبّت إضافةً لها خيارات لم يجد كيف يبلغها.
                       *
                       * يُفتَح هنا نفس المُكوّن الذي تفتحه صفحة الإضافات
@@ -303,7 +314,7 @@ function PluginRow({ entry, loadError, onChanged, onRescan, rescanning }: {
 /**
  * **صفحة إضافات المجتمع.**
  *
- * إضافات المجتمع **لا تظهر في قائمة إضافات إشراق**: تُسجَّل بـ`hidden` ويُدار
+ * إضافات المجتمع **لا تظهر في قائمة إضافات سعودي كورد**: تُسجَّل بـ`hidden` ويُدار
  * تفعيلها من هنا وحدها. والسبب أن خلطهما يُوهم أن إشراق يقف خلفها — وهو لا
  * يقف. هنا مكانها، وهنا يُقال من يملكها.
  */
@@ -365,6 +376,42 @@ function CommunityPluginsContent({ onRelock }: { onRelock: () => void; }) {
     /** حصيلة آخر فحصٍ يدويّ: ما بُدّل وما تُرك. */
     const [rescanResult, setRescanResult] = useState<{ name: string; findings: Finding[]; } | null>(null);
     const [listError, setListError] = useState<string | null>(null);
+    const [catalog, setCatalog] = useState<CatalogPlugin[] | null>(null);
+    const [catalogError, setCatalogError] = useState<string | null>(null);
+    const [catalogLoading, setCatalogLoading] = useState(false);
+
+    const refreshCatalog = async () => {
+        setCatalogLoading(true);
+        setCatalogError(null);
+        try {
+            const response = await fetch("https://raw.githubusercontent.com/xxm-cmyk/SaudiCord/main/community-plugins/catalog.json", {
+                headers: { Accept: "application/json" },
+                cache: "no-store"
+            });
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const data = await response.json();
+            if (data?.schemaVersion !== 1 || !Array.isArray(data.plugins)) {
+                throw new Error("صيغة كتالوج الإضافات غير معروفة.");
+            }
+            const valid = data.plugins.filter((plugin: any) =>
+                plugin && typeof plugin.id === "string" &&
+                typeof plugin.name === "string" &&
+                typeof plugin.description === "string" &&
+                typeof plugin.author === "string" &&
+                typeof plugin.version === "string" &&
+                typeof plugin.sourceUrl === "string" &&
+                /^https:\\/\\/github\\.com\\/[A-Za-z0-9_.-]+\\/[A-Za-z0-9_.-]+\\/tree\\/[0-9a-f]{40}\\//i.test(plugin.sourceUrl) &&
+                typeof plugin.commit === "string" && /^[0-9a-f]{40}$/i.test(plugin.commit) &&
+                typeof plugin.sha256 === "string" && /^[0-9a-f]{64}$/i.test(plugin.sha256)
+            );
+            setCatalog(valid);
+        } catch (e: any) {
+            setCatalog(null);
+            setCatalogError(String(e?.message ?? e));
+        } finally {
+            setCatalogLoading(false);
+        }
+    };
 
     const refresh = () => {
         setListError(null);
@@ -373,7 +420,10 @@ function CommunityPluginsContent({ onRelock }: { onRelock: () => void; }) {
             setListError(String(e?.message ?? e));
         });
     };
-    useEffect(refresh, []);
+    useEffect(() => {
+        refresh();
+        refreshCatalog();
+    }, []);
 
     if (native() == null) {
         return (
@@ -530,6 +580,51 @@ All of this is on your machine: no source is uploaded and no request is sent. An
             )}
 
             <Card index={1}
+                title={t("كتالوج إضافات المجتمع", "Community catalogue")}
+                subtitle={t("إضافات منشورة في مستودع سعودي كورد بعد مراجعة المساهمة وفحص ملفاتها. التصفح لا يعني أن الإضافة آمنة بالكامل.", "Plugins listed in the SaudiCord repository after contribution review and file checks. Listing does not guarantee that a plugin is completely safe.")}>
+                <div style={{ display: "flex", gap: UNIT, flexWrap: "wrap", marginBottom: UNIT * 2 }}>
+                    <Btn label={catalogLoading ? t("جارٍ التحديث…", "Refreshing…") : t("تحديث الكتالوج", "Refresh catalogue")}
+                        disabled={catalogLoading} onClick={refreshCatalog} />
+                    <Btn label={t("طريقة نشر إضافة", "How to submit a plugin")}
+                        onClick={() => (window as any).VencordNative?.native?.openExternal?.("https://github.com/xxm-cmyk/SaudiCord/blob/main/.github/COMMUNITY_PLUGINS_CONTRIBUTING.md")} />
+                </div>
+                {catalogError !== null ? (
+                    <NoticeStrip tone="danger">{t("تعذّر تحميل الكتالوج:", "Could not load catalogue:")} {catalogError}</NoticeStrip>
+                ) : catalog === null ? (
+                    <div className="esharq-cp-empty">{t("جارٍ تحميل الكتالوج…", "Loading catalogue…")}</div>
+                ) : catalog.length === 0 ? (
+                    <div className="esharq-cp-empty">
+                        {t("ما فيه إضافات منشورة حاليًا. تقدر تستورد إضافة من جهازك، أو تساهم بإضافة عبر طلب دمج في مستودع سعودي كورد.", "No plugins have been published yet. You can import a plugin from your device or contribute one through a pull request to the SaudiCord repository.")}
+                    </div>
+                ) : (
+                    <div className="esharq-cp-list">
+                        {catalog.map(plugin => (
+                            <div key={plugin.id} className="esharq-cp-row">
+                                <div className="esharq-cp-main">
+                                    <div className="esharq-cp-title">
+                                        <span className="esharq-cp-name">{plugin.name}</span>
+                                        <span className="esharq-cp-authors">{plugin.author} · v{plugin.version}</span>
+                                    </div>
+                                    <div className="esharq-cp-desc">{plugin.description}</div>
+                                    <div className="esharq-cp-meta">
+                                        <span>{t("الإصدار المثبّت بالمراجعة", "Pinned reviewed revision")}</span>
+                                        <span className="esharq-cp-hash">{plugin.commit.slice(0, 12)}</span>
+                                    </div>
+                                </div>
+                                <div className="esharq-cp-side">
+                                    <Btn label={t("عرض المصدر", "View source")}
+                                        onClick={() => (window as any).VencordNative?.native?.openExternal?.(plugin.sourceUrl)} />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+                <NoticeStrip tone="danger">
+                    {t("التثبيت المباشر من الكتالوج غير مفعّل بعد؛ لا نشغّل كودًا بعيدًا قبل ربطه بمسار التحقق المحلي نفسه والتحقق من بصمة المصدر.", "One-click installation is not enabled yet. Remote code will not run until it is routed through the same local validation pipeline and its source hash is verified.")}
+                </NoticeStrip>
+            </Card>
+
+            <Card index={2}
                 title={t("المستورَدة", "Imported")}
                 subtitle={t("تفعيلها وتعطيلها من هنا — ولا تظهر في قائمة إضافات سعودي كورد.",
                     "Enable and disable them here — they never appear in the built-in SaudiCord plugins list.")}>
@@ -550,7 +645,7 @@ All of this is on your machine: no source is uploaded and no request is sent. An
                 )}
             </Card>
 
-            <Card index={2}
+            <Card index={3}
                 title={t("كيف تكتب إضافة تعمل هنا", "How to write a plugin that works here")}
                 subtitle={t("لمن يكتب إضافته بنفسه أو يستورد إضافة كتبها غيره.",
                     "For anyone writing their own plugin, or importing one written by someone else.")}>
@@ -561,7 +656,7 @@ All of this is on your machine: no source is uploaded and no request is sent. An
                     <div>{t("④ TypeScript وJSX مدعومان ويُحوَّلان عند الاستيراد؛ لا تحتاج بناءً.", "④ TypeScript and JSX are supported and converted at import time; no build needed.")}</div>
                 </div>
                 <NoticeStrip>
-                    {t("وحدات Node مثل fs وchild_process لا تعمل هنا — ليس منعاً منّا، بل لأن صفحة ديسكورد تعمل بلا Node، وهذا يسري على إضافات إشراق نفسها.",
+                    {t("وحدات Node مثل fs وchild_process لا تعمل هنا — ليس منعاً منّا، بل لأن صفحة ديسكورد تعمل بلا Node، وهذا يسري على إضافات سعودي كورد نفسها.",
                         "Node modules such as fs and child_process do not work here — not a restriction we impose, but because Discord's page runs without Node. The same applies to SaudiCord's built-in plugins.")}
                 </NoticeStrip>
             </Card>
