@@ -65,6 +65,7 @@ export const enum IpcEvents {
     COMMUNITY_LIST = "SaudiCordCommunityList",
     COMMUNITY_PICK_AND_IMPORT = "SaudiCordCommunityPickAndImport",
     COMMUNITY_INSTALL_CATALOG = "SaudiCordCommunityInstallCatalog",
+    COMMUNITY_CATALOG_LIST = "SaudiCordCommunityCatalogList",
     COMMUNITY_REMOVE = "SaudiCordCommunityRemove",
     COMMUNITY_SET_ENABLED = "SaudiCordCommunitySetEnabled",
     COMMUNITY_OPEN_FOLDER = "SaudiCordCommunityOpenFolder",
