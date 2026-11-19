@@ -15,7 +15,7 @@ import { Heading } from "@components/Heading";
 import { DeleteIcon } from "@components/Icons";
 import { Link } from "@components/Link";
 import { Paragraph } from "@components/Paragraph";
-import { Card as EsharqCard } from "@components/settings/esharq/Card";
+import { Card as SaudiCordCard } from "@components/settings/esharq/Card";
 import { SettingsTab, wrapTab } from "@components/settings/tabs/BaseTab";
 import { HashLink } from "@components/settings/tabs/updater/Components";
 import { t } from "@utils/esharqI18n";
@@ -497,7 +497,7 @@ function ChangelogContent() {
 
     return (
         <>
-            <EsharqCard
+            <SaudiCordCard
                 index={0}
                 title={t("جلب التغييرات", "Fetch changes")}
                 subtitle={t(
@@ -573,14 +573,14 @@ function ChangelogContent() {
                 </ErrorCard>
             )}
 
-            </EsharqCard>
+            </SaudiCordCard>
 
             <EsharqCard
                 index={1}
                 title={t("المستودع", "Repository")}
                 subtitle={t(
-                    "المستودع الذي يجلب منه إشراق تحديثاته.",
-                    "The repository Esharq fetches its updates from."
+                    "المستودع الذي يجلب منه سعودي كورد تحديثاته.",
+                    "The repository SaudiCord fetches its updates from."
                 )}
             >
             <Paragraph color="text-subtle">
