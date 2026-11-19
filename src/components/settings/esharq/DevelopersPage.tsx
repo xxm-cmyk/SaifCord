@@ -148,7 +148,7 @@ export function DevelopersPage() {
                     <small>xxm-cmyk</small>
                 </div>
                 <div className="saudicord-devs-credit-row">
-                    <div><strong>Esharq</strong><span>الأعمال الأصلية والتعريب والواجهات والإضافات</span></div>
+                    <div><strong>SaudiCord</strong><span>الأعمال الأصلية والتعريب والواجهات والإضافات</span></div>
                     <small>LOSTSTR</small>
                 </div>
                 <div className="saudicord-devs-credit-row">
