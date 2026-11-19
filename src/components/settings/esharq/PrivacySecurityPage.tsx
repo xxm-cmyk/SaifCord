@@ -70,8 +70,8 @@ interface DataEntry {
 const ENTRY_LABELS: Record<string, { ar: string; en: string; whatAr: string; whatEn: string; }> = {
     settings: {
         ar: "الإعدادات", en: "Settings",
-        whatAr: "اختياراتك في إشراق وإضافاته. تبقى هنا، ولا تُرسَل إلّا إن فعّلتَ المزامنة السحابية بنفسك.",
-        whatEn: "Your choices in Esharq and its plugins. They stay here, and are sent only if you turn on cloud sync yourself."
+        whatAr: "اختياراتك في سعودي كورد وإضافاته. تبقى هنا، ولا تُرسَل إلّا إن فعّلتَ المزامنة السحابية بنفسك.",
+        whatEn: "Your choices in SaudiCord and its plugins. They stay here, and are sent only if you turn on cloud sync yourself."
     },
     themes: {
         ar: "الثيمات", en: "Themes",
@@ -446,8 +446,8 @@ export function PrivacySecurityPage() {
             render: () => (
                 <Card index={0}
                     title={t("تتبّع ديسكورد المحجوب", "Discord tracking, blocked")}
-                    subtitle={t("عدّادٌ حيّ لما أوقفه إشراق منذ إقلاعك — لا وعدٌ مكتوب.",
-                        "A live count of what Esharq stopped since you started — not a written promise.")}
+                    subtitle={t("عدّادٌ حيّ لما أوقفه سعودي كورد منذ إقلاعك — لا وعدٌ مكتوب.",
+                        "A live count of what SaudiCord stopped since you started — not a written promise.")}
                     badge={blocks.total > 0 ? String(blocks.total) : t("لا شيء بعد", "Nothing yet")}
                     badgeTone={blocks.total > 0 ? "ok" : "info"}>
 
@@ -509,7 +509,7 @@ export function PrivacySecurityPage() {
             tone: "info",
             render: () => (
                 <Card index={0}
-                    title={t("إلى أين يُسمح لإشراق أن يتّصل", "Where Esharq is allowed to connect")}
+                    title={t("إلى أين يُسمح لسعودي كورد أن يتّصل", "Where SaudiCord is allowed to connect")}
                     subtitle={t("قائمةٌ مغلقة يفرضها العميل نفسه: ما ليس فيها يُمنَع، ولو طلبته إضافة.",
                         "A closed list the client itself enforces: anything not on it is blocked, even if a plugin asks for it.")}
                     badge={hosts === null ? t("جارٍ…", "Working…") : String(hosts.builtIn.length + hosts.custom.length)}
@@ -556,7 +556,7 @@ export function PrivacySecurityPage() {
                     <div>{t("① افتح المجلد بالزرّ أعلاه وانظر ما فيه بعينك.", "① Open the folder with the button above and look at what's inside.")}</div>
                     <div>{t("② صفحة «الرصد» تسرد كل موقع يُسمح للعميل بجلب شيء منه — وما ليس فيها ممنوع.", "② The Surveillance page lists every site the client may fetch from — and anything not listed is blocked.")}</div>
                     <div>{t("③ صفحة «صلاحيات الإضافات» تقول أي إضافة تلمس ماذا.", "③ The Plugin Permissions page says which plugin touches what.")}</div>
-                    <div>{t("④ ومصدر إشراق كلّه علنيّ على GitHub — كل جملة هنا يمكن مطابقتها بالكود.", "④ And Esharq's entire source is public on GitHub — every claim here can be matched against the code.")}</div>
+                    <div>{t("④ ومصدر سعودي كورد كلّه علنيّ على GitHub — كل جملة هنا يمكن مطابقتها بالكود.", "④ And SaudiCord's entire source is public on GitHub — every claim here can be matched against the code.")}</div>
                 </div>
             </Card>
         }
@@ -565,8 +565,8 @@ export function PrivacySecurityPage() {
     return (
         <>
             <NoticeStrip>
-                {t("هذه الصفحة تُجيب سؤالين: ماذا يحفظ إشراق عنك على جهازك، وما الذي يغادر الجهاز ومتى. والأقسام أدناه تفصل الجواب فلا تطول الصفحة.",
-                    "This page answers two questions: what Esharq keeps about you on your machine, and what leaves it and when. The sections below split the answer so the page stays short.")}
+                {t("هذه الصفحة تُجيب سؤالين: ماذا يحفظ سعودي كورد عنك على جهازك، وما الذي يغادر الجهاز ومتى. والأقسام أدناه تفصل الجواب فلا تطول الصفحة.",
+                    "This page answers two questions: what SaudiCord keeps about you on your machine, and what leaves it and when. The sections below split the answer so the page stays short.")}
             </NoticeStrip>
 
             <SectionTabs sections={sections} />
