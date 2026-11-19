@@ -341,8 +341,8 @@ export const SURFACES: readonly Surface[] = [
         neutral: 64
     },
     {
-        key: "settingsCards", ar: "بطاقات إشراق", en: "Esharq cards", group: "settings",
-        ar_hint: "بطاقات صفحات إشراق نفسها.", en_hint: "The cards on Esharq's own pages.",
+        key: "settingsCards", ar: "بطاقات سعودي كورد", en: "SaudiCord cards", group: "settings",
+        ar_hint: "بطاقات صفحات سعودي كورد نفسها.", en_hint: "The cards on SaudiCord's own pages.",
         selectors: [".esharq-rise"],
         neutral: 62
     }
