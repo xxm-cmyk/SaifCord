@@ -19,7 +19,7 @@ import { stagger } from "./motion";
 import { Section, SectionTabs } from "./SectionTabs";
 
 /**
- * **الخصوصية والأمان** — ماذا يحفظ إشراق عنك، وأين، وما الذي يغادر جهازك.
+ * **الخصوصية والأمان** — ماذا يحفظ سعودي كورد عنك، وأين، وما الذي يغادر جهازك.
  *
  * وهي غير «الرصد»: تلك تسأل **إلى أين يُسمح للعميل أن يصل**، وهذه تسأل
  * **ماذا عندك وماذا يخرج منه**.
@@ -100,7 +100,7 @@ const ENTRY_LABELS: Record<string, { ar: string; en: string; whatAr: string; wha
     }
 };
 
-/** ما لا يفعله إشراق أبداً — بنودٌ كلٌّ منها قابل للتحقّق في المستودع. */
+/** ما لا يفعله سعودي كورد أبداً — بنودٌ كلٌّ منها قابل للتحقّق في المستودع. */
 const NEVER = [
     ["لا يُرسل رسائلك ولا محتواها إلى أي جهة.", "It never sends your messages or their contents anywhere."],
     ["لا يُرسل توكن حسابك إلى أي جهة غير ديسكورد نفسه.", "It never sends your account token anywhere except Discord itself."],
