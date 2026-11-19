@@ -17,3 +17,6 @@ This directory is the source of truth for community plugins distributed by Saudi
 Do not add compiled bundles, minified code, binaries, archives, symlinks, secrets, tokens, or files outside the accepted source extensions.
 
 See [CONTRIBUTING.md](../.github/COMMUNITY_PLUGINS_CONTRIBUTING.md) for the submission format and review checklist.
+## Runtime import checks
+
+The desktop importer runs an additional static inspection before accepting a local community plugin. Credential-access, dynamic-code-execution, and native-process patterns block import. Network and obfuscation patterns are reported as warnings for the user to review. This is not a sandbox, does not prove code is safe, and cannot replace source review. Community catalog entries are browse-only until remote installation is wired through the same verified import pipeline.
