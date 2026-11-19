@@ -95,7 +95,7 @@ interface Bundle {
      * 489 إضافة.
      */
     unserialisableSettings: string[];
-    /** سجلّ المشاكل — ما أبلغ عنه إشراق من أخطاء هذه الجلسة (`debug/esharqErrors.ts`). */
+    /** سجلّ المشاكل — ما أبلغ عنه سعودي كورد من أخطاء هذه الجلسة (`debug/esharqErrors.ts`). */
     issues: {
         total: number;
         errors: number;
