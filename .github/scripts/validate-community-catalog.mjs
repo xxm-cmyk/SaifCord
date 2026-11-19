@@ -98,9 +98,9 @@ for (const plugin of catalog.plugins ?? []) {
     if (source.split("\n").some(line => line.length > 2000)) fail(`${label}: generated/minified line in ${rel}`);
     if (/sourceMappingURL\s*=/.test(source)) fail(`${label}: source map reference in ${rel}`);
     if (/\b(?:eval|Function)\s*\(/.test(source)) fail(`${label}: dynamic code execution pattern in ${rel} (manual review required)`);
-    if (/(?:localStorage\\s*\\.\\s*getItem\\s*\\(\\s*["'`][^"'`]*(?:token|auth|session)|sessionStorage\\s*\\.\\s*getItem\\s*\\(\\s*["'`][^"'`]*(?:token|auth)|\\bgetToken\\s*\\(\\s*\\)|webpackChunkdiscord_app)/i.test(source)) fail(`${label}: credential access pattern in ${rel}`);
-    if (/\\bdocument\\s*\\.\\s*cookie\\b|\\bcookieStore\\s*\\./i.test(source)) fail(`${label}: cookie access pattern in ${rel}`);
-    if (/(?:\\bwindow\\s*\\.\\s*require\\s*\\(|\\brequire\\s*\\(\\s*["'`]electron["'`]\\s*\\)|\\bprocess\\s*\\.\\s*(?:env|versions|mainModule)\\b|\\bipcRenderer\\b)/i.test(source)) fail(`${label}: privileged runtime access pattern in ${rel}`);
+    if (/localStorage.{0,30}(?:token|auth|session)|sessionStorage.{0,30}(?:token|auth)|\bgetToken\s*\(|webpackChunkdiscord_app/i.test(source)) fail(\`${label}: credential access pattern in \${rel}\`);
+    if (/\bdocument\s*\.\s*cookie\b|\bcookieStore\s*\./i.test(source)) fail(\`${label}: cookie access pattern in \${rel}\`);
+    if (/window\s*\.\s*require\s*\(|require\s*\([^)]*electron|process\s*\.\s*(?:env|versions|mainModule)|\bipcRenderer\b/i.test(source)) fail(\`${label}: privileged runtime access pattern in \${rel}\`);
   }
   if (!hasEntry) fail(`${label}: entry file is not included in files`);
   if (total > maxTotalBytes) fail(`${label}: total source size exceeds limit`);
