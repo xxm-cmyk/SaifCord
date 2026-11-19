@@ -373,7 +373,7 @@ export function loadCommunityPlugins(plugins: Record<string, any>) {
     const native = (window as any).VencordNative?.communityPlugins;
     if (native == null) return;
 
-    let bundles: { id: string; name: string; hash: string; modules: { path: string; code: string; }[]; }[];
+    let bundles: { id: string; name: string; hash: string; modules: { path: string; code: string; }[]; error?: string; }[];
     try {
         bundles = native.getBundle() ?? [];
     } catch (e) {
@@ -387,6 +387,7 @@ export function loadCommunityPlugins(plugins: Record<string, any>) {
         loaded.push(record);
 
         try {
+            if (bundle.error) throw new Error(bundle.error);
             const exported = runPlugin(bundle);
             const definition = exported?.default ?? exported;
 
