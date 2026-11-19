@@ -230,7 +230,7 @@ function PluginRow({ entry, loadError, onChanged, onRescan, rescanning }: {
                         {compat.items.filter(i => i.status !== "ok" && i.status !== "substituted").map(i => i.specifier).join(" · ")}
                         <div className="esharq-cp-compat-why">
                             {compat.blocked > 0
-                                ? t("هذه من Node أو من العملية الرئيسية، ولا تصلها أيّ إضافة داخل صفحة ديسكورد — ولا إضافات إشراق نفسها.",
+                                ? t("هذه من Node أو من العملية الرئيسية، ولا تصلها أيّ إضافة داخل صفحة ديسكورد — ولا إضافات سعودي كورد نفسها.",
                                     "These come from Node or the main process, and no plugin inside the Discord page can reach them — not even SaudiCord's built-in plugins.")
                                 : t("أسماءٌ خاصّة بشوكةٍ أخرى غالباً. استورد الإضافة التي تُكمّلها، أو احذف السطر إن كان لزينةٍ لا تُستعمل.",
                                     "Most likely names specific to another fork. Import the plugin that completes it, or delete the line if it is unused.")}
@@ -323,11 +323,11 @@ export function CommunityPluginsPage() {
             <GateOverlay
                 unlocked={false}
                 title={t("إضافات المجتمع", "Community plugins")}
-                subtitle={t("قسم يُشغّل إضافات كتبها أشخاص من خارج إشراق.",
+                subtitle={t("قسم يُشغّل إضافات كتبها أشخاص من خارج سعودي كورد.",
                     "A section that runs plugins written by people outside SaudiCord.")}
                 slideLabel={t("اسحب لفتح القسم", "Slide to open the section")}
                 warnings={[
-                    t("هذه إضافات ليست من إشراق. نحن نوفّر الميزة التي تُشغّلها فقط — لا نكتبها ولا نُراجعها ولا نُحدّثها.",
+                    t("هذه إضافات ليست من سعودي كورد. نحن نوفّر الميزة التي تُشغّلها فقط — لا نكتبها ولا نُراجعها ولا نُحدّثها.",
                         "These plugins are not part of SaudiCord. We only provide the feature that runs them — we don't write, review or update them."),
                     // 🔴 كان البند الأوّل يقول «ولا نُصلحها» — وصار العميل يُصلح
                     // فروق البنية فعلاً. تركُ الجملة يجعل وعدنا كاذباً أوّل مرّة،
@@ -336,9 +336,9 @@ export function CommunityPluginsPage() {
                         "And we only bridge structural differences: module names that differ between forks, and an import form our compiler does not understand. We never change a plugin's logic or fix its bugs, and anything we have no counterpart for is left alone and named for you."),
                     t("الإضافة تعمل داخل ديسكورد بصلاحيات أي إضافة، فتستطيع ما تستطيعه أي إضافة. لا تُشغّل إلّا ما تثق بمصدره أنت.",
                         "A plugin runs inside Discord with the same privileges as any plugin, so it can do whatever any plugin can. Only run what you trust."),
-                    t("ما تستورده يبقى على جهازك وحده: لا يُرفَع ولا يُشارَك، ولا يصل إشراق ولا أي مستخدم آخر، ولا يدخل النسخ الاحتياطية ولا المزامنة.",
+                    t("ما تستورده يبقى على جهازك وحده: لا يُرفَع ولا يُشارَك، ولا يصل سعودي كورد ولا أي مستخدم آخر، ولا يدخل النسخ الاحتياطية ولا المزامنة.",
                         "What you import stays on your machine alone: never uploaded or shared, never reaching SaudiCord or any other user, and never included in backups or sync."),
-                    t("القرار قرارك وحدك، وإشراق لا يتحمّل مسؤولية ما تستورده ولا ما ينتج عنه.",
+                    t("القرار قرارك وحدك، وسعودي كورد لا يتحمّل مسؤولية ما تستورده ولا ما ينتج عنه.",
                         "The decision is yours alone. SaudiCord takes no responsibility for what you import, or for what comes of it.")
                 ]}
                 onUnlock={() => {
@@ -395,7 +395,7 @@ function CommunityPluginsContent({ onRelock }: { onRelock: () => void; }) {
             title: t("سنُعدّل نسخةً من الإضافة", "We will edit a copy of the plugin"),
             body: (
                 <p style={{ textAlign: "center", lineHeight: 1.75 }}>
-                    {t(`الإصلاح يقع على النسخة التي يحتفظ بها إشراق. مجلدك الأصلي يُقرأ ولا يُكتَب فيه حرف.
+                    {t(`الإصلاح يقع على النسخة التي يحتفظ بها سعودي كورد. مجلدك الأصلي يُقرأ ولا يُكتَب فيه حرف.
 
 وما يُبدَّل فروقُ البنية وحدها: اسم وحدةٍ من شوكةٍ أخرى يُوضَع مكانه ما يقابله عندنا، وصيغةُ استيرادٍ لا يفهمها مُترجِمنا. لا يُضاف منطق ولا يُحذف سطرٌ يفعل شيئاً.
 
@@ -457,7 +457,7 @@ All of this is on your machine: no source is uploaded and no request is sent. An
     return (
         <>
             <NoticeStrip tone="danger">
-                {t("هذه إضافات ليست من إشراق: لا نكتبها ولا نُراجعها ولا نُحدّثها. تعمل بصلاحيات أي إضافة داخل ديسكورد، وما تستورده يبقى على جهازك وحده. القرار قرارك.",
+                {t("هذه إضافات ليست من سعودي كورد: لا نكتبها ولا نُراجعها ولا نُحدّثها. تعمل بصلاحيات أي إضافة داخل ديسكورد، وما تستورده يبقى على جهازك وحده. القرار قرارك.",
                     "These plugins are not part of SaudiCord: we don't write, review or update them. They run with the same privileges as any plugin inside Discord, and what you import stays on your machine alone. The decision is yours.")}
             </NoticeStrip>
 
@@ -514,7 +514,7 @@ All of this is on your machine: no source is uploaded and no request is sent. An
                         </NoticeStrip>
                         {/* مجلدك لا يُمَسّ — يُقال في كل مرّة، لا مرّةً في نصٍّ يُقرأ ثمّ يُنسى. */}
                         <div className="esharq-cp-compat-why">
-                            {t("عُدّلت نسخة إشراق وحدها؛ مجلدك الأصلي كما تركتَه.",
+                            {t("عُدّلت نسخة سعودي كورد وحدها؛ مجلدك الأصلي كما تركتَه.",
                                 "Only the SaudiCord-managed copy was edited; your original folder is exactly as you left it.")}
                         </div>
                         <Findings findings={rescanResult.findings} />
@@ -531,7 +531,7 @@ All of this is on your machine: no source is uploaded and no request is sent. An
 
             <Card index={1}
                 title={t("المستورَدة", "Imported")}
-                subtitle={t("تفعيلها وتعطيلها من هنا — ولا تظهر في قائمة إضافات إشراق.",
+                subtitle={t("تفعيلها وتعطيلها من هنا — ولا تظهر في قائمة إضافات سعودي كورد.",
                     "Enable and disable them here — they never appear in the built-in SaudiCord plugins list.")}>
                 {entries === null ? (
                     <div className="esharq-cp-empty">{listError === null ? t("جارٍ القراءة…", "Reading…") : t("تعذّرت قراءة القائمة. استخدم زر إعادة المحاولة أعلاه.", "The list could not be read. Use the retry button above.")}</div>
