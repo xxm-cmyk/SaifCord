@@ -16,7 +16,7 @@ import { stagger } from "./motion";
 import { CatalogueTheme, installTheme, loadCatalogue } from "./themeLibrary/catalogue";
 
 /**
- * **مكتبة الثيمات** — معرض BetterDiscord داخل إشراق.
+ * **مكتبة الثيمات** — معرض BetterDiscord داخل سعودي كورد.
  *
  * ## وأين تقف من صفحة «الثيمات»
  *
@@ -31,7 +31,7 @@ import { CatalogueTheme, installTheme, loadCatalogue } from "./themeLibrary/cata
  *
  * ## وما يُثبَّت ليس منّا
  *
- * الثيمات من مؤلّفيها في المعرض، لا من إشراق. والصفحة تقول ذلك بوضوح: ثيمٌ
+ * الثيمات من مؤلّفيها في المعرض، لا من سعودي كورد. والصفحة تقول ذلك بوضوح: ثيمٌ
  * هو CSS يعمل داخل ديسكورد، ومن يُثبّته يثق بكاتبه.
  */
 
@@ -111,7 +111,7 @@ function ThemeLibraryPageInner() {
                 const messages: Record<string, string> = {
                     download: t("تعذّر تنزيل الثيم. تحقّق من اتّصالك.", "Couldn't download the theme. Check your connection."),
                     empty: t("الملفّ فارغ — لم يُثبَّت شيء.", "The file is empty — nothing was installed."),
-                    save: t("تعذّرت الكتابة في مجلد الثيمات. أعد تشغيل ديسكورد إن كنت قد حدّثت إشراق للتوّ.",
+                    save: t("تعذّرت الكتابة في مجلد الثيمات. أعد تشغيل ديسكورد إن كنت قد حدّثت سعودي كورد للتوّ.",
                         "Couldn't write to your themes folder. Restart Discord if you just updated SaudiCord.")
                 };
                 setNotice({ tone: "danger", text: messages[outcome.reason] });
@@ -139,7 +139,7 @@ function ThemeLibraryPageInner() {
     return (
         <>
             <NoticeStrip>
-                {t("هذه ثيمات مجتمع BetterDiscord، من مؤلّفيها لا من إشراق. والثيم ملفُّ CSS يعمل داخل ديسكورد — فمن يُثبّته يثق بكاتبه.",
+                {t("هذه ثيمات مجتمع BetterDiscord، من مؤلّفيها لا من سعودي كورد. والثيم ملفُّ CSS يعمل داخل ديسكورد — فمن يُثبّته يثق بكاتبه.",
                     "These are BetterDiscord community themes, from their authors and not from SaudiCord. A theme is a CSS file that runs inside Discord — installing one means trusting whoever wrote it.")}
             </NoticeStrip>
 
