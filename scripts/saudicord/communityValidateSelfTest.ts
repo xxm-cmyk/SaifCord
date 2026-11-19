@@ -72,6 +72,18 @@ console.log("── ما يجب أن يمرّ (ضوابط سالبة) ──");
         r.findings.some(f => f.rule === "security:network-egress" && f.severity === "warning"));
 }
 {
+    const r = validate([file("index.ts", `const token = localStorage.getItem("token");\nexport default {};`)]);
+    check("قراءة رمز الحساب من التخزين تُمنع", !r.ok && rulesOf(r).includes("security:credential-access"));
+}
+{
+    const r = validate([file("index.ts", `const cookie = document.cookie;\nexport default {};`)]);
+    check("قراءة ملفات تعريف الارتباط تُمنع", !r.ok && rulesOf(r).includes("security:cookie-access"));
+}
+{
+    const r = validate([file("index.ts", `const electron = require("electron");\nconst env = process.env;\nexport default {};`)]);
+    check("جسر Electron وبيئة العملية تُمنع", !r.ok && rulesOf(r).includes("security:privileged-runtime"));
+}
+{
     const r = validate([file("index.ts", "export default {};\n" + "// تعليق عربيّ فيه مسافات\n".repeat(50))]);
     check("نصّ عربيّ UTF-8", r.ok, rulesOf(r).join(","));
 }
