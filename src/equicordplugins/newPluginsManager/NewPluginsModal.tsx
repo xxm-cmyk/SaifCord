@@ -136,7 +136,7 @@ function NewPluginsModal({ modalProps, newPlugins, newSettings }: ModalComponent
                     </BaseText>
                     <br />
                     <Notice.Info className={cl("notice")}>
-                        {t("إشراق برنامج حرّ ومفتوح المصدر. إن أعجبك استخدامه، ففكّر في دعمنا ", "Esharq is free and open-source software. If you enjoy using it, consider supporting us ")}
+                        {t("سعودي كورد برنامج حرّ ومفتوح المصدر. إن أعجبك استخدامه، ففكّر في دعم تطويره ", "SaudiCord is free and open-source software. If you enjoy using it, consider supporting its development ")}
                         <Link href="https://ko-fi.com/loststr" target="_blank" rel="noopener noreferrer">{t("هنا", "here")}</Link>.
                     </Notice.Info>
                 </>
