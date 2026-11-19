@@ -421,8 +421,8 @@ function ThemeCreatorPageInner() {
         setSaving(true);
         try {
             const me = (() => { try { return UserStore.getCurrentUser(); } catch { return null; } })();
-            const name = themeName.trim() || t("ثيمي من إشراق", "My Esharq theme");
-            const css = exportCss(state, name, me?.username ?? "Esharq");
+            const name = themeName.trim() || t("ثيمي من سعودي كورد", "My SaudiCord theme");
+            const css = exportCss(state, name, me?.username ?? "SaudiCord");
             const result = await (window as any).VencordNative?.themeCreator?.saveCss?.(name, css);
 
             if (result?.ok) {
@@ -436,8 +436,8 @@ function ThemeCreatorPageInner() {
                     tone: "danger",
                     text: result?.reason === "bad-name"
                         ? t("الاسم غير صالح. استعمل حروفاً وأرقاماً.", "That name isn't usable. Use letters and numbers.")
-                        : t("تعذّر الحفظ. أعد تشغيل ديسكورد إن كنت قد حدّثت إشراق للتوّ.",
-                            "Couldn't save. Restart Discord if you just updated Esharq.")
+                        : t("تعذّر الحفظ. أعد تشغيل ديسكورد إن كنت قد حدّثت سعودي كورد للتوّ.",
+                            "Couldn't save. Restart Discord if you just updated SaudiCord.")
                 });
             }
         } finally {
@@ -596,8 +596,8 @@ function ThemeCreatorPageInner() {
 
             <Card index={2}
                 title={t("المظهر الأساس", "Base appearance")}
-                subtitle={t("الوضع الذي يُبنى لونك فوقه — وهو إعداد ديسكورد نفسه، يبقى كما تتركه ولو أزلت إشراق.",
-                    "The mode your colour is built on — Discord's own setting, which stays as you leave it even if you remove Esharq.")}
+                subtitle={t("الوضع الذي يُبنى لونك فوقه — وهو إعداد ديسكورد نفسه، يبقى كما تتركه ولو أزلت سعودي كورد.",
+                    "The mode your colour is built on — Discord's own setting, which stays as you leave it even if you remove SaudiCord.")}
                 badge={t(THEME_NAMES[discordTheme]?.ar ?? discordTheme, THEME_NAMES[discordTheme]?.en ?? discordTheme)}>
                 <div className="esharq-tc-modes">
                     {([
@@ -1011,8 +1011,8 @@ function ThemeCreatorPageInner() {
 
             <Card index={8}
                 title={t("الخطوط", "Typography")}
-                subtitle={t("من خطوط جهازك وحدها — إشراق لا يُنزّل خطّاً أبداً.",
-                    "From your own installed fonts only — Esharq never downloads a font.")}
+                subtitle={t("من خطوط جهازك وحدها — سعودي كورد لا يُنزّل خطّاً أبداً.",
+                    "From your own installed fonts only — SaudiCord never downloads a font.")}
                 badge={String(interfaceChoices.length + monoChoices.length)}>
 
                 <Row label={t("خطّ الواجهة", "Interface font")}>
@@ -1052,7 +1052,7 @@ function ThemeCreatorPageInner() {
                         className="esharq-tc-name"
                         value={themeName}
                         maxLength={60}
-                        placeholder={t("ثيمي من إشراق", "My Esharq theme")}
+                        placeholder={t("ثيمي من سعودي كورد", "My SaudiCord theme")}
                         onChange={e => setThemeName(e.currentTarget.value)}
                     />
                 </Row>
