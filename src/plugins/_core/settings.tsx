@@ -97,6 +97,7 @@ interface SettingsLayoutNode {
     icon?(): ReactNode;
     render?(): ReactNode;
     StronglyDiscouragedCustomComponent?(): ReactNode;
+    useSearchTerms?(): string[];
 }
 
 interface EntryOptions {
@@ -270,7 +271,7 @@ export default definePlugin({
                 buildLayout: () => [{
                     type: LayoutTypes.CUSTOM,
                     key: key + "_custom",
-                    Component: Component,
+                    StronglyDiscouragedCustomComponent: () => <Component />,
                     useSearchTerms: () => [title]
                 }]
             }]
