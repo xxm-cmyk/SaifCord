@@ -32,7 +32,7 @@ import { Card, NoticeStrip } from "./Card";
 import { stagger } from "./motion";
 
 /**
- * **ملفّك الشخصيّ** — من أنت في إشراق، وأين تظهر شارتك.
+ * **ملفّك الشخصيّ** — من أنت في سعودي كورد، وأين تظهر شارتك.
  *
  * ## 🔴 التحكّم عامّ لا محلّيّ
  *
@@ -71,7 +71,7 @@ interface Badge {
 type Surface = "profile" | "chat";
 
 /**
- * أهي شارة من إشراق أم من غيره؟
+ * أهي شارة من سعودي كورد أم من غيره؟
  *
  * المعرّف أوّلاً: شارات إشراق كلّها `esharq_*`، وهو أوثق من تفتيش النصّ —
  * شارةٌ مكوّنٌ بلا وصف كانت تفلت من الفحص النصّيّ فتغيب عن هذه الصفحة.
@@ -94,7 +94,7 @@ const TIER_CHIP: Record<"owner" | "admin" | "tester" | "supporter", { ar: string
 /** الشارات التي لها تحكّم، وأسماؤها كما يراها صاحبها. */
 const CONTROLLABLE: { kind: BadgeKind; ar: string; en: string; }[] = [
     { kind: "tier", ar: "شارة رتبتك", en: "Your rank badge" },
-    { kind: "user", ar: "شارة مستخدم إشراق", en: "Esharq User badge" },
+    { kind: "user", ar: "شارة مستخدم سعودي كورد", en: "SaudiCord User badge" },
     { kind: "custom", ar: "شارتك المخصّصة", en: "Your custom badge" },
     { kind: "selfserve", ar: "شارتك الخاصّة", en: "Your own badge" }
 ];
@@ -127,7 +127,7 @@ const STATE_LABEL = (profile: boolean, chat: boolean): string =>
  * بطاقة التحكّم.
  *
  * النطاق خيارٌ صريح لا افتراض: **محليّ** يسري على هذا الجهاز وحده وفوريّ،
- * و**لدى إشراق بالكامل** يُكتب على الخادم فتختفي الشارة عن الناس جميعاً.
+ * و**على مستوى خدمة الشارات** يُكتب على الخادم فتختفي الشارة عن الناس جميعاً.
  * إخفاءٌ محليّ يتظاهر بأنّه عامّ خداعٌ للمستخدم، ولذلك يُسمّى كلٌّ باسمه.
  *
  * النطاق العامّ يحتاج رابطاً موقَّعاً: `/visibility` لكلّ عضو، و`/badge`
@@ -190,7 +190,7 @@ function BadgeControl({ held, userId }: { held: BadgeKind[]; userId: string | nu
             <div className="esharq-mp-scope">
                 {([
                     { id: "local" as const, ar: "محليّ", en: "This device" },
-                    { id: "global" as const, ar: "لدى إشراق بالكامل", en: "All of Esharq" }
+                    { id: "global" as const, ar: "على مستوى خدمة الشارات", en: "Badge service-wide" }
                 ]).map(option => (
                     <button
                         key={option.id}
@@ -205,8 +205,8 @@ function BadgeControl({ held, userId }: { held: BadgeKind[]; userId: string | nu
                 {scope === "local"
                     ? t("يسري على هذا الجهاز وحده. الآخرون يظلّون يرون شارتك.",
                         "Applies to this device only. Other people still see your badge.")
-                    : t("يسري على كلّ مستخدمي إشراق. ما تُخفيه هنا لا يراه أحد.",
-                        "Applies to every Esharq user. What you hide here, nobody sees.")}
+                    : t("يسري على مستخدمي خدمة الشارات الخارجية. ما تُخفيه هنا لا يراه أحد.",
+                        "Applies to users of the external badge service. What you hide here, nobody sees.")}
             </div>
 
             {/*
@@ -219,7 +219,7 @@ function BadgeControl({ held, userId }: { held: BadgeKind[]; userId: string | nu
             {scope === "global" && !linked && (
                 <NoticeStrip tone="info">
                     {t("اكتب /visibility في أيّ قناة بخادم إشراق، وسيلتقط التطبيق إذنك تلقائياً (صالح ١٥ دقيقة). الأمر متاح لكلّ الأعضاء، لا للداعمين وحدهم — وهو للإظهار والإخفاء فقط. أمّا تغيير صورة الشارة ونصّها فبالأمر /badge وهو للداعمين.",
-                        "Type /visibility in any channel in the Esharq server; the app picks up your authorisation automatically (valid 15 minutes). It is open to every member, not just supporters, and it only shows or hides. Changing a badge's image and text is /badge, which is for supporters.")}
+                        "Type /visibility in any channel in the previous service's server; the app picks up your authorisation automatically (valid 15 minutes). It is open to every member, not just supporters, and it only shows or hides. Changing a badge's image and text is /badge, which is for supporters.")}
                 </NoticeStrip>
             )}
 
@@ -548,7 +548,7 @@ export function MyProfilePage() {
         <>
             <Card index={0}
                 title={t("ملفّك الشخصيّ", "Your profile")}
-                subtitle={t("كما يراك إشراق.", "As Esharq sees you.")}
+                subtitle={t("كما يراك سعودي كورد.", "As Esharq sees you.")}
                 badge={t(chip.ar, chip.en)}
                 badgeTone={tier !== null || isSupporter ? "ok" : "info"}>
                 <div className="esharq-mp-head">
@@ -641,10 +641,10 @@ export function MyProfilePage() {
             )}
 
             <Card index={1}
-                title={t("شارتك في إشراق", "Your Esharq badge")}
+                title={t("شارتك في سعودي كورد", "Your Esharq badge")}
                 subtitle={selfServe.length > 0
-                    ? t("تحكّم بأين تظهر كل شارة — والتغيير يسري على كل مستخدمي إشراق.",
-                        "Control where each badge appears — the change applies to every Esharq user.")
+                    ? t("تحكّم بأين تظهر كل شارة — والتغيير يسري على مستخدمي خدمة الشارات الخارجية.",
+                        "Control where each badge appears — the change applies to users of the external badge service.")
                     : t("للداعمين شارة خاصّة يتحكّمون بأين تظهر.",
                         "Supporters get their own badge and control where it appears.")}
                 badge={state.text} badgeTone={state.tone}>
@@ -659,8 +659,8 @@ export function MyProfilePage() {
 
                         {opened && (
                             <NoticeStrip>
-                                {t("فُتحت صفحة التحكّم في متصفّحك. اكتب /badge في خادم إشراق لتحصل على رابطك إن طُلب منك.",
-                                    "The control page opened in your browser. Type /badge in the Esharq server to get your link if it asks for one.")}
+                                {t("فُتحت صفحة التحكّم في متصفّحك. اكتب /badge في خادم الخدمة السابقة لتحصل على رابطك إن طُلب منك.",
+                                    "The control page opened in your browser. Type /badge in the previous service's server to get your link if it asks for one.")}
                             </NoticeStrip>
                         )}
 
@@ -677,16 +677,16 @@ export function MyProfilePage() {
                 ) : (
                     <div className="esharq-mp-empty">
                         <div className="esharq-mp-empty-title">{t("لا شارة خاصّة بك بعد", "You don't have your own badge yet")}</div>
-                        <p>{t("ادعم إشراق فتختار صورتك ونصّك ومؤثّرك، وتتحكّم بأين تظهر من هنا.",
-                            "Support Esharq and you choose your own image, text and effect — then control where it appears from here.")}</p>
+                        <p>{t("ادعم سعودي كورد فتختار صورتك ونصّك ومؤثّرك، وتتحكّم بأين تظهر من هنا.",
+                            "Support SaudiCord and you choose your own image, text and effect — then control where it appears from here.")}</p>
                     </div>
                 )}
             </Card>
 
             {esharqBadges.length > 0 && (
                 <Card index={2}
-                    title={t("شاراتك الأخرى من إشراق", "Your other Esharq badges")}
-                    subtitle={t("شارات يمنحها إشراق، ولا تُضبَط من هنا.", "Badges granted by Esharq; not configured here.")}
+                    title={t("شاراتك الأخرى من سعودي كورد", "Your other SaudiCord badges")}
+                    subtitle={t("شارات يمنحها سعودي كورد، ولا تُضبَط من هنا.", "Badges granted by SaudiCord; not configured here.")}
                     badge={String(esharqBadges.length)} badgeTone="info">
                     <div className="esharq-mp-list">
                         {esharqBadges.map((b, i) => (
@@ -705,7 +705,7 @@ export function MyProfilePage() {
                                 </div>
                                 <div className="esharq-mp-badge-body">
                                     <div className="esharq-mp-badge-name">{b.description ?? t("شارة", "Badge")}</div>
-                                    <div className="esharq-mp-origin esharq">{t("من إشراق", "From Esharq")}</div>
+                                    <div className="esharq-mp-origin esharq">{t("من سعودي كورد", "From SaudiCord")}</div>
                                 </div>
                             </div>
                         ))}
@@ -723,7 +723,7 @@ export function MyProfilePage() {
                     <div>{t("② ولا تُعدّل بيانات حسابك: لا اسمك ولا شاراتك ولا أي حقل عند ديسكورد.",
                         "② It changes nothing on your account: not your name, not your badges, not any field at Discord.")}</div>
                     <div>{t("③ وشارات إشراق ليست شارات ديسكورد أصلاً — يرسمها العميل عندك ولا وجود لها في حسابك.",
-                        "③ Esharq badges aren't Discord badges at all — your client draws them, and they don't exist on your account.")}</div>
+                        "③ SaudiCord badges aren't Discord badges at all — your client draws them, and they don't exist on your account.")}</div>
                 </div>
             </Card>
         </>
