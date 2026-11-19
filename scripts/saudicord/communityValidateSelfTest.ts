@@ -61,10 +61,15 @@ console.log("── ما يجب أن يمرّ (ضوابط سالبة) ──");
     check("مجلد فرعي", r.ok, rulesOf(r).join(","));
 }
 {
-    // 🔴 الأهمّ: لا نمنع أي واجهة. من أراد `fs` فقراره — وهي ستفشل عند
-    // التشغيل لأن المُصيِّر بلا Node، لا لأننا رفضناها.
     const r = validate([file("index.ts", `import fs from "fs";\nimport { exec } from "child_process";\neval("1");\nexport default {};`)]);
-    check("لا يُرفض بسبب fs/child_process/eval — القرار للمستخدم", r.ok, rulesOf(r).join(","));
+    const rules = rulesOf(r);
+    check("استيراد واجهات النظام والتنفيذ الديناميكي يُمنع", !r.ok &&
+        rules.includes("security:native-process") && rules.includes("security:dynamic-execution"), rules.join(","));
+}
+{
+    const r = validate([file("index.ts", `// fetch("https://example.com") is only a comment\nfetch("https://example.com");\nexport default {};`)]);
+    check("الاتصال الشبكي يظهر كتحذير ولا يمنع الاستيراد", r.ok &&
+        r.findings.some(f => f.rule === "security:network-egress" && f.severity === "warning"));
 }
 {
     const r = validate([file("index.ts", "export default {};\n" + "// تعليق عربيّ فيه مسافات\n".repeat(50))]);
