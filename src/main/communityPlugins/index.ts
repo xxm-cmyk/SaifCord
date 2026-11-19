@@ -79,6 +79,8 @@ export interface CommunityEntry {
      * وثابتة، بينما أسماء المتغيّرات التي يُولّدها المُترجِم تفصيلٌ داخليّ.
      */
     importedNames?: Record<string, string[]>;
+    /** نتائج الفحص الأمني الثابت — تُحفظ لتبقى ظاهرة بعد إعادة التشغيل. */
+    securityFindings?: Finding[];
 }
 
 interface Manifest extends Omit<CommunityEntry, "sourcePath"> {
@@ -577,7 +579,8 @@ export function importFolder(root: string, keepFolderName?: string): ImportResul
         // يُحفَظ ما يخصّ الخارجيّ وحده: الداخليّ يُحلّ من الحزمة نفسها.
         importedNames: Object.fromEntries(
             Object.entries(importedNamesOf(built)).filter(([spec]) => externals.includes(spec))
-        )
+        ),
+        securityFindings: findings.filter(f => f.rule.startsWith("security:"))
     };
     writeManifest(manifest);
 
