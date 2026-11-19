@@ -27,9 +27,23 @@ const RULES: readonly Rule[] = [
     {
         id: "credential-access",
         severity: "error",
-        pattern: /(?:localStorage\s*\.\s*(?:getItem\s*\(\s*["'`]token["'`]|token\b)|\bgetToken\s*\(\s*\)|webpackChunkdiscord_app)/i,
+        pattern: /(?:localStorage\s*\.\s*(?:getItem\s*\(\s*["'`][^"'`]*(?:token|auth|session)[^"'`]*["'`]|token\b)|sessionStorage\s*\.\s*getItem\s*\(\s*["'`][^"'`]*(?:token|auth)[^"'`]*["'`]|\bgetToken\s*\(\s*\)|webpackChunkdiscord_app)/i,
         message: "محاولة الوصول إلى رمز الحساب أو واجهة وحدات Discord الداخلية.",
         hint: "أزل أي قراءة مباشرة لرموز الدخول أو واجهات استخراجها."
+    },
+    {
+        id: "cookie-access",
+        severity: "error",
+        pattern: /\bdocument\s*\.\s*cookie\b|\bcookieStore\s*\./i,
+        message: "محاولة قراءة ملفات تعريف الارتباط التي قد تحتوي على بيانات جلسة.",
+        hint: "لا تقرأ ملفات الارتباط أو بيانات جلسات تسجيل الدخول."
+    },
+    {
+        id: "privileged-runtime",
+        severity: "error",
+        pattern: /(?:\bwindow\s*\.\s*require\s*\(|\brequire\s*\(\s*["'`]electron["'`]\s*\)|\bprocess\s*\.\s*(?:env|versions|mainModule)\b|\bipcRenderer\b|\bremote\s*\.\s*(?:require|app|process)\b)/i,
+        message: "محاولة الوصول إلى واجهات العملية الأصلية أو جسر Electron من إضافة واجهة.",
+        hint: "إضافات المجتمع تعمل في واجهة Discord ولا تحتاج واجهات Electron أو Node."
     },
     {
         id: "dynamic-execution",
