@@ -56,11 +56,11 @@ function EquibopSection() {
               * التطبيق شيئان: القوقعة (تُحدَّث من نافذتها) والمود (يُحدَّث من هنا).
               */}
             <PlainCard variant="brand">
-                <HeadingSecondary>{t("إشراق لسطح المكتب، وإشراق", "Esharq Desktop and Esharq")}</HeadingSecondary>
+                <HeadingSecondary>{t("سعودي كورد لسطح المكتب", "SaudiCord Desktop")}</HeadingSecondary>
                 <Paragraph>{t("التطبيق شيئان: القوقعة التي تُشغّل ديسكورد، والمود الذي يُعرّبه ويُضيف إليه. هذا المُحدِّث خاصّ بالمود.", "The app is two things: the shell that runs Discord, and the mod that arabises and extends it. This updater is for the mod.")}</Paragraph>
                 <Paragraph className={Margins.top8}>
-                    {t("القوقعة تُحدّث نفسها وتُخبرك بنافذةٍ منفصلة، ويمكنك أيضاً تثبيت ", "The shell updates itself and tells you in a separate window. You can also install the ")}
-                    <Link href="https://github.com/LOSTSTR/Esharq-Desktop/releases/latest">{t("أحدث إصدار منها", "latest version of it")}</Link>.
+                    {t("القوقعة تُحدّث نفسها وتُخبرك بنافذةٍ منفصلة. ويمكنك متابعة إصدارات سعودي كورد من ", "The shell updates itself and tells you in a separate window. You can follow SaudiCord releases on ")}
+                    <Link href="https://github.com/xxm-cmyk/SaudiCord/releases/latest">{t("صفحة الإصدارات", "the releases page")}</Link>.
                 </Paragraph>
             </PlainCard>
 
@@ -68,8 +68,8 @@ function EquibopSection() {
                 <PlainCard variant="warning">
                     <HeadingSecondary>{t("إصدار القوقعة قديم", "Shell outdated")}</HeadingSecondary>
                     <Flex flexDirection="column" gap="0.5em">
-                        <Paragraph>{t("إصدارك من إشراق لسطح المكتب قديم.", "Your version of Esharq Desktop is outdated.")}</Paragraph>
-                        <Button variant="link" onClick={() => VesktopNative.app.openUpdater()}>{t("افتح مُحدِّث SaudiCord لسطح المكتب", "Open the Esharq Desktop updater")}</Button>
+                        <Paragraph>{t("إصدار القوقعة لديك قديم.", "Your desktop shell is outdated.")}</Paragraph>
+                        <Button variant="link" onClick={() => VesktopNative.app.openUpdater()}>{t("افتح مُحدِّث سعودي كورد لسطح المكتب", "Open the SaudiCord Desktop updater")}</Button>
                     </Flex>
                 </PlainCard>
             )}
