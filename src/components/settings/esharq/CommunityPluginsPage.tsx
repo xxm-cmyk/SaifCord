@@ -379,6 +379,7 @@ function CommunityPluginsContent({ onRelock }: { onRelock: () => void; }) {
     const [catalog, setCatalog] = useState<CatalogPlugin[] | null>(null);
     const [catalogError, setCatalogError] = useState<string | null>(null);
     const [catalogLoading, setCatalogLoading] = useState(false);
+    const [catalogInstalling, setCatalogInstalling] = useState<string | null>(null);
 
     const refreshCatalog = async () => {
         setCatalogLoading(true);
@@ -478,6 +479,40 @@ All of this is on your machine: no source is uploaded and no request is sent. An
                     });
                 } finally {
                     setRescanId(null);
+                    refresh();
+                }
+            }
+        });
+    };
+
+    const doCatalogInstall = (plugin: CatalogPlugin) => {
+        Alerts.show({
+            title: t("فحص وتثبيت إضافة مجتمع", "Scan and install community plugin"),
+            body: (
+                <p style={{ textAlign: "center", lineHeight: 1.75 }}>
+                    {t(
+                        "سيُنزل سعودي كورد ملفات المصدر من مستودعه عند إصدار مثبت، ويتحقق من بصمة SHA-256 لكل ملف، ثم يمررها عبر فاحص الإضافات المحلي. لن تُفعّل الإضافة تلقائيًا. الفحص الثابت ليس عزلًا ولا ضمانًا للأمان؛ راجع المصدر ولا تشغّل إلا ما تثق به.",
+                        "SaudiCord will download source files from its repository at a pinned revision, verify every SHA-256 hash, and pass them through the local plugin scanner. The plugin will not be enabled automatically. Static scanning is not sandboxing or a safety guarantee; review the source and only run what you trust."
+                    )}
+                </p>
+            ),
+            confirmText: t("نزّل وافحص", "Download and scan"),
+            cancelText: t("إلغاء", "Cancel"),
+            onConfirm: async () => {
+                setCatalogInstalling(plugin.id);
+                setFindings([]);
+                setJustImported(null);
+                try {
+                    const result = await native()?.installFromCatalog(plugin.id);
+                    setFindings(result?.findings ?? []);
+                    if (result?.ok) setJustImported(result.entry?.name ?? plugin.name);
+                    else if (!result?.findings?.length) {
+                        setFindings([{ severity: "error", rule: "catalog-install", message: t("تعذّر تثبيت الإضافة.", "Could not install the plugin.") }]);
+                    }
+                } catch (e: any) {
+                    setFindings([{ severity: "error", rule: "catalog-install", message: String(e?.message ?? e) }]);
+                } finally {
+                    setCatalogInstalling(null);
                     refresh();
                 }
             }
@@ -614,6 +649,9 @@ All of this is on your machine: no source is uploaded and no request is sent. An
                                     </div>
                                 </div>
                                 <div className="esharq-cp-side">
+                                    <Btn label={catalogInstalling === plugin.id ? t("جارٍ الفحص…", "Scanning…") : t("نزّل وافحص", "Download & scan")}
+                                        tone="accent" disabled={catalogInstalling !== null}
+                                        onClick={() => doCatalogInstall(plugin)} />
                                     <Btn label={t("عرض المصدر", "View source")}
                                         onClick={() => (window as any).VencordNative?.native?.openExternal?.(`https://github.com/xxm-cmyk/SaudiCord/tree/${plugin.commit}/community-plugins/plugins/${plugin.id}`)} />
                                 </div>
@@ -622,7 +660,7 @@ All of this is on your machine: no source is uploaded and no request is sent. An
                     </div>
                 )}
                 <NoticeStrip tone="danger">
-                    {t("التثبيت المباشر من الكتالوج غير مفعّل بعد؛ لا نشغّل كودًا بعيدًا قبل ربطه بمسار التحقق المحلي نفسه والتحقق من بصمة المصدر.", "One-click installation is not enabled yet. Remote code will not run until it is routed through the same local validation pipeline and its source hash is verified.")}
+                    {t("كل تثبيت يمر عبر التحقق من بصمة الإصدار وفاحص الملفات المحلي. تبقى الإضافة معطّلة حتى تفعّلها بنفسك؛ الفحص ليس ضمانًا للأمان.", "Every install verifies the pinned revision and runs the local source scanner. The plugin stays disabled until you enable it yourself; scanning is not a safety guarantee.")}
                 </NoticeStrip>
             </Card>
 
