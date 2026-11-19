@@ -681,6 +681,8 @@ export interface BundledPlugin {
     hash: string;
     /** الملفّات المُحوَّلة: المسار ⇒ الكود. المدخل آخرها. */
     modules: { path: string; code: string; }[];
+    /** خطأ قراءة ملفات الحزمة — يُعرض في صفحة الإضافات بدل إسقاطها بصمت. */
+    error?: string;
 }
 
 /**
@@ -698,8 +700,12 @@ export function getBundle(): BundledPlugin[] {
             for (const rel of m.build) {
                 modules.push({ path: rel, code: readFileSync(join(COMMUNITY_DIR, m.id, "build", rel), "utf8") });
             }
-        } catch {
-            continue; // لقطة ناقصة ⇒ تُتخطّى بصمت ولا تُسقط الإقلاع
+        } catch (e: any) {
+            out.push({
+                id: m.id, name: m.name, hash: m.hash, modules: [],
+                error: `تعذّرت قراءة ملفات الإضافة: ${e?.message ?? e}`
+            });
+            continue;
         }
         out.push({ id: m.id, name: m.name, hash: m.hash, modules });
     }
