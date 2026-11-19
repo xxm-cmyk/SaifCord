@@ -290,8 +290,8 @@ export function StartupTimingsPage() {
     return (
         <>
             <NoticeStrip>
-                {t("هذه أزمنة يُسجّلها ديسكورد بنفسه أثناء إقلاعه. إشراق يقرؤها ولا يقيس شيئاً — فلا تكلفة على إقلاعك.",
-                    "These are timings Discord records itself while starting. Esharq reads them and measures nothing — so there is no cost to your startup.")}
+                {t("هذه أزمنة يُسجّلها ديسكورد بنفسه أثناء إقلاعه. سعودي كورد يقرؤها ولا يقيس شيئاً — فلا تكلفة على إقلاعك.",
+                    "These are timings Discord records itself while starting. SaudiCord reads them and measures nothing — so there is no cost to your startup.")}
             </NoticeStrip>
 
             <Card index={0}
@@ -358,7 +358,7 @@ export function StartupTimingsPage() {
                     "The limits of the measurement, written down so the numbers aren't read for more than they hold.")}>
                 <div style={{ fontSize: 13, lineHeight: 1.9 }}>
                     <div>{t("① الأرقام من سجلّ ديسكورد نفسه، فهي تصف خطواته هو.", "① The numbers come from Discord's own log, so they describe its own steps.")}</div>
-                    <div>{t("② زمن إضافات إشراق لا يظهر هنا — لا ديسكورد يقيسه ولا نحن.", "② Esharq's plugin time does not appear here — neither Discord nor we measure it.")}</div>
+                    <div>{t("② زمن إضافات سعودي كورد لا يظهر هنا — لا ديسكورد يقيسه ولا نحن.", "② SaudiCord's plugin time does not appear here — neither Discord nor we measure it.")}</div>
                     <div>{t("③ الإقلاع يختلف بين مرّة وأخرى: الشبكة والقرص وما يعمل معك على الجهاز كلّها تُغيّره.", "③ Startup varies run to run: network, disk and whatever else runs on your machine all change it.")}</div>
                     <div>{t("④ خطوة بلا رقم ليست فورية — ديسكورد لم يُوقّتها فحسب.", "④ A step with no number isn't instant — Discord simply didn't time it.")}</div>
                 </div>
