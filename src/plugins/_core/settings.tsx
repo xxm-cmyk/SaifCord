@@ -18,7 +18,6 @@ import {
     VencordTab,
 } from "@components/settings";
 import { ClientHealthPage } from "@components/settings/esharq/ClientHealthPage";
-import { ComingSoon } from "@components/settings/esharq/ComingSoon";
 import { CommunityPluginsPage } from "@components/settings/esharq/CommunityPluginsPage";
 import { DevelopersPage } from "@components/settings/esharq/DevelopersPage";
 import { CrashBisectPage } from "@components/settings/esharq/CrashBisectPage";
@@ -292,8 +291,8 @@ export default definePlugin({
 
         const { buildEntry } = this;
 
-        // التصميم الجديد: 5 أقسام لا قسم واحد. كل صفحة جاهزة تُوصَل بمكوّنها
-        // القائم، وكل مخطَّطة تعرض «قيد البناء». المصدر الوحيد `SETTINGS_TREE`.
+        // التصميم الجديد: 5 أقسام. لا نُظهر صفحةً مخطَّطة في الشريط؛ كل ما يراه
+        // المستخدم هنا صفحةٌ لها مكوّن فعليّ. المصدر الوحيد `SETTINGS_TREE`.
         const componentFor: Record<string, ComponentType | null> = {
             VencordTab, PluginsTab, ThemesTab, UpdaterTab,
             ChangelogTab, CloudTab, BackupAndRestoreTab,
@@ -326,13 +325,16 @@ export default definePlugin({
             // الترتيب من رموز التصميم — نفس مصدر بقيّة الهوية.
             .sort((a, b) => (SECTION_ORDER[a.id] ?? 0) - (SECTION_ORDER[b.id] ?? 0))
             .map(section => {
-                const entries = section.pages.map(page => {
+                const entries = section.pages.filter(page => page.status === "ready").map(page => {
                     // `equicord_updater` يُخفى حين يُعطَّل المُحدِّث؛ نبقي القاعدة.
                     if (page.key === "updater" && (IS_UPDATER_DISABLED || !UpdaterTab)) return false;
 
                     const mapped = page.existing !== undefined ? componentFor[page.existing] : undefined;
-                    const Component: ComponentType = mapped
-                        ?? (() => <ComingSoon title={t(page.title.ar, page.title.en)} />);
+                    // صفحة `ready` بلا مكوّن خطأ برمجيّ، لا صفحة «قيد البناء» للمستخدم.
+                    if (mapped === undefined || mapped === null) {
+                        throw new Error(`Settings page ${page.key} is marked ready but has no component mapping (${page.existing}).`);
+                    }
+                    const Component: ComponentType = mapped;
 
                     return buildEntry({
                         key: `esharq_${page.key}`,
