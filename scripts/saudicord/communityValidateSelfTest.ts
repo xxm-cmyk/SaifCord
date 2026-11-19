@@ -67,7 +67,7 @@ console.log("── ما يجب أن يمرّ (ضوابط سالبة) ──");
         rules.includes("security:native-process") && rules.includes("security:dynamic-execution"), rules.join(","));
 }
 {
-    const r = validate([file("index.ts", `// fetch("https://example.com") is only a comment\nfetch("https://example.com");\nexport default {};`)]);
+    const r = validate([file("index.ts", `// fetch("https://example.com") is only a comment\nfetch(\n  "https://example.com"\n);\nexport default {};`)]);
     check("الاتصال الشبكي يظهر كتحذير ولا يمنع الاستيراد", r.ok &&
         r.findings.some(f => f.rule === "security:network-egress" && f.severity === "warning"));
 }
