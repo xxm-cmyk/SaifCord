@@ -269,7 +269,7 @@ export function exportCss(state: ThemeCreatorState, name: string, author: string
         "/**",
         ` * @name ${name}`,
         ` * @author ${author}`,
-        ` * @description ثيم من منشئ إشراق · Built with the Esharq theme creator — #${hex}`,
+        ` * @description ثيم من منشئ سعودي كورد · Built with the SaudiCord theme creator — #${hex}`,
         " * @version 1.0.0",
         " *",
         " * أُنتج آلياً: يُعاد تعريف سلّم ديسكورد الرمادي كلّه انطلاقاً من لونٍ واحد،",
