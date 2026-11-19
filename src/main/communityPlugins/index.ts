@@ -95,6 +95,8 @@ function manifestPath(id: string) {
 }
 
 function readManifest(id: string): Manifest | null {
+    // معرّفات الإضافات بصمات سداسية ثابتة؛ لا نسمح بمسارات يرسلها المُصيِّر.
+    if (!/^[0-9a-f]{16}$/.test(id)) return null;
     try {
         return JSON.parse(readFileSync(manifestPath(id), "utf8"));
     } catch {
@@ -666,6 +668,7 @@ export function readSource(id: string): { path: string; text: string; }[] {
 }
 
 export function openFolder(id: string) {
+    if (!/^[0-9a-f]{16}$/.test(id)) return;
     const dir = join(COMMUNITY_DIR, id, "source");
     if (existsSync(dir)) shell.openPath(dir);
 }
