@@ -151,7 +151,7 @@ async function runUpdateCheck() {
                 notifiedForUpdatesThisSession = true;
 
                 showNotice(
-                    t("تم تحديث Esharq!", "Esharq has been updated!"),
+                    t("تم تحديث سعودي كورد!", "SaudiCord has been updated!"),
                     t("إعادة تشغيل", "Restart"),
                     relaunch
                 );
@@ -163,7 +163,7 @@ async function runUpdateCheck() {
         notifiedForUpdatesThisSession = true;
 
         showNotice(
-            t("يتوفر إصدار جديد من Esharq!", "A new version of Esharq is available!"),
+            t("يتوفر إصدار جديد من سعودي كورد!", "A new version of SaudiCord is available!"),
             t("عرض التحديث", "View Update"),
             () => openSettingsTabModal(UpdaterTab!)
         );
