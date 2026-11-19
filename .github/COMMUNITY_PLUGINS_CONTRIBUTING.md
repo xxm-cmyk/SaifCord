@@ -54,3 +54,6 @@ The commit must be the exact commit containing the reviewed source. Hashes are c
 - Run the automated checks, then approve manually. A green workflow is not a security approval.
 
 Plugins are still third-party code after review. Users must see the source, publisher, version, and a warning before installing or enabling one.
+## Runtime security gate
+
+The desktop importer performs a second static inspection before accepting local source. Direct credential-access patterns, dynamic execution, and native-process imports are blocking findings; network calls and obfuscation indicators are warnings. The scanner is intentionally conservative and can produce false positives or miss behavior hidden through indirection. It is not a sandbox or a security guarantee. Remote catalog installation must remain disabled until it uses the same importer, validation, and source-integrity checks.
