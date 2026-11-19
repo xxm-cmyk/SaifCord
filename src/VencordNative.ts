@@ -210,6 +210,7 @@ export default {
         getBundle: () => sendSync<CommunityBundle[]>(IpcEvents.COMMUNITY_GET_BUNDLE),
         list: () => invoke<CommunityEntry[]>(IpcEvents.COMMUNITY_LIST),
         pickAndImport: () => invoke<CommunityImportResult>(IpcEvents.COMMUNITY_PICK_AND_IMPORT),
+        installFromCatalog: (id: string) => invoke<CommunityImportResult>(IpcEvents.COMMUNITY_INSTALL_CATALOG, id),
         remove: (id: string) => invoke<boolean>(IpcEvents.COMMUNITY_REMOVE, id),
         setEnabled: (id: string, enabled: boolean) => invoke<boolean>(IpcEvents.COMMUNITY_SET_ENABLED, id, enabled),
         openFolder: (id: string) => invoke<void>(IpcEvents.COMMUNITY_OPEN_FOLDER, id),
