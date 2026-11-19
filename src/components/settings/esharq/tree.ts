@@ -5,9 +5,9 @@
  */
 
 /**
- * شجرة إعدادات إشراق — **بيانات لا واجهة**.
+ * شجرة إعدادات سعودي كورد — **بيانات لا واجهة**.
  *
- * اليوم كل إعدادات إشراق قسمٌ واحد فيه 8 مداخل. التصميم الجديد **5 أقسام
+ * اليوم إعدادات سعودي كورد منظّمة في أقسام مستقلة. التصميم الجديد **5 أقسام
  * و23 صفحة**، وهذا الملف هو مصدر الحقيقة الوحيد لها: الشريط الجانبي
  * والبحث والتنقّل كلّها تقرأ من هنا، فلا يوجد مصدران يفترقان بصمت.
  *
@@ -85,7 +85,7 @@ export const SETTINGS_TREE: readonly SettingsSection[] = [
             page("privacy-security", "الخصوصية والأمان", "Privacy & Security", "safety-health", "ready", "PrivacySecurityPage"),
             page("plugin-permissions", "صلاحيات الإضافات", "Plugin Permissions", "safety-health", "ready", "PluginPermissionsPage"),
             page("client-health", "صحّة العميل", "Client Health", "safety-health", "ready", "ClientHealthPage"),
-            page("compatibility-matrix", "جدول التوافق", "Compatibility Matrix", "safety-health", "planned"),
+            page("compatibility-matrix", "جدول التوافق", "Compatibility Matrix", "safety-health", "ready", "CompatibilityMatrixPage"),
             page("crash-bisect", "تنصيف الانهيار", "Crash Bisect", "safety-health", "ready", "CrashBisectPage"),
             page("performance-budgets", "ميزانيات الأداء", "Performance Budgets", "safety-health", "ready", "PerformanceBudgetsPage"),
             page("surveillance", "الرصد", "Surveillance", "safety-health", "ready", "SurveillancePage")
