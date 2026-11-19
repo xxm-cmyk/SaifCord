@@ -85,7 +85,7 @@ export function EquicordDonorModal() {
                         }}
                     >
                         <Flex justifyContent="center" alignItems="center" gap="0.5em">
-                            <Heart />{t("داعم إشراق", "Esharq Supporter")}</Flex>
+                            <Heart />{t("داعم سعودي كورد", "SaudiCord Supporter")}</Flex>
                     </Heading>
                 }
             >
@@ -101,8 +101,8 @@ export function EquicordDonorModal() {
                         />
                     </Flex>
                     <div style={{ padding: "1em" }}>
-                        <Paragraph>{t("هذه الشارة ميزة خاصّة بداعمي إشراق (وليست إيكوكورد أو فينكورد).", "This badge is a special perk for Esharq supporters (not Equicord or Vencord).")}</Paragraph>
-                        <Paragraph className={Margins.top20}>{t("يُرجى التفكير في دعم تطوير إشراق بأن تصبح داعماً. سيعني ذلك الكثير! :3", "Please consider supporting the development of Esharq by becoming a supporter. It would mean a lot! :3")}</Paragraph>
+                        <Paragraph>{t("هذه الشارة ميزة خاصّة بداعمي سعودي كورد (وليست إيكوكورد أو فينكورد).", "This badge is a special perk for SaudiCord supporters (not Equicord or Vencord).")}</Paragraph>
+                        <Paragraph className={Margins.top20}>{t("يُرجى التفكير في دعم تطوير سعودي كورد بأن تصبح داعماً. سيعني ذلك الكثير! :3", "Please consider supporting the development of SaudiCord by becoming a supporter. It would mean a lot! :3")}</Paragraph>
                     </div>
                 </div>
                 <div>
