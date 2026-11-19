@@ -59,6 +59,7 @@ interface Entry {
      * افتراضيّ غائب: ما استُورد قبل هذه الميزة لا يحمله، فيُعامَل كما كان.
      */
     importedNames?: Record<string, string[]>;
+    securityFindings?: Finding[];
 }
 
 const native = () => (window as any).VencordNative?.communityPlugins;
@@ -193,6 +194,13 @@ function PluginRow({ entry, loadError, onChanged, onRescan, rescanning }: {
                     <span>{Math.max(1, Math.round(entry.bytes / 1024))} KB</span>
                     <span className="esharq-cp-hash" title={t("بصمة المصدر", "Source hash")}>{entry.hash.slice(0, 12)}</span>
                 </div>
+
+                {entry.securityFindings !== undefined && entry.securityFindings.length > 0 && (
+                    <div className="esharq-cp-security">
+                        <b>{t("نتائج الفحص الأمني المحفوظة", "Saved security scan findings")}</b>
+                        <Findings findings={entry.securityFindings} />
+                    </div>
+                )}
 
                 {/*
                   * تقرير التوافق: يُعرَض **قبل التفعيل** لا بعده.
