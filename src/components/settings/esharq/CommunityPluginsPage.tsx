@@ -231,7 +231,7 @@ function PluginRow({ entry, loadError, onChanged, onRescan, rescanning }: {
                         <div className="esharq-cp-compat-why">
                             {compat.blocked > 0
                                 ? t("هذه من Node أو من العملية الرئيسية، ولا تصلها أيّ إضافة داخل صفحة ديسكورد — ولا إضافات إشراق نفسها.",
-                                    "These come from Node or the main process, and no plugin inside the Discord page can reach them — not even Esharq's own.")
+                                    "These come from Node or the main process, and no plugin inside the Discord page can reach them — not even SaudiCord's built-in plugins.")
                                 : t("أسماءٌ خاصّة بشوكةٍ أخرى غالباً. استورد الإضافة التي تُكمّلها، أو احذف السطر إن كان لزينةٍ لا تُستعمل.",
                                     "Most likely names specific to another fork. Import the plugin that completes it, or delete the line if it is unused.")}
                         </div>
@@ -246,6 +246,11 @@ function PluginRow({ entry, loadError, onChanged, onRescan, rescanning }: {
                 {entry.enabled && loadError === undefined && getLoaded().every(l => l.id !== entry.id) && (
                     <div className="esharq-cp-pending">
                         {t("مُفعَّلة — تعمل بعد إعادة تشغيل ديسكورد.", "Enabled — it runs after you restart Discord.")}
+                    </div>
+                )}
+                {!entry.enabled && loadedPlugin !== undefined && (
+                    <div className="esharq-cp-pending">
+                        {t("حُفظ التعطيل، لكن الإضافة ما زالت تعمل في هذه الجلسة. أعد تشغيل ديسكورد لإيقافها.", "Disabled state is saved, but the plugin is still running in this session. Restart Discord to stop it.")}
                     </div>
                 )}
             </div>
@@ -288,6 +293,8 @@ function PluginRow({ entry, loadError, onChanged, onRescan, rescanning }: {
                         onClick={() => native()?.openFolder(entry.id)}>📂</button>
                     <button type="button" className="danger" title={t("حذف", "Remove")} onClick={del}>🗑</button>
                 </div>
+                {actionError !== null && <NoticeStrip tone="danger">{actionError}</NoticeStrip>}
+                {restartNotice !== null && <NoticeStrip>{restartNotice}</NoticeStrip>}
             </div>
         </div>
     );
@@ -515,12 +522,19 @@ All of this is on your machine: no source is uploaded and no request is sent. An
                 )}
             </Card>
 
+            {listError !== null && (
+                <NoticeStrip tone="danger">
+                    {t("تعذّرت قراءة قائمة الإضافات:", "Could not read the plugin list:")} {listError}{" "}
+                    <Btn label={t("أعد المحاولة", "Retry")} onClick={refresh} />
+                </NoticeStrip>
+            )}
+
             <Card index={1}
                 title={t("المستورَدة", "Imported")}
                 subtitle={t("تفعيلها وتعطيلها من هنا — ولا تظهر في قائمة إضافات إشراق.",
                     "Enable and disable them here — they never appear in the built-in SaudiCord plugins list.")}>
                 {entries === null ? (
-                    <div className="esharq-cp-empty">{t("جارٍ القراءة…", "Reading…")}</div>
+                    <div className="esharq-cp-empty">{listError === null ? t("جارٍ القراءة…", "Reading…") : t("تعذّرت قراءة القائمة. استخدم زر إعادة المحاولة أعلاه.", "The list could not be read. Use the retry button above.")}</div>
                 ) : list.length === 0 ? (
                     <div className="esharq-cp-empty">
                         {t("لم تستورد شيئاً بعد. اضغط «استورد مجلد إضافة» أعلاه.",
