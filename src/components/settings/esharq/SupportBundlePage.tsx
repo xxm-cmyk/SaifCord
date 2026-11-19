@@ -40,7 +40,7 @@ import { Card, NoticeStrip, StatRow } from "./Card";
 
 interface Bundle {
     generatedAt: string;
-    esharq: Record<string, string>;
+    saudicord: Record<string, string>;
     plugins: {
         enabled: number;
         total: number;
@@ -196,7 +196,7 @@ function buildBundle(): Bundle {
 
     return {
         generatedAt: new Date().toISOString(),
-        esharq: {
+        saudicord: {
             version: gitHash.slice(0, 7),
             platform: IS_WEB ? "Web" : IS_VESKTOP ? "Vesktop" : IS_EQUIBOP ? "Equibop" : "Discord Desktop",
             standalone: String(IS_STANDALONE),
@@ -240,7 +240,7 @@ function buildBundle(): Bundle {
 }
 
 const INCLUDED = [
-    ["إصدار إشراق والمنصّة وبناء ديسكورد", "Esharq version, platform and Discord build"],
+    ["إصدار سعودي كورد والمنصّة وبناء ديسكورد", "SaudiCord version, platform and Discord build"],
     ["أسماء الإضافات المُفعَّلة وعددها", "The names and count of your enabled plugins"],
     ["أي إضافة لم تبدأ", "Which plugins failed to start"],
     ["عدد الرقع لكل إضافة", "How many patches each plugin declares"],
@@ -248,7 +248,7 @@ const INCLUDED = [
     ["أسماء مفاتيح الإعدادات التي غيّرتها — بلا قيمها", "The names of settings you changed — without their values"],
     ["أسماء إضافات المجتمع وبصماتها — بلا مصدرها", "Community plugin names and hashes — without their source"],
     ["عدد الثيمات المُفعَّلة", "How many themes are enabled"],
-    ["نصّ ما أبلغ عنه إشراق من أخطاء هذه الجلسة — وهو معروض أمامك لتقرأه", "The text of the errors Esharq reported this session — shown here for you to read"]
+    ["نصّ ما أبلغ عنه سعودي كورد من أخطاء هذه الجلسة — وهو معروض أمامك لتقرأه", "The text of the errors SaudiCord reported this session — shown here for you to read"]
 ] as const;
 
 const EXCLUDED = [
@@ -298,7 +298,7 @@ export function SupportBundlePage() {
     };
 
     const save = () => {
-        const name = `esharq-support-${new Date().toISOString().slice(0, 10)}.json`;
+        const name = `saudicord-support-${new Date().toISOString().slice(0, 10)}.json`;
         saveFile(new File([new TextEncoder().encode(text)], name, { type: "application/json" }));
     };
 
