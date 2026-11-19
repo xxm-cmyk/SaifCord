@@ -13,8 +13,8 @@ export default definePluginI18n({
     },
     "options": {
         "includeVencordInfoWhenCopying": {
-            "ar": "نسخ معلومات إشراق (إشراق، Electron، Chromium) أيضاً عند النقر على معلومات الإصدار في صفحة الإعدادات",
-            "en": "Also copy Esharq info (Esharq, Electron, Chromium) when clicking the version info in the bottom-left corner of the settings page."
+            "ar": "نسخ معلومات سعودي كورد (SaudiCord، Electron، Chromium) أيضاً عند النقر على معلومات الإصدار في صفحة الإعدادات",
+            "en": "Also copy SaudiCord info (SaudiCord, Electron, Chromium) when clicking the version info in the bottom-left corner of the settings page."
         }
     }
 });
