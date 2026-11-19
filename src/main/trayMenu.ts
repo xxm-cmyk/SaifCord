@@ -91,21 +91,21 @@ function openAboutWindow() {
     });
 }
 
-function createEsharqMenuItems(): MenuItemConstructorOptions[] {
+function createSaudiCordMenuItems(): MenuItemConstructorOptions[] {
     return [
         {
-            label: "Esharq",
+            label: "SaudiCord",
             submenu: [
                 {
-                    label: "About Esharq",
+                    label: "About SaudiCord",
                     click: () => openAboutWindow()
                 },
                 {
-                    label: cachedUpdateAvailable ? "Update Esharq" : "Check for Updates",
+                    label: cachedUpdateAvailable ? "Update SaudiCord" : "Check for Updates",
                     click: () => sendToRenderer(IpcEvents.TRAY_CHECK_UPDATES)
                 },
                 {
-                    label: "Repair Esharq",
+                    label: "Repair SaudiCord",
                     click: () => sendToRenderer(IpcEvents.TRAY_REPAIR)
                 },
                 { type: "separator" },
@@ -127,11 +127,11 @@ export function patchTrayMenu(): void {
     const originalBuildFromTemplate = Menu.buildFromTemplate;
 
     Menu.buildFromTemplate = function (template: MenuItemConstructorOptions[]) {
-        const alreadyPatched = template.some(item => item.label === "Esharq");
+        const alreadyPatched = template.some(item => item.label === "SaudiCord");
         if (isTrayMenu(template) && !alreadyPatched) {
             const insertIndex = findInsertIndex(template);
-            const esharqItems = createEsharqMenuItems();
-            template.splice(insertIndex, 0, ...esharqItems);
+            const saudicordItems = createSaudiCordMenuItems();
+            template.splice(insertIndex, 0, ...saudicordItems);
         }
 
         return originalBuildFromTemplate.call(this, template);
