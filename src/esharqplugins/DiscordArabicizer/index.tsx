@@ -41,8 +41,8 @@ import { settings } from "./settings";
 export default definePlugin({
     name: "DiscordArabicizer",
     description: t(
-        "كاشف تغطية التعريب — يقيس ما لم يُعرَّب بعد من نصوص ديسكورد المحمَّلة. التعريب نفسه في نواة إشراق.",
-        "Arabic coverage detector — measures which of Discord's loaded strings are still untranslated. The localization itself lives in the Esharq core."
+        "كاشف تغطية التعريب — يقيس ما لم يُعرَّب بعد من نصوص ديسكورد المحمَّلة. التعريب نفسه في نواة سعودي كورد.",
+        "Arabic coverage detector — measures which of Discord's loaded strings are still untranslated. The localization itself lives in the SaudiCord core."
     ),
     authors: [EquicordDevs.LOSTSTR],
     tags: ["Accessibility", "Utility"],
