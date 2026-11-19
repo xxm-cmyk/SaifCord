@@ -110,8 +110,8 @@ function PatchHelper() {
                 index={0}
                 title={t("مساعد الترقيع", "Patch helper")}
                 subtitle={t(
-                    "أداة للمطوّرين تساعدك على تجهيز الرقع لإضافات إشراق.",
-                    "A developer tool to help you create patches for Esharq plugins."
+                    "أداة للمطوّرين تساعدك على تجهيز الرقع لإضافات سعودي كورد.",
+                    "A developer tool to help you create patches for SaudiCord plugins."
                 )}
                 badge={module
                     ? t("وحدة مطابقة", "Module matched")
