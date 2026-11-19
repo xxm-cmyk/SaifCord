@@ -62,7 +62,7 @@ const BUDGET_META: Record<BudgetKey, { ar: string; en: string; unit: string; hin
     heapMB: {
         ar: "كومة جافاسكربت", en: "JavaScript heap", unit: "MB",
         hintAr: "ذاكرة المُصيِّر التي تشغلها الشيفرة — سعودي كورد وديسكورد معاً.",
-        hintEn: "The renderer memory the code occupies — Esharq and Discord together."
+        hintEn: "The renderer memory the code occupies — SaudiCord and Discord together."
     },
     startupMs: {
         ar: "تكلفة الإضافات على الإقلاع", en: "Plugin startup cost", unit: "ms",
