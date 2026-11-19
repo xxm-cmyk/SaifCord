@@ -78,22 +78,22 @@ export function inspectCommunityFiles(files: readonly AcceptedFile[]): SecurityF
     const findings: SecurityFinding[] = [];
     for (const file of files) {
         if (!file.code) continue;
-        const lines = stripComments(file.text).split(/\r?\n/);
-        lines.forEach((line, index) => {
-            if (!line.trim()) return;
-            for (const rule of RULES) {
-                rule.pattern.lastIndex = 0;
-                if (!rule.pattern.test(line)) continue;
+        const source = stripComments(file.text);
+        for (const rule of RULES) {
+            const flags = rule.pattern.flags.includes("g") ? rule.pattern.flags : `${rule.pattern.flags}g`;
+            const pattern = new RegExp(rule.pattern.source, flags);
+            for (const match of source.matchAll(pattern)) {
+                const line = source.slice(0, match.index ?? 0).split("\n").length;
                 findings.push({
                     severity: rule.severity,
                     rule: rule.id,
                     file: file.path,
-                    line: index + 1,
+                    line,
                     message: rule.message,
                     hint: rule.hint
                 });
             }
-        });
+        }
     }
     return findings;
 }
