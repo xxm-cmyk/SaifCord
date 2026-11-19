@@ -575,7 +575,7 @@ function ChangelogContent() {
 
             </SaudiCordCard>
 
-            <EsharqCard
+            <SaudiCordCard
                 index={1}
                 title={t("المستودع", "Repository")}
                 subtitle={t(
@@ -596,10 +596,10 @@ function ChangelogContent() {
                 {" "}(<HashLink repo={repo} hash={gitHash} disabled={repoPending} />)
             </Paragraph>
 
-            </EsharqCard>
+            </SaudiCordCard>
 
             {hasCurrentChanges && (
-                <EsharqCard
+                <SaudiCordCard
                     index={2}
                     title={t("التغييرات الأخيرة", "Recent changes")}
                     subtitle={t(
@@ -642,11 +642,11 @@ function ChangelogContent() {
                             </div>
                         </div>
                     )}
-                </EsharqCard>
+                </SaudiCordCard>
             )}
 
             {!hasCurrentChanges && !isLoading && !error && (
-                <EsharqCard
+                <SaudiCordCard
                     index={2}
                     title={t("التغييرات الأخيرة", "Recent changes")}
                     subtitle={t(
@@ -666,7 +666,7 @@ function ChangelogContent() {
                             ))}
                         </div>
                     )}
-                </EsharqCard>
+                </SaudiCordCard>
             )}
 
             {showHistory && changelogHistory.length > 0 && (
