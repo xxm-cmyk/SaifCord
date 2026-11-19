@@ -107,8 +107,8 @@ export function IconFinderPage() {
     return (
         <>
             <NoticeStrip>
-                {t("أيقونات إشراق كلّها. اضغط أي واحدة لتنسخ سطر استيرادها — يلزمك إن كنت تكتب إضافة.",
-                    "All of Esharq's icons. Click one to copy its import line — you need it if you're writing a plugin.")}
+                {t("أيقونات سعودي كورد كلّها. اضغط أي واحدة لتنسخ سطر استيرادها — يلزمك إن كنت تكتب إضافة.",
+                    "All of SaudiCord's icons. Click one to copy its import line — you need it if you're writing a plugin.")}
             </NoticeStrip>
 
             <Card index={0}
