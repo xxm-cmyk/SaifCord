@@ -267,7 +267,9 @@ function PluginRow({ entry, loadError, onChanged, onRescan, rescanning }: {
             </div>
 
             <div className="esharq-cp-side">
-                <Switch checked={entry.enabled} disabled={busy} onChange={toggle} />
+                <Switch checked={entry.enabled}
+                    disabled={busy || (compat !== null && !compat.ok)}
+                    onChange={toggle} />
                 <div className="esharq-cp-actions">
                     {/*
                       * 🔴 إضافات المجتمع تُسجَّل بـ`hidden: true` لتُدار من هنا وحدها،
