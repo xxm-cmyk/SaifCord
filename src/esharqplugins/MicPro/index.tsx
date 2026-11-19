@@ -41,7 +41,7 @@ export function transmissionReady(): boolean {
 
 export default definePlugin({
     name: "MicPro",
-    description: "Voice Lab engine: applies your microphone settings (gain, noise reduction, echo cancellation, AGC, sensitivity) to every call on Discord's native engine, and adds high-quality stereo transmission. Its panel lives in Esharq Settings under Voice Lab.",
+    description: "Voice Lab engine: applies your microphone settings (gain, noise reduction, echo cancellation, AGC, sensitivity) to every call on Discord's native engine, and adds high-quality stereo transmission. Its panel lives in SaudiCord Settings under Voice Lab.",
     authors: [EquicordDevs.LOSTSTR, { name: "philhk", id: 305288513941667851n }],
     tags: ["Voice", "Utility"],
     dependencies: ["PhilsPluginLibrary"],
