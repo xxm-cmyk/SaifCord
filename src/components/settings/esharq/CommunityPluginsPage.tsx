@@ -400,7 +400,7 @@ function CommunityPluginsContent({ onRelock }: { onRelock: () => void; }) {
                 typeof plugin.author === "string" &&
                 typeof plugin.version === "string" &&
                 typeof plugin.sourceUrl === "string" &&
-                /^https:\\/\\/github\\.com\\/[A-Za-z0-9_.-]+\\/[A-Za-z0-9_.-]+\\/tree\\/[0-9a-f]{40}\\//i.test(plugin.sourceUrl) &&
+                /^https:\/\/github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+\/tree\/[0-9a-f]{40}\//i.test(plugin.sourceUrl) &&
                 typeof plugin.commit === "string" && /^[0-9a-f]{40}$/i.test(plugin.commit) &&
                 typeof plugin.sha256 === "string" && /^[0-9a-f]{64}$/i.test(plugin.sha256)
             );
