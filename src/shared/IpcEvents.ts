@@ -29,9 +29,9 @@ export const enum IpcEvents {
     GET_THEME_SYSTEM_VALUES = "VencordGetThemeSystemValues",
     GET_SETTINGS_DIR = "VencordGetSettingsDir",
     /** حال حفظ الإعدادات على القرص — لتشخيص «إعداداتي تعود كما كانت». */
-    GET_SETTINGS_HEALTH = "EsharqGetSettingsHealth",
+    GET_SETTINGS_HEALTH = "SaudiCordGetSettingsHealth",
     /** الواجهة تُبلّغ أنّ إرسال الإعدادات فشل — وإلّا بقي الفشل عندها وحدها. */
-    REPORT_SETTINGS_SAVE_FAILURE = "EsharqReportSettingsSaveFailure",
+    REPORT_SETTINGS_SAVE_FAILURE = "SaudiCordReportSettingsSaveFailure",
     GET_SETTINGS = "VencordGetSettings",
     SET_SETTINGS = "VencordSetSettings",
     THEME_UPDATE = "VencordThemeUpdate",
@@ -62,45 +62,45 @@ export const enum IpcEvents {
     SUPPORTS_WINDOWS_MATERIAL = "VencordSupportsWindowsMaterial",
 
     /* إضافات المجتمع — تُستورَد من مجلد على جهاز المستخدم ولا تغادره أبداً. */
-    COMMUNITY_LIST = "EsharqCommunityList",
-    COMMUNITY_PICK_AND_IMPORT = "EsharqCommunityPickAndImport",
-    COMMUNITY_REMOVE = "EsharqCommunityRemove",
-    COMMUNITY_SET_ENABLED = "EsharqCommunitySetEnabled",
-    COMMUNITY_OPEN_FOLDER = "EsharqCommunityOpenFolder",
-    COMMUNITY_READ_SOURCE = "EsharqCommunityReadSource",
-    COMMUNITY_RESCAN = "EsharqCommunityRescan",
+    COMMUNITY_LIST = "SaudiCordCommunityList",
+    COMMUNITY_PICK_AND_IMPORT = "SaudiCordCommunityPickAndImport",
+    COMMUNITY_REMOVE = "SaudiCordCommunityRemove",
+    COMMUNITY_SET_ENABLED = "SaudiCordCommunitySetEnabled",
+    COMMUNITY_OPEN_FOLDER = "SaudiCordCommunityOpenFolder",
+    COMMUNITY_READ_SOURCE = "SaudiCordCommunityReadSource",
+    COMMUNITY_RESCAN = "SaudiCordCommunityRescan",
     /** متزامن: يُقرأ قبل تمهيد ديسكورد كي تلحق الرقع. */
-    COMMUNITY_GET_BUNDLE = "EsharqCommunityGetBundle",
+    COMMUNITY_GET_BUNDLE = "SaudiCordCommunityGetBundle",
 
     /* الرصد — جرد الوجهات الشبكية المسموح بها. */
-    CSP_LIST_POLICIES = "EsharqCspListPolicies",
+    CSP_LIST_POLICIES = "SaudiCordCspListPolicies",
 
     /* ميزانيات الأداء — مقاييس عمليات ديسكورد. */
-    PERF_APP_METRICS = "EsharqPerfAppMetrics",
+    PERF_APP_METRICS = "SaudiCordPerfAppMetrics",
 
     /* الخصوصية — جرد ما يُخزَّن على القرص (أحجام ومسارات لا محتوى). */
-    DATA_INVENTORY = "EsharqDataInventory",
-    DATA_OPEN_ROOT = "EsharqDataOpenRoot",
+    DATA_INVENTORY = "SaudiCordDataInventory",
+    DATA_OPEN_ROOT = "SaudiCordDataOpenRoot",
 
     /* منشئ الثيمات — ما يمسّ القرص وحده؛ التلوين كلّه في المُصيَّر. */
-    THEME_PICK_BACKGROUND = "EsharqThemePickBackground",
-    THEME_GET_BACKGROUND = "EsharqThemeGetBackground",
-    THEME_CLEAR_BACKGROUND = "EsharqThemeClearBackground",
-    THEME_SAVE_CSS = "EsharqThemeSaveCss",
-    THEME_LIBRARY_LIST = "EsharqThemeLibraryList",
-    THEME_LIBRARY_INSTALL = "EsharqThemeLibraryInstall",
-    THEME_LIBRARY_OPEN = "EsharqThemeLibraryOpen",
+    THEME_PICK_BACKGROUND = "SaudiCordThemePickBackground",
+    THEME_GET_BACKGROUND = "SaudiCordThemeGetBackground",
+    THEME_CLEAR_BACKGROUND = "SaudiCordThemeClearBackground",
+    THEME_SAVE_CSS = "SaudiCordThemeSaveCss",
+    THEME_LIBRARY_LIST = "SaudiCordThemeLibraryList",
+    THEME_LIBRARY_INSTALL = "SaudiCordThemeLibraryInstall",
+    THEME_LIBRARY_OPEN = "SaudiCordThemeLibraryOpen",
 
     /* الاتّصال المشفّر — DNS عبر HTTPS، يُضبَط على مستوى التطبيق. */
-    DNS_GET_STATE = "EsharqDnsGetState",
-    DNS_SET = "EsharqDnsSet",
-    DNS_TEST = "EsharqDnsTest",
-    THEME_OPEN_FOLDER = "EsharqThemeOpenFolder",
+    DNS_GET_STATE = "SaudiCordDnsGetState",
+    DNS_SET = "SaudiCordDnsSet",
+    DNS_TEST = "SaudiCordDnsTest",
+    THEME_OPEN_FOLDER = "SaudiCordThemeOpenFolder",
 
     /* تنصيف الانهيار — جلسة بحثٍ ثنائيّ عبر إعادات التشغيل. */
-    BISECT_START = "EsharqBisectStart",
-    BISECT_ANSWER = "EsharqBisectAnswer",
-    BISECT_CANCEL = "EsharqBisectCancel",
+    BISECT_START = "SaudiCordBisectStart",
+    BISECT_ANSWER = "SaudiCordBisectAnswer",
+    BISECT_CANCEL = "SaudiCordBisectCancel",
     /** متزامن: يُقرأ قبل بدء أي إضافة. */
-    BISECT_GET = "EsharqBisectGet",
+    BISECT_GET = "SaudiCordBisectGet",
 }
