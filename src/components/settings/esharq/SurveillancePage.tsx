@@ -138,8 +138,8 @@ const HOST_NOTES: { match: (h: string) => boolean; ar: string; en: string; group
     },
     {
         match: h => h.includes("vencord.dev") || h.includes("vendicated.dev") || h.includes("equicord"),
-        ar: "خدمة من المُعدِّل الأصليّ الذي بُني عليه إشراق — شارات ومراجعات.",
-        en: "A service of the upstream mod Esharq is built on — badges and reviews.",
+        ar: "خدمة الشارات والمراجعات من المشروع الأصلي الذي بُني عليه سعودي كورد.",
+        en: "A service of the upstream mod SaudiCord is built on — badges and reviews.",
         group: "feature"
     }
 ];
@@ -348,7 +348,7 @@ export function SurveillancePage() {
                         "① It does not mean these sites took anything from you. It means the client is allowed to download from them.")}</p>
                     <p>{t("② لا تعني أن العميل اتّصل بها فعلاً. أكثرها لا يُلمَس أبداً ما لم تُشغّل ثيماً يستعمله.",
                         "② It does not mean the client actually contacted them. Most are never touched unless you run a theme that uses one.")}</p>
-                    <p>{t("③ لا تشمل ديسكورد نفسه: طلباته هو لا تمرّ بهذه القائمة ولا يحكمها إشراق.",
+                    <p>{t("③ لا تشمل ديسكورد نفسه: طلباته لا تمرّ بهذه القائمة ولا يتحكّم بها سعودي كورد.",
                         "③ It does not cover Discord itself: its own requests don't go through this list and Esharq doesn't govern them.")}</p>
                     <p>{t("④ ولا تشمل مكالماتك: الصوت يمرّ في وحدة ديسكورد الأصلية خارج المتصفّح كلّه.",
                         "④ It does not cover your calls: voice runs in Discord's native module, outside the browser entirely.")}</p>
