@@ -395,29 +395,9 @@ function CommunityPluginsContent({ onRelock }: { onRelock: () => void; }) {
         setCatalogLoading(true);
         setCatalogError(null);
         try {
-            const response = await fetch("https://raw.githubusercontent.com/xxm-cmyk/SaudiCord/main/community-plugins/catalog.json", {
-                headers: { Accept: "application/json" },
-                cache: "no-store"
-            });
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            const data = await response.json();
-            if (data?.schemaVersion !== 1 || !Array.isArray(data.plugins)) {
-                throw new Error("صيغة كتالوج الإضافات غير معروفة.");
-            }
-            const valid = data.plugins.filter((plugin: any) =>
-                plugin && typeof plugin.id === "string" &&
-                /^[a-z0-9][a-z0-9-]{1,47}$/.test(plugin.id) &&
-                typeof plugin.name === "string" &&
-                typeof plugin.description === "string" &&
-                Array.isArray(plugin.authors) && plugin.authors.every((author: unknown) => typeof author === "string") &&
-                typeof plugin.version === "string" &&
-                typeof plugin.entry === "string" &&
-                typeof plugin.commit === "string" && /^[0-9a-f]{40}$/.test(plugin.commit) &&
-                Array.isArray(plugin.files) && plugin.files.length > 0 &&
-                plugin.files.every((file: any) => file && typeof file.path === "string" &&
-                    typeof file.sha256 === "string" && /^[0-9a-f]{64}$/.test(file.sha256))
-            );
-            setCatalog(valid);
+            const result = await native()?.getCatalog();
+            if (!Array.isArray(result)) throw new Error("صيغة كتالوج الإضافات غير معروفة.");
+            setCatalog(result);
         } catch (e: any) {
             setCatalog(null);
             setCatalogError(String(e?.message ?? e));
