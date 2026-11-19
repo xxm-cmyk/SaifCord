@@ -138,8 +138,8 @@ const HOST_NOTES: { match: (h: string) => boolean; ar: string; en: string; group
     },
     {
         match: h => h.includes("vencord.dev") || h.includes("vendicated.dev") || h.includes("equicord"),
-        ar: "خدمة الشارات والمراجعات من المشروع الأصلي الذي بُني عليه سعودي كورد.",
-        en: "A service of the upstream mod SaudiCord is built on — badges and reviews.",
+        ar: "خدمة خارجية للشارات والمراجعات، مرتبطة بالمشروع السابق.",
+        en: "An external badge and review service associated with the previous project.",
         group: "feature"
     }
 ];
