@@ -52,6 +52,10 @@ window.VencordNative = {
     communityPlugins: {
         getBundle: () => [],
         list: async () => [],
+        installFromCatalog: async () => ({
+            ok: false,
+            findings: [{ severity: "error" as const, rule: "web", message: "إضافات المجتمع متاحة في تطبيق سطح المكتب فقط." }]
+        }),
         pickAndImport: async () => ({
             ok: false,
             findings: [{ severity: "error" as const, rule: "web", message: "إضافات المجتمع متاحة في تطبيق سطح المكتب فقط." }]
