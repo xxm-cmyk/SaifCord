@@ -96,7 +96,7 @@ export const SETTINGS_TREE: readonly SettingsSection[] = [
         title: { ar: "التحديثات والمجتمع", en: "Updates & Community" },
         pages: [
             page("updater", "المُحدِّث", "Updater", "updates-community", "ready", "UpdaterTab"),
-            page("release-channels", "قنوات الإصدار", "Release Channels", "updates-community", "planned"),
+            page("release-channels", "قنوات الإصدار", "Release Channels", "updates-community", "ready", "ReleaseChannelsPage"),
             page("community-plugins", "إضافات المجتمع", "Community Plugins", "updates-community", "ready", "CommunityPluginsPage"),
             page("changelog", "سجلّ التغييرات", "Changelog", "updates-community", "ready", "ChangelogTab")
         ]
