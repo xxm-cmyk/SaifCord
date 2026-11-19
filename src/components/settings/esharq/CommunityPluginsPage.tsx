@@ -30,11 +30,11 @@ interface CatalogPlugin {
     id: string;
     name: string;
     description: string;
-    author: string;
+    authors: string[];
     version: string;
-    sourceUrl: string;
     commit: string;
-    sha256: string;
+    entry: string;
+    files: { path: string; sha256: string; }[];
 }
 
 interface Entry {
@@ -395,14 +395,16 @@ function CommunityPluginsContent({ onRelock }: { onRelock: () => void; }) {
             }
             const valid = data.plugins.filter((plugin: any) =>
                 plugin && typeof plugin.id === "string" &&
+                /^[a-z0-9][a-z0-9-]{1,47}$/.test(plugin.id) &&
                 typeof plugin.name === "string" &&
                 typeof plugin.description === "string" &&
-                typeof plugin.author === "string" &&
+                Array.isArray(plugin.authors) && plugin.authors.every((author: unknown) => typeof author === "string") &&
                 typeof plugin.version === "string" &&
-                typeof plugin.sourceUrl === "string" &&
-                /^https:\/\/github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+\/tree\/[0-9a-f]{40}\//i.test(plugin.sourceUrl) &&
-                typeof plugin.commit === "string" && /^[0-9a-f]{40}$/i.test(plugin.commit) &&
-                typeof plugin.sha256 === "string" && /^[0-9a-f]{64}$/i.test(plugin.sha256)
+                typeof plugin.entry === "string" &&
+                typeof plugin.commit === "string" && /^[0-9a-f]{40}$/.test(plugin.commit) &&
+                Array.isArray(plugin.files) && plugin.files.length > 0 &&
+                plugin.files.every((file: any) => file && typeof file.path === "string" &&
+                    typeof file.sha256 === "string" && /^[0-9a-f]{64}$/.test(file.sha256))
             );
             setCatalog(valid);
         } catch (e: any) {
@@ -603,17 +605,17 @@ All of this is on your machine: no source is uploaded and no request is sent. An
                                 <div className="esharq-cp-main">
                                     <div className="esharq-cp-title">
                                         <span className="esharq-cp-name">{plugin.name}</span>
-                                        <span className="esharq-cp-authors">{plugin.author} · v{plugin.version}</span>
+                                        <span className="esharq-cp-authors">{plugin.authors.join(", ")} · v{plugin.version}</span>
                                     </div>
                                     <div className="esharq-cp-desc">{plugin.description}</div>
                                     <div className="esharq-cp-meta">
                                         <span>{t("الإصدار المثبّت بالمراجعة", "Pinned reviewed revision")}</span>
-                                        <span className="esharq-cp-hash">{plugin.commit.slice(0, 12)}</span>
+                                        <span className="esharq-cp-hash">{plugin.commit.slice(0, 12)} · {plugin.files.length} {t("ملفات", "files")}</span>
                                     </div>
                                 </div>
                                 <div className="esharq-cp-side">
                                     <Btn label={t("عرض المصدر", "View source")}
-                                        onClick={() => (window as any).VencordNative?.native?.openExternal?.(plugin.sourceUrl)} />
+                                        onClick={() => (window as any).VencordNative?.native?.openExternal?.(`https://github.com/xxm-cmyk/SaudiCord/tree/${plugin.commit}/community-plugins/plugins/${plugin.id}`)} />
                                 </div>
                             </div>
                         ))}
