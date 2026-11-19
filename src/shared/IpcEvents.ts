@@ -64,6 +64,7 @@ export const enum IpcEvents {
     /* إضافات المجتمع — تُستورَد من مجلد على جهاز المستخدم ولا تغادره أبداً. */
     COMMUNITY_LIST = "SaudiCordCommunityList",
     COMMUNITY_PICK_AND_IMPORT = "SaudiCordCommunityPickAndImport",
+    COMMUNITY_INSTALL_CATALOG = "SaudiCordCommunityInstallCatalog",
     COMMUNITY_REMOVE = "SaudiCordCommunityRemove",
     COMMUNITY_SET_ENABLED = "SaudiCordCommunitySetEnabled",
     COMMUNITY_OPEN_FOLDER = "SaudiCordCommunityOpenFolder",
