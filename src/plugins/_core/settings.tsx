@@ -28,6 +28,7 @@ import { MyProfilePage } from "@components/settings/esharq/MyProfilePage";
 import { PerformanceBudgetsPage } from "@components/settings/esharq/PerformanceBudgetsPage";
 import { PluginPermissionsPage } from "@components/settings/esharq/PluginPermissionsPage";
 import { PrivacySecurityPage } from "@components/settings/esharq/PrivacySecurityPage";
+import { ReleaseChannelsPage } from "@components/settings/esharq/ReleaseChannelsPage";
 import { StartupTimingsPage } from "@components/settings/esharq/StartupTimingsPage";
 import { SupportBundlePage } from "@components/settings/esharq/SupportBundlePage";
 import { SurveillancePage } from "@components/settings/esharq/SurveillancePage";
@@ -298,7 +299,7 @@ export default definePlugin({
             VencordTab, PluginsTab, ThemesTab, UpdaterTab,
             ChangelogTab, CloudTab, BackupAndRestoreTab,
             // صفحات بناها سعودي كورد — لا تُشتقّ من الأصل.
-            LanguagePage, ClientHealthPage, VoiceLabPage, CommunityPluginsPage, CompatibilityMatrixPage, StartupTimingsPage, IconFinderPage, SupportBundlePage, SurveillancePage, PluginPermissionsPage, PerformanceBudgetsPage, PrivacySecurityPage, CrashBisectPage, MyProfilePage, DevelopersPage, ThemeCreatorPage, ThemeLibraryPage
+            LanguagePage, ClientHealthPage, VoiceLabPage, CommunityPluginsPage, CompatibilityMatrixPage, ReleaseChannelsPage, StartupTimingsPage, IconFinderPage, SupportBundlePage, SurveillancePage, PluginPermissionsPage, PerformanceBudgetsPage, PrivacySecurityPage, CrashBisectPage, MyProfilePage, DevelopersPage, ThemeCreatorPage, ThemeLibraryPage
         };
         // أيقونة مميّزة لكل صفحة — لا ترس واحد للكلّ (قرار المالك).
         const iconFor: Record<string, ComponentType<IconProps>> = {
