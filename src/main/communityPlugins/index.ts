@@ -758,7 +758,7 @@ export async function listCatalog(): Promise<CommunityCatalogPlugin[]> {
         for (const file of plugin.files) {
             const rel = file?.path;
             if (typeof rel !== "string" || rel.length > 200 || rel.startsWith("/") || /^[a-zA-Z]:/.test(rel) || rel.includes("\\")
-                || /[\\u0000-\\u001f<>:"|?*]/.test(rel) || rel.split("/").some((part: string) => !part || part === "." || part === "..")
+                || /[\u0000-\u001f<>:"|?*]/.test(rel) || rel.split("/").some((part: string) => !part || part === "." || part === "..")
                 || !/\.(?:ts|tsx|js|jsx|css|json)$/i.test(rel) || seen.has(rel)
                 || typeof file.sha256 !== "string" || !/^[0-9a-f]{64}$/.test(file.sha256)) return false;
             seen.add(rel);
@@ -813,7 +813,7 @@ export async function installCatalogPlugin(id: string): Promise<ImportResult> {
         for (const file of plugin.files) {
             const rel = file?.path;
             if (typeof rel !== "string" || rel.length > 200 || rel.startsWith("/") || /^[a-zA-Z]:/.test(rel)
-                || rel.includes("\\") || /[\\u0000-\\u001f<>:"|?*]/.test(rel)
+                || rel.includes("\\") || /[\u0000-\u001f<>:"|?*]/.test(rel)
                 || rel.split("/").some((part: string) => !part || part === "." || part === "..")
                 || !/\.(?:ts|tsx|js|jsx|css|json)$/i.test(rel) || seen.has(rel)
                 || typeof file.sha256 !== "string" || !/^[0-9a-f]{64}$/.test(file.sha256)) {
