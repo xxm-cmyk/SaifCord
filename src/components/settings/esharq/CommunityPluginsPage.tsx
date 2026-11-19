@@ -156,8 +156,8 @@ function PluginRow({ entry, loadError, onChanged, onRescan, rescanning }: {
         title: t("حذف الإضافة", "Remove plugin"),
         body: (
             <p style={{ textAlign: "center", lineHeight: 1.7 }}>
-                {t(`سيُحذف مجلد «${entry.name}» المُدار من جهازك. مجلدك الأصلي الذي استوردتَ منه لا يُمَسّ.`,
-                    `The managed copy of “${entry.name}” will be deleted from your machine. The original folder you imported from is untouched.`)}
+                {t(`سيُحذف مجلد «${entry.name}» المُدار من جهازك. إذا كانت الإضافة تعمل الآن فقد تبقى فعّالة حتى إعادة تشغيل ديسكورد. مجلدك الأصلي الذي استوردتَ منه لا يُمَسّ.`,
+                    `The managed copy of “${entry.name}” will be deleted from your machine. If it is running now, it may remain active until you restart Discord. The original folder you imported from is untouched.`)}
             </p>
         ),
         confirmText: t("احذف", "Remove"),
