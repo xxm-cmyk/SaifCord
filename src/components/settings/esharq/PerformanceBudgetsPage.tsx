@@ -61,7 +61,7 @@ const BUDGET_META: Record<BudgetKey, { ar: string; en: string; unit: string; hin
     },
     heapMB: {
         ar: "كومة جافاسكربت", en: "JavaScript heap", unit: "MB",
-        hintAr: "ذاكرة المُصيِّر التي تشغلها الشيفرة — إشراق وديسكورد معاً.",
+        hintAr: "ذاكرة المُصيِّر التي تشغلها الشيفرة — سعودي كورد وديسكورد معاً.",
         hintEn: "The renderer memory the code occupies — Esharq and Discord together."
     },
     startupMs: {
@@ -302,8 +302,8 @@ export function PerformanceBudgetsPage() {
                 subtitle={t("حدود القياس، مكتوبةً — رقمٌ يُقرأ على غير معناه أسوأ من لا رقم.",
                     "The limits of the measurement, written down — a number read wrongly is worse than no number.")}>
                 <div style={{ fontSize: 13, lineHeight: 1.9 }}>
-                    <div>{t("① الأرقام لعمليات ديسكورد وحدها. لا يقرأ إشراق شيئاً عن بقيّة برامج جهازك — المصدر واجهة إلكترون التي لا تُعطي إلّا عمليات التطبيق نفسه.",
-                        "① The numbers cover Discord's own processes only. Esharq reads nothing about the rest of your machine — the source is Electron's API, which returns only the app's own processes.")}</div>
+                    <div>{t("① الأرقام لعمليات ديسكورد وحدها. لا يقرأ سعودي كورد شيئاً عن بقيّة برامج جهازك — المصدر واجهة إلكترون التي لا تُعطي إلّا عمليات التطبيق نفسه.",
+                        "① The numbers cover Discord's own processes only. SaudiCord reads nothing about the rest of your machine — the source is Electron's API, which returns only the app's own processes.")}</div>
                     <div>{t("② المعالج يُقاس لكل عملية لا لكل إضافة. كل الإضافات تعمل في عملية المُصيِّر نفسها وخيطها نفسه، فلا سبيل لنسب دورةٍ إلى إضافةٍ بعينها.",
                         "② CPU is measured per process, not per plugin. All plugins run in the same renderer process and thread, so no cycle can be attributed to one plugin.")}</div>
                     <div>{t("③ الرقم لحظيّ: يقفز بفتح قائمة أو تشغيل فيديو. القراءة الواحدة لا تصف جلسةً.",
