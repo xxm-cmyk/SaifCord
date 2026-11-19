@@ -5,7 +5,7 @@
  */
 
 import type { Settings } from "@api/Settings";
-import type { BundledPlugin as CommunityBundle, CommunityEntry, ImportResult as CommunityImportResult } from "@main/communityPlugins";
+import type { BundledPlugin as CommunityBundle, CommunityCatalogPlugin, CommunityEntry, ImportResult as CommunityImportResult } from "@main/communityPlugins";
 import type { BisectSession } from "@main/crashBisect";
 import type { CspRequestResult } from "@main/csp/manager";
 import type { PluginIpcMappings } from "@main/ipcPlugins";
@@ -211,6 +211,7 @@ export default {
         list: () => invoke<CommunityEntry[]>(IpcEvents.COMMUNITY_LIST),
         pickAndImport: () => invoke<CommunityImportResult>(IpcEvents.COMMUNITY_PICK_AND_IMPORT),
         installFromCatalog: (id: string) => invoke<CommunityImportResult>(IpcEvents.COMMUNITY_INSTALL_CATALOG, id),
+        getCatalog: () => invoke<CommunityCatalogPlugin[]>(IpcEvents.COMMUNITY_CATALOG_LIST),
         remove: (id: string) => invoke<boolean>(IpcEvents.COMMUNITY_REMOVE, id),
         setEnabled: (id: string, enabled: boolean) => invoke<boolean>(IpcEvents.COMMUNITY_SET_ENABLED, id, enabled),
         openFolder: (id: string) => invoke<void>(IpcEvents.COMMUNITY_OPEN_FOLDER, id),
