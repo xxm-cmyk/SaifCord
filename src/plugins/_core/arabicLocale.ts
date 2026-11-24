@@ -54,7 +54,7 @@ forceGregorianForArabic();
  * ومنها وحدها تُفعَّل. ولا تبديل تلقائي لأحد.
  */
 export default definePlugin({
-    name: "SaifCordArabicLocale",
+    name: "SaudiCordArabicLocale",
     // 🔴 **نصّ واحد لا نصّان مجموعان**: `scripts/utils.ts` يقرأ الوصف من شجرة
     // المصدر ويشترطه نصّاً حرفياً، فيرفض أي جمع بـ`+` بـ«description is not a
     // string literal» — ويسقط بناء التكامل المستمرّ كلّه، ولا يظهر ذلك في
