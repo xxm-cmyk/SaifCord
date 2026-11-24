@@ -1,6 +1,6 @@
 using System.Windows;
 
-namespace SaudiCord.Setup;
+namespace SaifCord.Setup;
 
 public partial class App : Application
 {
