@@ -224,28 +224,52 @@ export const startAllPlugins = traceFunction("startAllPlugins", function startAl
 
 export function startDependenciesRecursive(p: Plugin) {
     const settings = Settings.plugins;
-    let restartNeeded = false;
+    const visited = new Set<string>();
+    const visiting = new Set<string>();
     const failures: string[] = [];
+    let restartNeeded = false;
 
-    p.dependencies?.forEach(d => {
-        if (!settings[d].enabled) {
-            const dep = Plugins[d];
-            startDependenciesRecursive(dep);
-
-            // If the plugin has patches, don't start the plugin, just enable it.
-            settings[d].enabled = true;
-            dep.isDependency = true;
-
-            if (pluginRequiresRestart(dep)) {
-                logger.warn(`Enabling dependency ${d} requires restart.`);
-                restartNeeded = true;
-                return;
-            }
-
-            const result = startPlugin(dep);
-            if (!result) failures.push(d);
+    function startDependency(name: string, requestedBy: string) {
+        if (visited.has(name)) return;
+        if (visiting.has(name)) {
+            logger.error(new Error(`Circular plugin dependency detected: ${[...visiting, name].join(" -> ")}`));
+            failures.push(name);
+            return;
         }
-    });
+
+        const dependency = Plugins[name];
+        const dependencySettings = settings[name];
+        if (!dependency || !dependencySettings) {
+            logger.error(new Error(`Plugin ${requestedBy} has unresolved dependency ${name}`));
+            failures.push(name);
+            return;
+        }
+
+        visiting.add(name);
+        const failuresBeforeDependencies = failures.length;
+        for (const nestedDependency of dependency.dependencies ?? []) {
+            startDependency(nestedDependency, dependency.name);
+        }
+        visiting.delete(name);
+        visited.add(name);
+
+        if (failures.length !== failuresBeforeDependencies || dependencySettings.enabled) return;
+
+        dependencySettings.enabled = true;
+        dependency.isDependency = true;
+
+        if (pluginRequiresRestart(dependency)) {
+            logger.warn(`Enabling dependency ${name} requires restart.`);
+            restartNeeded = true;
+            return;
+        }
+
+        if (!startPlugin(dependency)) failures.push(name);
+    }
+
+    for (const dependency of p.dependencies ?? []) {
+        startDependency(dependency, p.name);
+    }
 
     return { restartNeeded, failures };
 }
