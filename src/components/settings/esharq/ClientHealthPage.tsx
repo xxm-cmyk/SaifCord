@@ -268,7 +268,7 @@ export function ClientHealthPage() {
 
     /** تقرير نصّي يُلصَق في تذكرة دعم — أنفع من وصف الحال بالكلام. */
     const report = useMemo(() => [
-        `SaudiCord    : ${gitHash.slice(0, 7)}`,
+        `SaifCord    : ${gitHash.slice(0, 7)}`,
         `Platform     : ${platform}`,
         `Discord build: ${build}`,
         `Plugins      : ${enabled.length} enabled of ${plugins.length}, ${running.length} started`,
@@ -296,8 +296,8 @@ export function ClientHealthPage() {
                 index={0}
                 title={t("صحّة العميل", "Client health")}
                 subtitle={t(
-                    "ما يعمل فعلاً في هذه الجلسة: الإضافات التي بدأت، والرقع المُعلَنة، وحال ما يعتمد عليه سعودي كورد.",
-                    "What is actually running this session: which plugins started, how many patches are declared, and the state of what SaudiCord depends on."
+                    "ما يعمل فعلاً في هذه الجلسة: الإضافات التي بدأت، والرقع المُعلَنة، وحال ما يعتمد عليه SaifCord.",
+                    "What is actually running this session: which plugins started, how many patches are declared, and the state of what SaifCord depends on."
                 )}
                 badge={allClear
                     ? t("لا خلل ظاهر", "Nothing wrong")
@@ -369,8 +369,8 @@ export function ClientHealthPage() {
                 index={3}
                 title={t("سجلّ المشاكل", "Problem log")}
                 subtitle={t(
-                    "كل خطأ وتحذير أبلغ عنه سعودي كورد منذ فتح ديسكورد: رقعة لم تُحدث أثراً، باحث لم يجد وحدته، إضافة انفجرت، مكوّن انهار. يُسجَّل هنا بدل أن يمرّ في الكونسول ويضيع.",
-                    "Every error and warning SaudiCord reported since Discord opened: a patch that had no effect, a finder that found nothing, a plugin that threw, a component that crashed. Recorded here instead of scrolling past in the console."
+                    "كل خطأ وتحذير أبلغ عنه SaifCord منذ فتح ديسكورد: رقعة لم تُحدث أثراً، باحث لم يجد وحدته، إضافة انفجرت، مكوّن انهار. يُسجَّل هنا بدل أن يمرّ في الكونسول ويضيع.",
+                    "Every error and warning SaifCord reported since Discord opened: a patch that had no effect, a finder that found nothing, a plugin that threw, a component that crashed. Recorded here instead of scrolling past in the console."
                 )}
                 badge={issues.length === 0
                     ? t("نظيف", "Clean")
@@ -473,8 +473,8 @@ export function ClientHealthPage() {
                     index={0}
                     title={t("ضرورية", "Required")}
                     detail={t(
-                        "أساس سعودي كورد — تُشغَّل دائماً ولا يمكن تعطيلها.",
-                        "SaudiCord's own foundation — always started, cannot be disabled."
+                        "أساس SaifCord — تُشغَّل دائماً ولا يمكن تعطيلها.",
+                        "SaifCord's own foundation — always started, cannot be disabled."
                     )}
                     state={{ text: String(requiredRunning.length), tone: "idle" }}
                 />
@@ -574,7 +574,7 @@ export function ClientHealthPage() {
                 badge={platform} badgeTone="info"
             >
                 <StatRow items={[
-                    { label: t("إصدار سعودي كورد", "SaudiCord version"), value: gitHash.slice(0, 7) },
+                    { label: t("إصدار SaifCord", "SaifCord version"), value: gitHash.slice(0, 7) },
                     { label: t("بناء ديسكورد", "Discord build"), value: build },
                     { label: t("المنصّة", "Platform"), value: platform }
                 ]} />
@@ -589,11 +589,11 @@ export function ClientHealthPage() {
                 </Flex>
 
                 {/* 🔴 حدّان يُقالان صراحةً، لئلّا يُقرأ السجلّ الفارغ أكثر ممّا
-                    يعني: مداه الجلسة الواحدة، ونطاقه سعودي كورد لا ديسكورد. */}
+                    يعني: مداه الجلسة الواحدة، ونطاقه SaifCord لا ديسكورد. */}
                 <Paragraph className={Margins.top16} color="text-subtle">
                     {t(
-                        "سجلّ المشاكل يبدأ من فتح ديسكورد وينتهي بإغلاقه — لا يُكتب على القرص ولا يغادر جهازك سطرٌ منه. ولا يحوي إلّا ما يُبلّغ عنه سعودي كورد: أعطال ديسكورد نفسه لا تدخله، حتى لا يُنسب إلينا ما ليس منّا.",
-                        "The problem log starts when Discord opens and ends when it closes — nothing is written to disk and not a line leaves your machine. And it holds only what SaudiCord itself reports: Discord's own failures stay out of it, so we are not blamed for what is not ours."
+                        "سجلّ المشاكل يبدأ من فتح ديسكورد وينتهي بإغلاقه — لا يُكتب على القرص ولا يغادر جهازك سطرٌ منه. ولا يحوي إلّا ما يُبلّغ عنه SaifCord: أعطال ديسكورد نفسه لا تدخله، حتى لا يُنسب إلينا ما ليس منّا.",
+                        "The problem log starts when Discord opens and ends when it closes — nothing is written to disk and not a line leaves your machine. And it holds only what SaifCord itself reports: Discord's own failures stay out of it, so we are not blamed for what is not ours."
                     )}
                 </Paragraph>
             </Card>
