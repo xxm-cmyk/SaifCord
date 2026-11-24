@@ -286,7 +286,7 @@ if (process.argv.includes("--json")) {
     const net = findings.filter(f => f.severity === "info");
     const excepted = findings.filter(f => REVIEWED_EXCEPTIONS.has(keyOf(f)));
 
-    console.log("── SaudiCord security audit ──");
+    console.log("── SaifCord security audit ──");
     console.log(`  ${files.length} source files across ${new Set(files.map(pluginOf)).size} plugins`);
 
     console.log(`\n── Token access / backdoors / native exec ──`);
