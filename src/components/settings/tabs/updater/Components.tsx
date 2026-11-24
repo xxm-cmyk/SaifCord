@@ -88,7 +88,7 @@ export function Updatable() {
 
                         if (!outdated) {
                             Toasts.show({
-                                message: t("SaudiCord محدّث بالفعل. أنت على آخر إصدار.", "SaudiCord is already up to date."),
+                                message: t("SaifCord محدّث بالفعل. أنت على آخر إصدار.", "SaifCord is already up to date."),
                                 id: Toasts.genId(),
                                 type: Toasts.Type.SUCCESS,
                                 options: { position: Toasts.Position.BOTTOM }
@@ -111,7 +111,7 @@ export function Updatable() {
                             openModal(modalProps => (
                                 <ConfirmModal
                                     {...modalProps}
-                                    title={t("تم تحديث SaudiCord", "SaudiCord updated")}
+                                    title={t("تم تحديث SaifCord", "SaifCord updated")}
                                     subtitle={t("تم تنزيل التحديث وتثبيته. أعد تشغيل Discord لتطبيق التغييرات.", "The update was downloaded and installed. Restart Discord to apply the changes.")}
                                     confirmText={t("إعادة التشغيل الآن", "Restart now")}
                                     cancelText={t("لاحقاً", "Later")}
@@ -131,13 +131,13 @@ export function Updatable() {
                             type: Toasts.Type.FAILURE,
                             options: { position: Toasts.Position.BOTTOM }
                         });
-                        console.error("[SaudiCord] Update failed", error);
+                        console.error("[SaifCord] Update failed", error);
                     }
                 })}
             >
                 {isUpdating
                     ? t("جارٍ التحديث…", "Updating…")
-                    : t("تحديث SaudiCord", "Update SaudiCord")}
+                    : t("تحديث SaifCord", "Update SaifCord")}
             </Button>
             <Paragraph color="text-subtle">
                 {t("اضغط الزر للتحقق من وجود إصدار جديد وتثبيته مباشرة. ستحتاج إلى إعادة تشغيل Discord لتطبيق التحديث.", "Press the button to check for and install the latest release. Discord must restart to apply the update.")}
