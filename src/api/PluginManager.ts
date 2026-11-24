@@ -247,13 +247,14 @@ export function startDependenciesRecursive(p: Plugin) {
 
         visiting.add(name);
         const failuresBeforeDependencies = failures.length;
+        const restartNeededBeforeDependencies = restartNeeded;
         for (const nestedDependency of dependency.dependencies ?? []) {
             startDependency(nestedDependency, dependency.name);
         }
         visiting.delete(name);
         visited.add(name);
 
-        if (failures.length !== failuresBeforeDependencies || dependencySettings.enabled) return;
+        if (failures.length !== failuresBeforeDependencies || restartNeeded !== restartNeededBeforeDependencies || dependencySettings.enabled) return;
 
         dependencySettings.enabled = true;
         dependency.isDependency = true;
