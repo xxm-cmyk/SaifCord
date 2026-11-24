@@ -29,15 +29,17 @@ export const VENCORD_CONTRIB_ROLE_ID = "1173343399470964856";
 export const EQUIBOT_USER_ID = "1243063117852835941";
 export const KNOWN_ISSUES_CHANNEL_ID = "1466558228379992266";
 
-// SaudiCord
-// The SaudiCord Discord application id (also its bot user id). Its /plugin interaction
+// SaifCord
+// The SaifCord Discord application id (also its bot user id). Its /plugin interaction
 // responses are augmented client-side with a real, per-viewer plugin toggle card.
 export const ESHARQ_BOT_USER_ID = "1528492372248236183";
 
-// خادم SaudiCord. تُمنَح شارة «مستخدم SaudiCord» لكلّ عضو فيه — والعضوية تُقرأ من مخزن
+// خادم SaifCord. تُمنَح شارة «مستخدم SaifCord» لكلّ عضو فيه — والعضوية تُقرأ من مخزن
 // ديسكورد المحليّ، فلا تُنشَر قائمة أعضاء ولا تُفعَّل صلاحية مميّزة ولا يُستدعى
 // خادم. الثمن أنّها تظهر لمن هو نفسه في الخادم؛ وهذا يليق بشارة انتماء.
-export const SAUDICORD_GUILD_ID = "1227317859600830605";
+export const SAIFCORD_GUILD_ID = "1227317859600830605";
+/** @deprecated Use SAIFCORD_GUILD_ID. */
+export const SAUDICORD_GUILD_ID = SAIFCORD_GUILD_ID;
 
 // Vencord
 export const VC_SUPPORT_CHANNEL_ID = "1026515880080842772";
