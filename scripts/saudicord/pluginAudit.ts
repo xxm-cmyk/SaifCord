@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { readFileSync, readdirSync } from "node:fs";
+import { readFileSync, readdirSync, type Dirent } from "node:fs";
 import { join } from "node:path";
 import {
     createSourceFile,
@@ -93,7 +93,7 @@ function parsePlugin(filePath: string): AuditedPlugin {
     };
 }
 
-function findEntryPoint(root: string, entry: ReturnType<typeof readdirSync>[number]): string | undefined {
+function findEntryPoint(root: string, entry: Dirent): string | undefined {
     if (!entry.isDirectory()) return;
     for (const fileName of ["index.ts", "index.tsx"]) {
         const candidate = join(root, entry.name, fileName);
