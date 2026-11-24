@@ -32,7 +32,7 @@ import { Card, NoticeStrip } from "./Card";
 import { stagger } from "./motion";
 
 /**
- * **ملفّك الشخصيّ** — من أنت في سعودي كورد، وأين تظهر شارتك.
+ * **ملفّك الشخصيّ** — من أنت في SaifCord، وأين تظهر شارتك.
  *
  * ## 🔴 التحكّم عامّ لا محلّيّ
  *
@@ -71,7 +71,7 @@ interface Badge {
 type Surface = "profile" | "chat";
 
 /**
- * أهي شارة من سعودي كورد أم من غيره؟
+ * أهي شارة من SaifCord أم من غيره؟
  *
  * المعرّف أوّلاً: شارات إشراق كلّها `esharq_*`، وهو أوثق من تفتيش النصّ —
  * شارةٌ مكوّنٌ بلا وصف كانت تفلت من الفحص النصّيّ فتغيب عن هذه الصفحة.
@@ -94,7 +94,7 @@ const TIER_CHIP: Record<"owner" | "admin" | "tester" | "supporter", { ar: string
 /** الشارات التي لها تحكّم، وأسماؤها كما يراها صاحبها. */
 const CONTROLLABLE: { kind: BadgeKind; ar: string; en: string; }[] = [
     { kind: "tier", ar: "شارة رتبتك", en: "Your rank badge" },
-    { kind: "user", ar: "شارة مستخدم سعودي كورد", en: "SaudiCord User badge" },
+    { kind: "user", ar: "شارة مستخدم SaifCord", en: "SaifCord User badge" },
     { kind: "custom", ar: "شارتك المخصّصة", en: "Your custom badge" },
     { kind: "selfserve", ar: "شارتك الخاصّة", en: "Your own badge" }
 ];
@@ -218,8 +218,8 @@ function BadgeControl({ held, userId }: { held: BadgeKind[]; userId: string | nu
               */}
             {scope === "global" && !linked && (
                 <NoticeStrip tone="info">
-                    {t("تنبيه: إدارة الشارات العامة ما زالت تعتمد على خدمة خارجية سابقة؛ زرّ الإدارة يفتح موقعها. سعودي كورد لا يستضيف هذه الخدمة.",
-                        "Note: global badge management still relies on a legacy external service; the management button opens its site. SaudiCord does not host this service.")}
+                    {t("تنبيه: إدارة الشارات العامة ما زالت تعتمد على خدمة خارجية سابقة؛ زرّ الإدارة يفتح موقعها. SaifCord لا يستضيف هذه الخدمة.",
+                        "Note: global badge management still relies on a legacy external service; the management button opens its site. SaifCord does not host this service.")}
                     <br />
                     {t("اكتب /visibility في خادم الخدمة السابقة، وسيلتقط التطبيق إذنك تلقائياً (صالح ١٥ دقيقة). الأمر متاح لكلّ الأعضاء، لا للداعمين وحدهم — وهو للإظهار والإخفاء فقط. أمّا تغيير صورة الشارة ونصّها فبالأمر /badge وهو للداعمين.",
                         "Type /visibility in any channel in the previous service's server; the app picks up your authorisation automatically (valid 15 minutes). It is open to every member, not just supporters, and it only shows or hides. Changing a badge's image and text is /badge, which is for supporters.")}
@@ -551,7 +551,7 @@ export function MyProfilePage() {
         <>
             <Card index={0}
                 title={t("ملفّك الشخصيّ", "Your profile")}
-                subtitle={t("كما يراك سعودي كورد.", "As SaudiCord sees you.")}
+                subtitle={t("كما يراك SaifCord.", "As SaifCord sees you.")}
                 badge={t(chip.ar, chip.en)}
                 badgeTone={tier !== null || isSupporter ? "ok" : "info"}>
                 <div className="esharq-mp-head">
@@ -644,7 +644,7 @@ export function MyProfilePage() {
             )}
 
             <Card index={1}
-                title={t("شارتك في سعودي كورد", "Your SaudiCord badge")}
+                title={t("شارتك في SaifCord", "Your SaifCord badge")}
                 subtitle={selfServe.length > 0
                     ? t("تحكّم بأين تظهر كل شارة — والتغيير يسري على مستخدمي خدمة الشارات الخارجية.",
                         "Control where each badge appears — the change applies to users of the external badge service.")
@@ -680,16 +680,16 @@ export function MyProfilePage() {
                 ) : (
                     <div className="esharq-mp-empty">
                         <div className="esharq-mp-empty-title">{t("لا شارة خاصّة بك بعد", "You don't have your own badge yet")}</div>
-                        <p>{t("ادعم سعودي كورد فتختار صورتك ونصّك ومؤثّرك، وتتحكّم بأين تظهر من هنا.",
-                            "Support SaudiCord and you choose your own image, text and effect — then control where it appears from here.")}</p>
+                        <p>{t("ادعم SaifCord فتختار صورتك ونصّك ومؤثّرك، وتتحكّم بأين تظهر من هنا.",
+                            "Support SaifCord and you choose your own image, text and effect — then control where it appears from here.")}</p>
                     </div>
                 )}
             </Card>
 
             {esharqBadges.length > 0 && (
                 <Card index={2}
-                    title={t("شاراتك الأخرى من سعودي كورد", "Your other SaudiCord badges")}
-                    subtitle={t("شارات يمنحها سعودي كورد، ولا تُضبَط من هنا.", "Badges granted by SaudiCord; not configured here.")}
+                    title={t("شاراتك الأخرى من SaifCord", "Your other SaifCord badges")}
+                    subtitle={t("شارات يمنحها SaifCord، ولا تُضبَط من هنا.", "Badges granted by SaifCord; not configured here.")}
                     badge={String(esharqBadges.length)} badgeTone="info">
                     <div className="esharq-mp-list">
                         {esharqBadges.map((b, i) => (
@@ -708,7 +708,7 @@ export function MyProfilePage() {
                                 </div>
                                 <div className="esharq-mp-badge-body">
                                     <div className="esharq-mp-badge-name">{b.description ?? t("شارة", "Badge")}</div>
-                                    <div className="esharq-mp-origin esharq">{t("من سعودي كورد", "From SaudiCord")}</div>
+                                    <div className="esharq-mp-origin esharq">{t("من SaifCord", "From SaifCord")}</div>
                                 </div>
                             </div>
                         ))}
@@ -725,8 +725,8 @@ export function MyProfilePage() {
                         "① The page only reads and renders. It sends not one request to Discord.")}</div>
                     <div>{t("② ولا تُعدّل بيانات حسابك: لا اسمك ولا شاراتك ولا أي حقل عند ديسكورد.",
                         "② It changes nothing on your account: not your name, not your badges, not any field at Discord.")}</div>
-                    <div>{t("③ وشارات سعودي كورد ليست شارات ديسكورد أصلاً — يرسمها العميل عندك ولا وجود لها في حسابك.",
-                        "③ SaudiCord badges aren't Discord badges at all — your client draws them, and they don't exist on your account.")}</div>
+                    <div>{t("③ وشارات SaifCord ليست شارات ديسكورد أصلاً — يرسمها العميل عندك ولا وجود لها في حسابك.",
+                        "③ SaifCord badges aren't Discord badges at all — your client draws them, and they don't exist on your account.")}</div>
                 </div>
             </Card>
         </>
