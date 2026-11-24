@@ -134,7 +134,7 @@ const PAYLOAD = join(PAYLOAD_DIR, "saifcord.asar");
 
 /** Legacy path used by earlier Esharq installs; kept only for safe detection and restore. */
 const LEGACY_PAYLOAD_DIR = join(process.env.APPDATA ?? process.env.HOME ?? ".", "Esharq");
-const LEGACY_SAUDICORD_PAYLOAD_DIR = join(process.env.APPDATA ?? process.env.HOME ?? ".", "SaifCord");
+const LEGACY_SAUDICORD_PAYLOAD_DIR = join(process.env.APPDATA ?? process.env.HOME ?? ".", "SaudiCord");
 
 /**
  * مدخل بناء المطوّر داخل المستودع نفسه.
