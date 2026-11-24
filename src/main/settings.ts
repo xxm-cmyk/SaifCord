@@ -211,7 +211,7 @@ function readSettings<T = object>(name: string, file: string): Partial<T> {
                     } catch { /* بقي مكانه — سيُستبدَل ذرّياً عند أول كتابة */ }
                 }
 
-                console.error(`[SaudiCord] ${name} settings were unreadable — recovered from the backup.`, err);
+                console.error(`[SaifCord] ${name} settings were unreadable — recovered from the backup.`, err);
                 if (isRenderer) {
                     StartupRead.ok = false;
                     StartupRead.error = `${err?.code ?? "خطأ"}: ${err?.message ?? err} — استُعيدت من النسخة الاحتياطية`;
@@ -264,8 +264,8 @@ RendererSettings.addGlobalChangeListener(() => {
     // ما في الذاكرة نسخةُ أمانٍ أقدم ممّا على القرص — الكتابة هنا محوٌ لا حفظ.
     if (StartupRead.holdWrites) {
         lastWriteError = "لم تُقرأ إعداداتك هذه الجلسة والملفّ الأصلي سليم على القرص، "
-            + "فأُوقف الحفظ لئلّا يُكتب فوقه ما هو أقدم منه. أعد تشغيل سعودي كورد.";
-        console.error("[SaudiCord] settings write held back: startup read failed while the on-disk file is intact.");
+            + "فأُوقف الحفظ لئلّا يُكتب فوقه ما هو أقدم منه. أعد تشغيل SaifCord.";
+        console.error("[SaifCord] settings write held back: startup read failed while the on-disk file is intact.");
         return;
     }
 
@@ -290,11 +290,11 @@ RendererSettings.addGlobalChangeListener(() => {
         const expected = Buffer.byteLength(json);
         lastWriteError = written === expected
             ? null
-            : `الملفّ كُتب بحجم ${written} بايت والمتوقّع ${expected} — يعترضه شيءٌ خارج سعودي كورد.`;
+            : `الملفّ كُتب بحجم ${written} بايت والمتوقّع ${expected} — يعترضه شيءٌ خارج SaifCord.`;
     } catch (e: any) {
         // الكتابة نجحت؛ التحقّق وحده تعذّر. لا يُقال إنّ الحفظ فشل.
         lastWriteError = null;
-        console.warn("[SaudiCord] settings were written but could not be verified", e);
+        console.warn("[SaifCord] settings were written but could not be verified", e);
     }
 });
 
