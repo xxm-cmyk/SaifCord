@@ -84,7 +84,7 @@ export const shouldShowContributorBadge = (id: string) => isPluginDev(id) && Ven
 export const isEquicordPluginDev = (id: string) => Object.hasOwn(EquicordDevsById, id);
 export const shouldShowEquicordContributorBadge = (id: string) => isEquicordPluginDev(id) && EquicordDevsById[id].badge !== false;
 
-// رتب SaudiCord الحيّة — تُبذَر من الثوابت المُصرَّفة (احتياط بلا شبكة، ولا وميض عند
+// رتب SaifCord الحيّة — تُبذَر من الثوابت المُصرَّفة (احتياط بلا شبكة، ولا وميض عند
 // الإقلاع) ثمّ تُستبدَل وقت التشغيل من SaudiCord-Bored/team.json عبر BadgeAPI، فتُمنَح
 // الرتب وتُسحَب بلا إعادة بناء — نفس فكرة ملفّات الشارات الأخرى.
 type TierSets = Record<SaudiCordTier, Set<string>>;
@@ -117,10 +117,10 @@ export const esharqTierOf = (id: string): SaudiCordTier | null =>
 
 export const hasSaudiCordTier = (id: string, tier: SaudiCordTier) => liveSaudiCordTiers[tier].has(id);
 
-/** المالك والمدراء — هؤلاء «فريق SaudiCord». */
+/** المالك والمدراء — هؤلاء «فريق SaifCord». */
 export const isSaudiCordTeam = (id: string) => hasSaudiCordTier(id, "owner") || hasSaudiCordTier(id, "admin");
 
-/** شارة «مستخدم SaudiCord» تلقائية لكلّ من له مدخل عامّ في أي رتبة. */
+/** شارة «مستخدم SaifCord» تلقائية لكلّ من له مدخل عامّ في أي رتبة. */
 export const isSaudiCordUser = (id: string) => esharqTierOf(id) !== null;
 
 export const isAnyPluginDev = (id: string) => Object.hasOwn(VencordDevsById, id) || Object.hasOwn(EquicordDevsById, id);
