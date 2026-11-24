@@ -33,6 +33,7 @@ import { traceFunction } from "@debug/Tracer";
 import { Logger } from "@utils/Logger";
 import { onlyOnce } from "@utils/onlyOnce";
 import { canonicalizeFind, canonicalizeReplacement } from "@utils/patches";
+import { resolvePluginDependencies } from "./pluginDependencies";
 import { DefinedSettings, Patch, Plugin, PluginDef, PluginSettingDef, ReporterTestable, StartAt } from "@utils/types";
 import { FluxEvents } from "@vencord/discord-types";
 import { FluxDispatcher } from "@webpack/common";
@@ -68,6 +69,7 @@ function isPromiseLike(value: unknown): value is PromiseLike<unknown> {
 /** Whether we have subscribed to flux events of all the enabled plugins when FluxDispatcher was ready */
 let enabledPluginsSubscribedFlux = false;
 const subscribedFluxEventsPlugins = new Set<string>();
+const subscribedFluxHandlers = new Map<string, Map<string, (...args: any[]) => any>>();
 
 /**
  * إضافات مُخفاة لجلسة واحدة بسبب تنصيف الانهيار.
@@ -223,90 +225,104 @@ export const startAllPlugins = traceFunction("startAllPlugins", function startAl
 });
 
 export function startDependenciesRecursive(p: Plugin) {
-    const settings = Settings.plugins;
-    const visited = new Set<string>();
-    const visiting = new Set<string>();
-    const failures: string[] = [];
-    let restartNeeded = false;
-
-    function startDependency(name: string, requestedBy: string) {
-        if (visited.has(name)) return;
-        if (visiting.has(name)) {
-            logger.error(new Error(`Circular plugin dependency detected: ${[...visiting, name].join(" -> ")}`));
-            failures.push(name);
-            return;
-        }
-
-        const dependency = Plugins[name];
-        const dependencySettings = settings[name];
-        if (!dependency || !dependencySettings) {
+    const resolution = resolvePluginDependencies(p.name, Plugins);
+    const failures = [
+        ...resolution.missing.map(({ name, requestedBy }) => {
             logger.error(new Error(`Plugin ${requestedBy} has unresolved dependency ${name}`));
+            return name;
+        }),
+        ...resolution.cycles.map(cycle => {
+            logger.error(new Error(`Circular plugin dependency detected: ${cycle.join(" -> ")}`));
+            return cycle.join(" -> ");
+        })
+    ];
+
+    if (failures.length) return { restartNeeded: false, failures };
+
+    const settings = Settings.plugins;
+    for (const name of resolution.ordered) {
+        if (!settings[name]) {
+            logger.error(new Error(`Plugin dependency ${name} has no settings entry`));
             failures.push(name);
-            return;
+        }
+    }
+    if (failures.length) return { restartNeeded: false, failures };
+
+    // Validate the complete graph before mutating settings or starting any plugin.
+    for (const name of resolution.ordered) {
+        settings[name].enabled = true;
+        Plugins[name].isDependency = true;
+    }
+
+    let restartNeeded = false;
+    const blocked = new Set<string>();
+
+    for (const name of resolution.ordered) {
+        const dependency = Plugins[name];
+
+        if (dependency.dependencies?.some(parent => blocked.has(parent))) {
+            blocked.add(name);
+            continue;
         }
 
-        visiting.add(name);
-        const failuresBeforeDependencies = failures.length;
-        const restartNeededBeforeDependencies = restartNeeded;
-        for (const nestedDependency of dependency.dependencies ?? []) {
-            startDependency(nestedDependency, dependency.name);
-        }
-        visiting.delete(name);
-        visited.add(name);
-
-        if (failures.length !== failuresBeforeDependencies || restartNeeded !== restartNeededBeforeDependencies || dependencySettings.enabled) return;
-
-        dependencySettings.enabled = true;
-        dependency.isDependency = true;
+        if (dependency.started) continue;
 
         if (pluginRequiresRestart(dependency)) {
             logger.warn(`Enabling dependency ${name} requires restart.`);
             restartNeeded = true;
-            return;
+            blocked.add(name);
+            continue;
         }
 
-        if (!startPlugin(dependency)) failures.push(name);
-    }
-
-    for (const dependency of p.dependencies ?? []) {
-        startDependency(dependency, p.name);
+        if (!startPlugin(dependency)) {
+            failures.push(name);
+            blocked.add(name);
+        }
     }
 
     return { restartNeeded, failures };
 }
 
 export function subscribePluginFluxEvents(p: Plugin, fluxDispatcher: typeof FluxDispatcher) {
-    if (p.flux && !subscribedFluxEventsPlugins.has(p.name) && (!IS_REPORTER || isReporterTestable(p, ReporterTestable.FluxEvents))) {
-        subscribedFluxEventsPlugins.add(p.name);
+    if (!p.flux || subscribedFluxEventsPlugins.has(p.name) || (IS_REPORTER && !isReporterTestable(p, ReporterTestable.FluxEvents))) return;
 
-        logger.debug("Subscribing to flux events of plugin", p.name);
-        for (const [event, handler] of Object.entries(p.flux)) {
-            const wrappedHandler = p.flux[event] = function () {
-                if (p.name === "Encryptcord" && event === "MESSAGE_CREATE") return;
-                try {
-                    const res = handler!.apply(p, arguments as any);
-                    return res instanceof Promise
-                        ? res.catch(e => logger.error(`${p.name}: Error while handling ${event}\n`, e))
-                        : res;
-                } catch (e) {
-                    logger.error(`${p.name}: Error while handling ${event}\n`, e);
-                }
-            };
+    subscribedFluxEventsPlugins.add(p.name);
+    const handlers = new Map<string, (...args: any[]) => any>();
+    subscribedFluxHandlers.set(p.name, handlers);
 
-            fluxDispatcher.subscribe(event as FluxEvents, wrappedHandler);
-        }
+    logger.debug("Subscribing to flux events of plugin", p.name);
+    for (const [event, handler] of Object.entries(p.flux)) {
+        const wrappedHandler = function (...args: any[]) {
+            if (p.name === "Encryptcord" && event === "MESSAGE_CREATE") return;
+            try {
+                const result = handler!.apply(p, args);
+                return isPromiseLike(result)
+                    ? Promise.resolve(result).catch(e => logger.error(`${p.name}: Error while handling ${event}\\n`, e))
+                    : result;
+            } catch (e) {
+                logger.error(`${p.name}: Error while handling ${event}\\n`, e);
+            }
+        };
+
+        handlers.set(event, wrappedHandler);
+        fluxDispatcher.subscribe(event as FluxEvents, wrappedHandler);
     }
 }
 
 export function unsubscribePluginFluxEvents(p: Plugin, fluxDispatcher: typeof FluxDispatcher) {
-    if (p.flux) {
+    const handlers = subscribedFluxHandlers.get(p.name);
+    if (!handlers) {
         subscribedFluxEventsPlugins.delete(p.name);
-
-        logger.debug("Unsubscribing from flux events of plugin", p.name);
-        for (const [event, handler] of Object.entries(p.flux)) {
-            fluxDispatcher.unsubscribe(event as FluxEvents, handler!);
-        }
+        return;
     }
+
+    logger.debug("Unsubscribing from flux events of plugin", p.name);
+    for (const [event, handler] of handlers) {
+        fluxDispatcher.unsubscribe(event as FluxEvents, handler);
+    }
+
+    subscribedFluxHandlers.delete(p.name);
+    subscribedFluxEventsPlugins.delete(p.name);
 }
 
 export function subscribeAllPluginsFluxEvents(fluxDispatcher: typeof FluxDispatcher) {
