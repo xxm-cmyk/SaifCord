@@ -291,8 +291,8 @@ function SessionStereoStatus({ eng, stereoOn }: { eng: ReturnType<typeof useSter
         }
         return (
             <NoticeStrip tone="danger">
-                {t(`طُبّق ستيريو الجلسة جزئياً (${eng.detail.ok} من ${eng.detail.total} رقعة صوت)، فلن يُبَثّ صوتك ستيريو فعلياً. غالباً لأنّ بناء ديسكورد أحدث من أنماط المُرقِّع، ويصلحه تحديثٌ لسعودي كورد.`,
-                    `Session stereo was only partly applied (${eng.detail.ok} of ${eng.detail.total} audio patches), so your audio won't actually go out in stereo. Most likely this Discord build is newer than the patcher's patterns; a SaudiCord update fixes it.`)}
+                {t(`طُبّق ستيريو الجلسة جزئياً (${eng.detail.ok} من ${eng.detail.total} رقعة صوت)، فلن يُبَثّ صوتك ستيريو فعلياً. غالباً لأنّ بناء ديسكورد أحدث من أنماط المُرقِّع، ويصلحه تحديثٌ لSaifCord.`,
+                    `Session stereo was only partly applied (${eng.detail.ok} of ${eng.detail.total} audio patches), so your audio won't actually go out in stereo. Most likely this Discord build is newer than the patcher's patterns; a SaifCord update fixes it.`)}
             </NoticeStrip>
         );
     }
