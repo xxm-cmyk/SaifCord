@@ -12,7 +12,7 @@
         "url": "git+https://github.com/xxm-cmyk/SaifCord.git"
     },
     "license": "GPL-3.0-or-later",
-    "author": "LOSTSTR <noreply@github.com>",
+    "author": "Saif",
     "scripts": {
         "build": "node --require=./scripts/suppressExperimentalWarnings.js scripts/build/build.mjs",
         "buildStandalone": "pnpm build --standalone",
