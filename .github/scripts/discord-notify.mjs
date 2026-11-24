@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Discord webhook notifier — SaudiCord
+ * Discord webhook notifier — SaifCord
  *
  * Security model:
  *   - Webhook URLs come ONLY from GitHub Actions secrets (env vars).
@@ -106,7 +106,7 @@ function postWebhook(url, payload) {
                 headers: {
                     "Content-Type": "application/json",
                     "Content-Length": Buffer.byteLength(body),
-                    "User-Agent": "SaudiCord-Notifier/1.0",
+                    "User-Agent": "SaifCord-Notifier/1.0",
                 },
             },
             res => {
@@ -142,7 +142,7 @@ function run(cmd) {
 
 // Shared by BOTH webhooks (plugins + updates) — the EA webhook avatar.
 const ICON_URL =
-    "https://raw.githubusercontent.com/xxm-cmyk/-SaudiCord-/main/browser/icon.png";
+    "https://raw.githubusercontent.com/xxm-cmyk/SaifCord/main/browser/icon.png";
 
 // The Esharq emoji that heads every announcement. Keep this ID stable.
 const ICON = "🇸🇦";
@@ -489,7 +489,7 @@ async function send(url, content, kind) {
         return;
     }
     try {
-        await postWebhook(url, { username: "SaudiCord", avatar_url: ICON_URL, content });
+        await postWebhook(url, { username: "SaifCord", avatar_url: ICON_URL, content });
     } catch (e) {
         console.error(`  ${kind} webhook failed: ${e.message}`);
     }
