@@ -10,7 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace SaudiCord.Setup;
+namespace SaifCord.Setup;
 
 public partial class MainWindow : Window
 {
@@ -27,12 +27,12 @@ public partial class MainWindow : Window
         SizeChanged += (_, _) => BuildGrid();
         MouseMove += (_, e) => _mouse = e.GetPosition(GridCanvas);
         CompositionTarget.Rendering += AnimateGrid;
-        Log("مرحباً بك في مثبّت SaudiCord المستقل.");
+        Log("مرحباً بك في مثبّت SaifCord المستقل.");
         Log("اختر تثبيت أو إصلاح أو إزالة للمتابعة.");
     }
 
     private static string PayloadDirectory =>
-        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SaudiCord", "InstallerPayload");
+        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SaifCord", "InstallerPayload");
 
 
     [DllImport("dwmapi.dll", PreserveSig = true)]
@@ -112,13 +112,13 @@ public partial class MainWindow : Window
     private async Task<bool> ConfirmDiscordClose()
     {
         var answer = MessageBox.Show(
-            "سيتم إغلاق جميع نوافذ وعمليات Discord وSaudiCord المفتوحة. احفظ عملك أولاً. هل تريد المتابعة؟",
+            "سيتم إغلاق جميع نوافذ وعمليات Discord وSaifCord المفتوحة. احفظ عملك أولاً. هل تريد المتابعة؟",
             "تأكيد إغلاق Discord", MessageBoxButton.YesNo, MessageBoxImage.Warning);
         return answer == MessageBoxResult.Yes;
     }
 
     private static string[] DiscordProcessNames =>
-        ["Discord", "DiscordPTB", "DiscordCanary", "SaudiCord"];
+        ["Discord", "DiscordPTB", "DiscordCanary", "SaifCord"];
 
     private async Task CloseDiscordProcesses()
     {
@@ -159,10 +159,10 @@ public partial class MainWindow : Window
         var assembly = Assembly.GetExecutingAssembly();
         var names = new[]
         {
-            ("SaudiCord.Payload.node.exe", "node.exe"),
-            ("SaudiCord.Payload.install.mjs", "install.mjs"),
-            ("SaudiCord.Payload.asar.mjs", "asar.mjs"),
-            ("SaudiCord.Payload.saudicord.asar", "saudicord.asar")
+            ("SaifCord.Payload.node.exe", "node.exe"),
+            ("SaifCord.Payload.install.mjs", "install.mjs"),
+            ("SaifCord.Payload.asar.mjs", "asar.mjs"),
+            ("SaifCord.Payload.saifcord.asar", "saifcord.asar")
         };
 
         foreach (var (resource, file) in names)
@@ -183,7 +183,7 @@ public partial class MainWindow : Window
         await SetBusy(true);
         try
         {
-            Log(uninstall ? "بدء إزالة SaudiCord واستعادة Discord..." : "بدء تجهيز ملفات SaudiCord...");
+            Log(uninstall ? "بدء إزالة SaifCord واستعادة Discord..." : "بدء تجهيز ملفات SaifCord...");
             await CloseDiscordProcesses();
             ExtractPayload();
 
@@ -209,9 +209,9 @@ public partial class MainWindow : Window
 
             if (process.ExitCode == 0)
             {
-                Log(uninstall ? "اكتملت الإزالة واستعادة Discord الأصلي." : "اكتمل تثبيت SaudiCord بنجاح.");
-                MessageBox.Show(uninstall ? "تمت إزالة SaudiCord واستعادة Discord." : "تم تثبيت SaudiCord. افتح Discord لتطبيق التغييرات.",
-                    "SaudiCord", MessageBoxButton.OK, MessageBoxImage.Information);
+                Log(uninstall ? "اكتملت الإزالة واستعادة Discord الأصلي." : "اكتمل تثبيت SaifCord بنجاح.");
+                MessageBox.Show(uninstall ? "تمت إزالة SaifCord واستعادة Discord." : "تم تثبيت SaifCord. افتح Discord لتطبيق التغييرات.",
+                    "SaifCord", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
@@ -234,8 +234,8 @@ public partial class MainWindow : Window
     private async void InstallButton_Click(object sender, RoutedEventArgs e) => await RunInstaller(false);
     private async void RepairButton_Click(object sender, RoutedEventArgs e)
     {
-        if (MessageBox.Show("سيُعاد تطبيق ملفات SaudiCord على Discord. هل تريد المتابعة؟",
-            "إصلاح SaudiCord", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+        if (MessageBox.Show("سيُعاد تطبيق ملفات SaifCord على Discord. هل تريد المتابعة؟",
+            "إصلاح SaifCord", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             await RunInstaller(false);
     }
     private async void UninstallButton_Click(object sender, RoutedEventArgs e) => await RunInstaller(true);
@@ -247,7 +247,7 @@ public partial class MainWindow : Window
         try
         {
             await CloseDiscordProcesses();
-            Log("تم إرسال طلب إغلاق لجميع عمليات Discord وSaudiCord.");
+            Log("تم إرسال طلب إغلاق لجميع عمليات Discord وSaifCord.");
         }
         finally { await SetBusy(false); }
     }
