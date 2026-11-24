@@ -91,7 +91,7 @@ function openAboutWindow() {
     });
 }
 
-function createSaudiCordMenuItems(): MenuItemConstructorOptions[] {
+function createSaifCordMenuItems(): MenuItemConstructorOptions[] {
     return [
         {
             label: "SaifCord",
@@ -130,8 +130,8 @@ export function patchTrayMenu(): void {
         const alreadyPatched = template.some(item => item.label === "SaifCord");
         if (isTrayMenu(template) && !alreadyPatched) {
             const insertIndex = findInsertIndex(template);
-            const saudicordItems = createSaudiCordMenuItems();
-            template.splice(insertIndex, 0, ...saudicordItems);
+            const saifcordItems = createSaifCordMenuItems();
+            template.splice(insertIndex, 0, ...saifcordItems);
         }
 
         return originalBuildFromTemplate.call(this, template);
