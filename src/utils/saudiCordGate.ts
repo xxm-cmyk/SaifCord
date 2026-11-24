@@ -142,3 +142,6 @@ export function startSaifCordGate() {
     interval = setInterval(check, CHECK_INTERVAL);
     document.addEventListener("visibilitychange", check);
 }
+
+/** @deprecated Use startSaifCordGate. */
+export const startSaudiCordGate = startSaifCordGate;
