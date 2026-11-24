@@ -29,9 +29,9 @@ export const enum IpcEvents {
     GET_THEME_SYSTEM_VALUES = "VencordGetThemeSystemValues",
     GET_SETTINGS_DIR = "VencordGetSettingsDir",
     /** حال حفظ الإعدادات على القرص — لتشخيص «إعداداتي تعود كما كانت». */
-    GET_SETTINGS_HEALTH = "SaudiCordGetSettingsHealth",
+    GET_SETTINGS_HEALTH = "SaifCordGetSettingsHealth",
     /** الواجهة تُبلّغ أنّ إرسال الإعدادات فشل — وإلّا بقي الفشل عندها وحدها. */
-    REPORT_SETTINGS_SAVE_FAILURE = "SaudiCordReportSettingsSaveFailure",
+    REPORT_SETTINGS_SAVE_FAILURE = "SaifCordReportSettingsSaveFailure",
     GET_SETTINGS = "VencordGetSettings",
     SET_SETTINGS = "VencordSetSettings",
     THEME_UPDATE = "VencordThemeUpdate",
@@ -62,47 +62,47 @@ export const enum IpcEvents {
     SUPPORTS_WINDOWS_MATERIAL = "VencordSupportsWindowsMaterial",
 
     /* إضافات المجتمع — تُستورَد من مجلد على جهاز المستخدم ولا تغادره أبداً. */
-    COMMUNITY_LIST = "SaudiCordCommunityList",
-    COMMUNITY_PICK_AND_IMPORT = "SaudiCordCommunityPickAndImport",
-    COMMUNITY_INSTALL_CATALOG = "SaudiCordCommunityInstallCatalog",
-    COMMUNITY_CATALOG_LIST = "SaudiCordCommunityCatalogList",
-    COMMUNITY_REMOVE = "SaudiCordCommunityRemove",
-    COMMUNITY_SET_ENABLED = "SaudiCordCommunitySetEnabled",
-    COMMUNITY_OPEN_FOLDER = "SaudiCordCommunityOpenFolder",
-    COMMUNITY_READ_SOURCE = "SaudiCordCommunityReadSource",
-    COMMUNITY_RESCAN = "SaudiCordCommunityRescan",
+    COMMUNITY_LIST = "SaifCordCommunityList",
+    COMMUNITY_PICK_AND_IMPORT = "SaifCordCommunityPickAndImport",
+    COMMUNITY_INSTALL_CATALOG = "SaifCordCommunityInstallCatalog",
+    COMMUNITY_CATALOG_LIST = "SaifCordCommunityCatalogList",
+    COMMUNITY_REMOVE = "SaifCordCommunityRemove",
+    COMMUNITY_SET_ENABLED = "SaifCordCommunitySetEnabled",
+    COMMUNITY_OPEN_FOLDER = "SaifCordCommunityOpenFolder",
+    COMMUNITY_READ_SOURCE = "SaifCordCommunityReadSource",
+    COMMUNITY_RESCAN = "SaifCordCommunityRescan",
     /** متزامن: يُقرأ قبل تمهيد ديسكورد كي تلحق الرقع. */
-    COMMUNITY_GET_BUNDLE = "SaudiCordCommunityGetBundle",
+    COMMUNITY_GET_BUNDLE = "SaifCordCommunityGetBundle",
 
     /* الرصد — جرد الوجهات الشبكية المسموح بها. */
-    CSP_LIST_POLICIES = "SaudiCordCspListPolicies",
+    CSP_LIST_POLICIES = "SaifCordCspListPolicies",
 
     /* ميزانيات الأداء — مقاييس عمليات ديسكورد. */
-    PERF_APP_METRICS = "SaudiCordPerfAppMetrics",
+    PERF_APP_METRICS = "SaifCordPerfAppMetrics",
 
     /* الخصوصية — جرد ما يُخزَّن على القرص (أحجام ومسارات لا محتوى). */
-    DATA_INVENTORY = "SaudiCordDataInventory",
-    DATA_OPEN_ROOT = "SaudiCordDataOpenRoot",
+    DATA_INVENTORY = "SaifCordDataInventory",
+    DATA_OPEN_ROOT = "SaifCordDataOpenRoot",
 
     /* منشئ الثيمات — ما يمسّ القرص وحده؛ التلوين كلّه في المُصيَّر. */
-    THEME_PICK_BACKGROUND = "SaudiCordThemePickBackground",
-    THEME_GET_BACKGROUND = "SaudiCordThemeGetBackground",
-    THEME_CLEAR_BACKGROUND = "SaudiCordThemeClearBackground",
-    THEME_SAVE_CSS = "SaudiCordThemeSaveCss",
-    THEME_LIBRARY_LIST = "SaudiCordThemeLibraryList",
-    THEME_LIBRARY_INSTALL = "SaudiCordThemeLibraryInstall",
-    THEME_LIBRARY_OPEN = "SaudiCordThemeLibraryOpen",
+    THEME_PICK_BACKGROUND = "SaifCordThemePickBackground",
+    THEME_GET_BACKGROUND = "SaifCordThemeGetBackground",
+    THEME_CLEAR_BACKGROUND = "SaifCordThemeClearBackground",
+    THEME_SAVE_CSS = "SaifCordThemeSaveCss",
+    THEME_LIBRARY_LIST = "SaifCordThemeLibraryList",
+    THEME_LIBRARY_INSTALL = "SaifCordThemeLibraryInstall",
+    THEME_LIBRARY_OPEN = "SaifCordThemeLibraryOpen",
 
     /* الاتّصال المشفّر — DNS عبر HTTPS، يُضبَط على مستوى التطبيق. */
-    DNS_GET_STATE = "SaudiCordDnsGetState",
-    DNS_SET = "SaudiCordDnsSet",
-    DNS_TEST = "SaudiCordDnsTest",
-    THEME_OPEN_FOLDER = "SaudiCordThemeOpenFolder",
+    DNS_GET_STATE = "SaifCordDnsGetState",
+    DNS_SET = "SaifCordDnsSet",
+    DNS_TEST = "SaifCordDnsTest",
+    THEME_OPEN_FOLDER = "SaifCordThemeOpenFolder",
 
     /* تنصيف الانهيار — جلسة بحثٍ ثنائيّ عبر إعادات التشغيل. */
-    BISECT_START = "SaudiCordBisectStart",
-    BISECT_ANSWER = "SaudiCordBisectAnswer",
-    BISECT_CANCEL = "SaudiCordBisectCancel",
+    BISECT_START = "SaifCordBisectStart",
+    BISECT_ANSWER = "SaifCordBisectAnswer",
+    BISECT_CANCEL = "SaifCordBisectCancel",
     /** متزامن: يُقرأ قبل بدء أي إضافة. */
-    BISECT_GET = "SaudiCordBisectGet",
+    BISECT_GET = "SaifCordBisectGet",
 }
