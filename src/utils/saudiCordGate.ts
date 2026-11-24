@@ -1,5 +1,5 @@
 /*
- * SaudiCord server membership gate.
+ * SaifCord server membership gate.
  * Blurs and blocks the client until the current account joins the official server.
  * Membership is rechecked continuously so leaving the server restores the gate.
  */
@@ -7,8 +7,8 @@ import { SAUDICORD_GUILD_ID } from "@utils/constants";
 import { GuildStore } from "@webpack/common";
 
 const INVITE_URL = "https://discord.gg/gbGPpTq6tk";
-const ROOT_ID = "saudicord-membership-gate";
-const STYLE_ID = "saudicord-membership-gate-style";
+const ROOT_ID = "saifcord-membership-gate";
+const STYLE_ID = "saifcord-membership-gate-style";
 const CHECK_INTERVAL = 2_000;
 
 let interval: ReturnType<typeof setInterval> | undefined;
@@ -18,7 +18,7 @@ function isMember(): boolean {
     try {
         return GuildStore.getGuildIds().includes(SAUDICORD_GUILD_ID);
     } catch (error) {
-        console.error("[SaudiCord] Membership check failed:", error);
+        console.error("[SaifCord] Membership check failed:", error);
         return false;
     }
 }
@@ -36,7 +36,7 @@ function ensureStyles() {
             -webkit-backdrop-filter: blur(16px) saturate(125%);
             backdrop-filter: blur(16px) saturate(125%);
             font-family: inherit;
-            animation: saudicord-gate-in .22s ease-out both;
+            animation: saifcord-gate-in .22s ease-out both;
         }
         #${ROOT_ID} * { box-sizing: border-box; }
         #${ROOT_ID} .sc-gate-card {
@@ -77,7 +77,7 @@ function ensureStyles() {
         #${ROOT_ID} .sc-gate-foot {
             margin: 14px 0 0; color: rgba(235,241,255,.35); font-size: 11px;
         }
-        @keyframes saudicord-gate-in { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes saifcord-gate-in { from { opacity: 0; } to { opacity: 1; } }
         @media (prefers-reduced-motion: reduce) {
             #${ROOT_ID} { animation: none; }
             #${ROOT_ID} button { transition: none; }
@@ -100,9 +100,9 @@ function showGate() {
     card.className = "sc-gate-card";
     card.innerHTML = `
         <div class="sc-gate-mark" aria-hidden="true">S</div>
-        <h2 id="sc-gate-title">انضم إلى مجتمع SaudiCord</h2>
+        <h2 id="sc-gate-title">انضم إلى مجتمع SaifCord</h2>
         <p class="sc-gate-desc">
-            استخدام SaudiCord يتطلب عضوية السيرفر الرسمي.
+            استخدام SaifCord يتطلب عضوية السيرفر الرسمي.
             انضم للسيرفر، ثم اضغط على زر التحقق للمتابعة.
         </p>
         <div class="sc-gate-actions">
@@ -131,7 +131,7 @@ function hideGate() {
     root = undefined;
 }
 
-export function startSaudiCordGate() {
+export function startSaifCordGate() {
     if (interval) clearInterval(interval);
     const check = () => {
         if (!document.body) return;
