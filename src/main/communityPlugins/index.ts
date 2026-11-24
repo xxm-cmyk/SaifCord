@@ -10,20 +10,20 @@
  *
  * ## 🔴 حدود المسؤولية — وهي حدود مكتوبة في الكود لا في نصّ تسويقيّ
  *
- * سعودي كورد مسؤول عن **أن تعمل هذه الميزة**: أن يُقرأ المجلد، ويُحوَّل، ويُحمَّل في
+ * SaifCord مسؤول عن **أن تعمل هذه الميزة**: أن يُقرأ المجلد، ويُحوَّل، ويُحمَّل في
  * الوقت الصحيح، وأن يُفعَّل ويُعطَّل ويُحذَف. **ولا علاقة له بالإضافة نفسها**:
  * لا يكتبها ولا يُراجعها ولا يُحدّثها ولا يُصلحها، ولا يتحمّل ما تفعله.
  *
  * ## ولا تغادر جهاز صاحبها — بالبناء لا بالوعد
  *
- * 1. **الشبكة محصورة في الكتالوج الرسمي**: قراءة كتالوج سعودي كورد وتنزيل
+ * 1. **الشبكة محصورة في الكتالوج الرسمي**: قراءة كتالوج SaifCord وتنزيل
  *    ملفات مصدر مثبّتة بـ commit وبصمات SHA-256 من مضيف ثابت فقط؛ لا نقبل
  *    روابط يرسلها المُصيِّر، ولا نرفع ملفات المستخدم أو مجلده إلى أي جهة.
  * 2. **تُخزَّن ملفّاتٍ على القرص، لا في الإعدادات ولا في `DataStore`.** وهذا
  *    مقصود: `exportSettings` يُصدّر `settings` و`quickCss` و`DataStore` —
  *    فلو سكن المصدر أياً منها لسافر مع أول نسخة احتياطية أو مزامنة سحابية.
  *    وهو خارجها كلّها، فلا يُصدَّر ولا يُزامَن ولا يُشارَك.
- * 3. **لا يُشحن مع سعودي كورد**: المجلد يُنشأ عند أوّل استيراد على جهاز صاحبه، ولا
+ * 3. **لا يُشحن مع SaifCord**: المجلد يُنشأ عند أوّل استيراد على جهاز صاحبه، ولا
  *    وجود له في الحزمة التي تصل الناس.
  */
 
@@ -308,7 +308,7 @@ export function importFolder(root: string, keepFolderName?: string): ImportResul
 
     // 🔴 وحدة العملية الرئيسة لا تدخل الحزمة إطلاقاً.
     //
-    // ربطُها يحدث **وقت بناء سعودي كورد** عبر خريطة `VencordNative.pluginHelpers`،
+    // ربطُها يحدث **وقت بناء SaifCord** عبر خريطة `VencordNative.pluginHelpers`،
     // فإضافةٌ تُستورَد بعد البناء لا مدخل لها فيها أبداً. وكودُ الواجهة لا
     // يستورد الملفّ أصلاً: الصيغة المتّبعة `typeof import("./native")` نوعٌ
     // يمحوه المُحوِّل، فلا `require` له وقت التشغيل. أي أنّ ترجمة الملفّ
@@ -387,7 +387,7 @@ export function importFolder(root: string, keepFolderName?: string): ImportResul
                 continue;
             }
             if (!/\.css$/i.test(f.path)) continue;
-            const styleId = `saudicord-community-${id}-${f.path.replace(/[^a-z0-9]+/gi, "-")}`;
+            const styleId = `saifcord-community-${id}-${f.path.replace(/[^a-z0-9]+/gi, "-")}`;
             built.push({
                 path: f.path,
                 code: [
@@ -603,7 +603,7 @@ function toEntry(m: Manifest): CommunityEntry {
  * ── لماذا تلزم ────────────────────────────────────────────────────────
  * ما استُورد قبل أن يتعلّم المُحرِّك شيئاً جديداً يبقى على حاله: حزمته
  * المبنيّة قديمة، ولا يحمل جرد الأسماء المطلوبة فلا يُفحَص فحصاً كاملاً.
- * وكل تحديثٍ لسعودي كورد يُضيف وحدةً إلى الخريطة يجعل إضافاتٍ كانت تسقط قابلةً
+ * وكل تحديثٍ لSaifCord يُضيف وحدةً إلى الخريطة يجعل إضافاتٍ كانت تسقط قابلةً
  * للعمل — بلا أن يعرف صاحبها.
  *
  * ── لماذا من `source/` لا من مجلد المستخدم ───────────────────────────
@@ -732,15 +732,15 @@ export interface CommunityCatalogPlugin {
 /** قراءة الكتالوج عبر العملية الرئيسية لتفادي قيود CSP في مُصيّر Discord. */
 export async function listCatalog(): Promise<CommunityCatalogPlugin[]> {
     const response = await net.fetch(
-        "https://raw.githubusercontent.com/xxm-cmyk/SaudiCord/main/community-plugins/catalog.json",
+        "https://raw.githubusercontent.com/xxm-cmyk/SaifCord/main/community-plugins/catalog.json",
         { redirect: "error", headers: { Accept: "application/json" } }
     );
     if (!response.ok) throw new Error("تعذّر تحميل الكتالوج (HTTP " + response.status + ").");
     const source = await response.text();
     if (Buffer.byteLength(source, "utf8") > 1024 * 1024) throw new Error("حجم الكتالوج أكبر من الحد المسموح.");
     const catalog = JSON.parse(source);
-    if (catalog?.schemaVersion !== 1 || catalog?.repository !== "xxm-cmyk/SaudiCord" || !Array.isArray(catalog.plugins)) {
-        throw new Error("صيغة كتالوج سعودي كورد غير صالحة.");
+    if (catalog?.schemaVersion !== 1 || catalog?.repository !== "xxm-cmyk/SaifCord" || !Array.isArray(catalog.plugins)) {
+        throw new Error("صيغة كتالوج SaifCord غير صالحة.");
     }
 
     return catalog.plugins.filter((plugin: any) => {
@@ -770,7 +770,7 @@ export async function listCatalog(): Promise<CommunityCatalogPlugin[]> {
 }
 
 /**
- * Download a catalog plugin from the fixed SaudiCord repository.
+ * Download a catalog plugin from the fixed SaifCord repository.
  * The renderer supplies only an ID. Files are pinned to a full commit, checked
  * against SHA-256, then passed through the exact local import/security pipeline.
  */
@@ -784,15 +784,15 @@ export async function installCatalogPlugin(id: string): Promise<ImportResult> {
     let staging = "";
     try {
         const catalogResponse = await net.fetch(
-            "https://raw.githubusercontent.com/xxm-cmyk/SaudiCord/main/community-plugins/catalog.json",
+            "https://raw.githubusercontent.com/xxm-cmyk/SaifCord/main/community-plugins/catalog.json",
             { redirect: "error", headers: { Accept: "application/json" } }
         );
         if (!catalogResponse.ok) return failure("catalog-fetch", "تعذّر تحميل الكتالوج (HTTP " + catalogResponse.status + ").");
         const catalogText = await catalogResponse.text();
         if (Buffer.byteLength(catalogText, "utf8") > 1024 * 1024) return failure("catalog-size", "حجم الكتالوج أكبر من الحد المسموح.");
         const catalog = JSON.parse(catalogText);
-        if (catalog?.schemaVersion !== 1 || catalog?.repository !== "xxm-cmyk/SaudiCord" || !Array.isArray(catalog.plugins)) {
-            return failure("catalog-schema", "صيغة كتالوج سعودي كورد غير صالحة.");
+        if (catalog?.schemaVersion !== 1 || catalog?.repository !== "xxm-cmyk/SaifCord" || !Array.isArray(catalog.plugins)) {
+            return failure("catalog-schema", "صيغة كتالوج SaifCord غير صالحة.");
         }
 
         const plugin = catalog.plugins.find((item: any) => item?.id === id);
@@ -824,7 +824,7 @@ export async function installCatalogPlugin(id: string): Promise<ImportResult> {
             if (rel === plugin.entry) hasEntry = true;
 
             const encodedPath = rel.split("/").map(encodeURIComponent).join("/");
-            const url = "https://raw.githubusercontent.com/xxm-cmyk/SaudiCord/" + plugin.commit
+            const url = "https://raw.githubusercontent.com/xxm-cmyk/SaifCord/" + plugin.commit
                 + "/community-plugins/plugins/" + id + "/" + encodedPath;
             const response = await net.fetch(url, { redirect: "error" });
             if (!response.ok) return failure("source-fetch", "تعذّر تنزيل " + rel + " (HTTP " + response.status + ").");
