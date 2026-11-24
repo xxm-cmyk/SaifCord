@@ -56,11 +56,11 @@ function EquibopSection() {
               * التطبيق شيئان: القوقعة (تُحدَّث من نافذتها) والمود (يُحدَّث من هنا).
               */}
             <PlainCard variant="brand">
-                <HeadingSecondary>{t("سعودي كورد لسطح المكتب", "SaudiCord Desktop")}</HeadingSecondary>
+                <HeadingSecondary>{t("SaifCord لسطح المكتب", "SaifCord Desktop")}</HeadingSecondary>
                 <Paragraph>{t("التطبيق شيئان: القوقعة التي تُشغّل ديسكورد، والمود الذي يُعرّبه ويُضيف إليه. هذا المُحدِّث خاصّ بالمود.", "The app is two things: the shell that runs Discord, and the mod that arabises and extends it. This updater is for the mod.")}</Paragraph>
                 <Paragraph className={Margins.top8}>
-                    {t("القوقعة تُحدّث نفسها وتُخبرك بنافذةٍ منفصلة. ويمكنك متابعة إصدارات سعودي كورد من ", "The shell updates itself and tells you in a separate window. You can follow SaudiCord releases on ")}
-                    <Link href="https://github.com/xxm-cmyk/SaudiCord/releases/latest">{t("صفحة الإصدارات", "the releases page")}</Link>.
+                    {t("القوقعة تُحدّث نفسها وتُخبرك بنافذةٍ منفصلة. ويمكنك متابعة إصدارات SaifCord من ", "The shell updates itself and tells you in a separate window. You can follow SaifCord releases on ")}
+                    <Link href="https://github.com/xxm-cmyk/SaifCord/releases/latest">{t("صفحة الإصدارات", "the releases page")}</Link>.
                 </Paragraph>
             </PlainCard>
 
@@ -69,7 +69,7 @@ function EquibopSection() {
                     <HeadingSecondary>{t("إصدار القوقعة قديم", "Shell outdated")}</HeadingSecondary>
                     <Flex flexDirection="column" gap="0.5em">
                         <Paragraph>{t("إصدار القوقعة لديك قديم.", "Your desktop shell is outdated.")}</Paragraph>
-                        <Button variant="link" onClick={() => VesktopNative.app.openUpdater()}>{t("افتح مُحدِّث سعودي كورد لسطح المكتب", "Open the SaudiCord Desktop updater")}</Button>
+                        <Button variant="link" onClick={() => VesktopNative.app.openUpdater()}>{t("افتح مُحدِّث SaifCord لسطح المكتب", "Open the SaifCord Desktop updater")}</Button>
                     </Flex>
                 </PlainCard>
             )}
@@ -101,10 +101,10 @@ function Updater() {
 
             <Card
                 index={0}
-                title={t("مُحدِّث SaudiCord", "SaudiCord Updater")}
+                title={t("مُحدِّث SaifCord", "SaifCord Updater")}
                 subtitle={t(
-                    "يجلب SaudiCord تحديثاته من المستودع الرسمي ويثبّتها عند طلبك.",
-                    "SaudiCord downloads and installs updates from its official repository when you ask."
+                    "يجلب SaifCord تحديثاته من المستودع الرسمي ويثبّتها عند طلبك.",
+                    "SaifCord downloads and installs updates from its official repository when you ask."
                 )}
                 badge={isNewer
                     ? t("إصدار أحدث من المستودع", "Ahead of the repository")
@@ -183,15 +183,15 @@ function Updater() {
                 index={4}
                 title={t("تفضيلات التحديث", "Update preferences")}
                 subtitle={t(
-                    "تحكّم في كيفية تحديث SaudiCord.",
-                    "Control how SaudiCord updates itself."
+                    "تحكّم في كيفية تحديث SaifCord.",
+                    "Control how SaifCord updates itself."
                 )}
             >
                 <FormSwitch
                     title={t("تحديث تلقائي", "Auto update")}
                     description={t(
-                        "ينزّل SaudiCord التحديثات ويثبّتها في الخلفية بلا سؤال. وتظهر التغييرات بعد إعادة تشغيل Discord.",
-                        "SaudiCord downloads and installs updates in the background without asking. Changes appear after Discord restarts."
+                        "ينزّل SaifCord التحديثات ويثبّتها في الخلفية بلا سؤال. وتظهر التغييرات بعد إعادة تشغيل Discord.",
+                        "SaifCord downloads and installs updates in the background without asking. Changes appear after Discord restarts."
                     )}
                     value={settings.autoUpdate}
                     onChange={(v: boolean) => settings.autoUpdate = v}
@@ -202,7 +202,7 @@ function Updater() {
                     onChange={(v: boolean) => settings.autoUpdateNotification = v}
                     title={t("إشعار عند اكتمال التحديث", "Notify when an update finishes")}
                     description={t(
-                        "يصلك إشعار حين ينتهي تنزيل تحديث SaudiCord في الخلفية.",
+                        "يصلك إشعار حين ينتهي تنزيل تحديث SaifCord في الخلفية.",
                         "You get a notification when a background update finishes downloading."
                     )}
                     disabled={!settings.autoUpdate}
