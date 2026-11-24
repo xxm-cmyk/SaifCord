@@ -10,4 +10,7 @@ import iconBase64 from "file://../../../browser/icon.png?base64";
 export const SAIFCORD_LOGO = `data:image/png;base64,${iconBase64}`;
 
 // Compatibility alias for any remaining upstream imports.
-export const ESHARQ_LOGO = SAUDICORD_LOGO;
+/** @deprecated Use SAIFCORD_LOGO. */
+export const SAUDICORD_LOGO = SAIFCORD_LOGO;
+/** @deprecated Use SAIFCORD_LOGO. */
+export const ESHARQ_LOGO = SAIFCORD_LOGO;
