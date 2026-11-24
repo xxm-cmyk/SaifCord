@@ -15,7 +15,7 @@ import { Heading } from "@components/Heading";
 import { DeleteIcon } from "@components/Icons";
 import { Link } from "@components/Link";
 import { Paragraph } from "@components/Paragraph";
-import { Card as SaudiCordCard } from "@components/settings/esharq/Card";
+import { Card as SaifCordCard } from "@components/settings/esharq/Card";
 import { SettingsTab, wrapTab } from "@components/settings/tabs/BaseTab";
 import { HashLink } from "@components/settings/tabs/updater/Components";
 import { t } from "@utils/esharqI18n";
@@ -497,7 +497,7 @@ function ChangelogContent() {
 
     return (
         <>
-            <SaudiCordCard
+            <SaifCordCard
                 index={0}
                 title={t("جلب التغييرات", "Fetch changes")}
                 subtitle={t(
@@ -573,14 +573,14 @@ function ChangelogContent() {
                 </ErrorCard>
             )}
 
-            </SaudiCordCard>
+            </SaifCordCard>
 
-            <SaudiCordCard
+            <SaifCordCard
                 index={1}
                 title={t("المستودع", "Repository")}
                 subtitle={t(
-                    "المستودع الذي يجلب منه سعودي كورد تحديثاته.",
-                    "The repository SaudiCord fetches its updates from."
+                    "المستودع الذي يجلب منه SaifCord تحديثاته.",
+                    "The repository SaifCord fetches its updates from."
                 )}
             >
             <Paragraph color="text-subtle">
@@ -596,10 +596,10 @@ function ChangelogContent() {
                 {" "}(<HashLink repo={repo} hash={gitHash} disabled={repoPending} />)
             </Paragraph>
 
-            </SaudiCordCard>
+            </SaifCordCard>
 
             {hasCurrentChanges && (
-                <SaudiCordCard
+                <SaifCordCard
                     index={2}
                     title={t("التغييرات الأخيرة", "Recent changes")}
                     subtitle={t(
@@ -642,11 +642,11 @@ function ChangelogContent() {
                             </div>
                         </div>
                     )}
-                </SaudiCordCard>
+                </SaifCordCard>
             )}
 
             {!hasCurrentChanges && !isLoading && !error && (
-                <SaudiCordCard
+                <SaifCordCard
                     index={2}
                     title={t("التغييرات الأخيرة", "Recent changes")}
                     subtitle={t(
@@ -666,7 +666,7 @@ function ChangelogContent() {
                             ))}
                         </div>
                     )}
-                </SaudiCordCard>
+                </SaifCordCard>
             )}
 
             {showHistory && changelogHistory.length > 0 && (
