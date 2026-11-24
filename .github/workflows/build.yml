@@ -1,8 +1,8 @@
-name: SaudiCord Release
+name: SaifCord Release
 
 # Prevent parallel commits from uploading duplicate assets to the same version tag.
 concurrency:
-    group: saudicord-release-${{ github.ref }}
+    group: saifcord-release-${{ github.ref }}
     cancel-in-progress: false
 
 on:
@@ -13,7 +13,7 @@ on:
 env:
     FORCE_COLOR: true
     GITHUB_TOKEN: ${{ github.token }}
-    EQUICORD_REMOTE: xxm-cmyk/SaudiCord
+    EQUICORD_REMOTE: xxm-cmyk/SaifCord
 
 permissions:
     contents: write
@@ -37,7 +37,7 @@ jobs:
               run: pnpm test
 
     Build:
-        name: Build SaudiCord
+        name: Build SaifCord
         needs: Validate
         runs-on: ubuntu-latest
         steps:
@@ -72,15 +72,15 @@ jobs:
                   done
                   find release -size 0 -delete
                   rm -f release/package.json release/*.map
-            - name: Publish versioned SaudiCord release
-              if: ${{ github.repository == 'xxm-cmyk/SaudiCord' && vars.ACT != 'true' }}
+            - name: Publish versioned SaifCord release
+              if: ${{ github.repository == 'xxm-cmyk/SaifCord' && vars.ACT != 'true' }}
               env:
                   GH_TOKEN: ${{ github.token }}
               run: |
                   VERSION=$(node -p "require('./package.json').version")
                   TAG="v$VERSION"
-                  gh release create "$TAG" --target "$GITHUB_SHA" --title "SaudiCord $VERSION" --notes "Official Release" 2>/dev/null || \
-                  gh release edit "$TAG" --title "SaudiCord $VERSION" --notes "Official Release"
+                  gh release create "$TAG" --target "$GITHUB_SHA" --title "SaifCord $VERSION" --notes "Official Release" 2>/dev/null || \
+                  gh release edit "$TAG" --title "SaifCord $VERSION" --notes "Official Release"
                   # Replace assets with matching names instead of failing on re-runs.
                   gh release upload "$TAG" dist/release/* --clobber
 
@@ -106,8 +106,8 @@ jobs:
                   New-Item -ItemType Directory -Force installer/payload | Out-Null
                   Copy-Item (Get-Command node).Source installer/payload/node.exe
                   Copy-Item installer/install.mjs installer/payload/install.mjs
-                  Copy-Item scripts/saudicord/asar.mjs installer/payload/asar.mjs
-                  Copy-Item dist/desktop.asar installer/payload/saudicord.asar
+                  Copy-Item scripts/saifcord/asar.mjs installer/payload/asar.mjs
+                  Copy-Item dist/desktop.asar installer/payload/saifcord.asar
             - name: Setup .NET 8
               uses: actions/setup-dotnet@v4
               with:
@@ -115,19 +115,19 @@ jobs:
             - name: Publish native WPF installer
               shell: pwsh
               run: |
-                  dotnet publish installer/WindowsApp/SaudiCord.Setup.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o installer/output
+                  dotnet publish installer/WindowsApp/SaifCord.Setup.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o installer/output
                   if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-                  Rename-Item installer/output/SaudiCord.Setup.exe SaudiCord-Setup.exe
-            - name: Upload SaudiCord Setup
-              if: ${{ github.repository == 'xxm-cmyk/SaudiCord' && vars.ACT != 'true' }}
+                  Rename-Item installer/output/SaifCord.Setup.exe SaifCord-Setup.exe
+            - name: Upload SaifCord Setup
+              if: ${{ github.repository == 'xxm-cmyk/SaifCord' && vars.ACT != 'true' }}
               env:
                   GH_TOKEN: ${{ github.token }}
               shell: pwsh
               run: |
                   $version = node -p "require('./package.json').version"
                   $tag = "v$version"
-                  gh release create $tag --target $env:GITHUB_SHA --title "SaudiCord $version" --notes "Official Release" 2>$null
+                  gh release create $tag --target $env:GITHUB_SHA --title "SaifCord $version" --notes "Official Release" 2>$null
                   if ($LASTEXITCODE -ne 0) {
-                    gh release edit $tag --title "SaudiCord $version" --notes "Official Release"
+                    gh release edit $tag --title "SaifCord $version" --notes "Official Release"
                   }
-                  gh release upload $tag --clobber installer/output/SaudiCord-Setup.exe
+                  gh release upload $tag --clobber installer/output/SaifCord-Setup.exe
