@@ -113,7 +113,7 @@ interface SettingsLayoutBuilder {
     buildLayout(): SettingsLayoutNode[];
 }
 
-// 🔴 `settingsLocation` حُذف عمداً: التصميم الجديد يضع أقسام سعودي كورد **بعد
+// 🔴 `settingsLocation` حُذف عمداً: التصميم الجديد يضع أقسام SaifCord **بعد
 // تسجيل الخروج** دائماً (قرار المالك)، فلم يعد للمكان خيار. إبقاء القائمة
 // المنسدلة كان يعني ضابطاً يحرّكه المستخدم فلا يحدث شيء.
 const settings = definePluginSettings({
@@ -126,7 +126,7 @@ const settings = definePluginSettings({
     },
     includeVencordInfoWhenCopying: {
         type: OptionType.BOOLEAN,
-        description: "Also copy SaudiCord info (SaudiCord, Electron, Chromium) when clicking the version info in the bottom left area of the Settings page",
+        description: "Also copy SaifCord info (SaifCord, Electron, Chromium) when clicking the version info in the bottom left area of the Settings page",
         default: true
     }
 });
@@ -183,10 +183,10 @@ export default definePlugin({
                     // سبب. ومن لم تُنقَذ إعداداته يعمل على افتراضاتٍ فعلاً.
                     showNotice(
                         h.recoveredFromBackup
-                            ? t(`كان ملفّ إعداداتك تالفاً (${h.startupReadError}) فاستعادها سعودي كورد من نسخة الأمان — قد يكون آخر تغييرٍ أجريتَه ضاع وحده. النسخة التالفة محفوظة بجوار الملفّ إن احتجتَها.`,
-                                `Your settings file was damaged (${h.startupReadError}) and SaudiCord restored it from the safety copy — you may have lost only your most recent change. The damaged copy is kept next to the file if you need it.`)
-                            : t(`تعذّرت قراءة إعداداتك عند بدء التشغيل (${h.startupReadError}) ولا نسخة أمانٍ تُنقذها، فسعودي كورد يعمل بالإعدادات الافتراضية. ملفّك القديم محفوظٌ بجواره ولم يُمحَ. الملفّ: ${h.path}`,
-                                `SaudiCord could not read your settings at startup (${h.startupReadError}) and no safety copy could recover them, so it is running on defaults. Your old file is kept next to it and was not erased. File: ${h.path}`),
+                            ? t(`كان ملفّ إعداداتك تالفاً (${h.startupReadError}) فاستعادها SaifCord من نسخة الأمان — قد يكون آخر تغييرٍ أجريتَه ضاع وحده. النسخة التالفة محفوظة بجوار الملفّ إن احتجتَها.`,
+                                `Your settings file was damaged (${h.startupReadError}) and SaifCord restored it from the safety copy — you may have lost only your most recent change. The damaged copy is kept next to the file if you need it.`)
+                            : t(`تعذّرت قراءة إعداداتك عند بدء التشغيل (${h.startupReadError}) ولا نسخة أمانٍ تُنقذها، فSaifCord يعمل بالإعدادات الافتراضية. ملفّك القديم محفوظٌ بجواره ولم يُمحَ. الملفّ: ${h.path}`,
+                                `SaifCord could not read your settings at startup (${h.startupReadError}) and no safety copy could recover them, so it is running on defaults. Your old file is kept next to it and was not erased. File: ${h.path}`),
                         t("فهمت", "Got it"),
                         () => popNotice()
                     );
@@ -198,7 +198,7 @@ export default definePlugin({
                 warned = true;
                 showNotice(
                     t(`تعذّر حفظ إعداداتك على القرص (${reason}). ستعود إلى حالتها السابقة بعد إعادة التشغيل. الملفّ: ${h.path}`,
-                        `SaudiCord could not save your settings to disk (${reason}). They will revert after a restart. File: ${h.path}`),
+                        `SaifCord could not save your settings to disk (${reason}). They will revert after a restart. File: ${h.path}`),
                     t("فهمت", "Got it"),
                     () => popNotice()
                 );
@@ -299,7 +299,7 @@ export default definePlugin({
         const componentFor: Record<string, ComponentType | null> = {
             VencordTab, PluginsTab, ThemesTab, UpdaterTab,
             ChangelogTab, CloudTab, BackupAndRestoreTab,
-            // صفحات بناها سعودي كورد — لا تُشتقّ من الأصل.
+            // صفحات بناها SaifCord — لا تُشتقّ من الأصل.
             LanguagePage, ClientHealthPage, VoiceLabPage, CommunityPluginsPage, CompatibilityMatrixPage, ReleaseChannelsPage, StartupTimingsPage, IconFinderPage, SupportBundlePage, SurveillancePage, PluginPermissionsPage, PerformanceBudgetsPage, PrivacySecurityPage, CrashBisectPage, MyProfilePage, DevelopersPage, ThemeCreatorPage, ThemeLibraryPage
         };
         // أيقونة مميّزة لكل صفحة — لا ترس واحد للكلّ (قرار المالك).
@@ -375,7 +375,7 @@ export default definePlugin({
             } as SettingsLayoutNode);
         }
 
-        // 🔴 قرار المالك: أقسام سعودي كورد **تحت تسجيل الخروج** — أي في ذيل
+        // 🔴 قرار المالك: أقسام SaifCord **تحت تسجيل الخروج** — أي في ذيل
         // القائمة بعد كل أقسام ديسكورد. نبحث عن القسم الذي يحوي «تسجيل
         // الخروج» ونضع بعده؛ وإن لم نجده (تغيّر بنية ديسكورد) نُلحق بالذيل.
         const isLogout = (node: any): boolean => {
@@ -435,7 +435,7 @@ export default definePlugin({
     getInfoRows() {
         const { electronVersion, chromiumVersion, getVersionInfo } = this;
 
-        const rows = [`SaudiCord ${gitHashShort}${getVersionInfo()}`];
+        const rows = [`SaifCord ${gitHashShort}${getVersionInfo()}`];
 
         if (electronVersion) rows.push(`Electron ${electronVersion}`);
         if (chromiumVersion) rows.push(`Chromium ${chromiumVersion}`);
