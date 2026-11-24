@@ -106,7 +106,7 @@ jobs:
                   New-Item -ItemType Directory -Force installer/payload | Out-Null
                   Copy-Item (Get-Command node).Source installer/payload/node.exe
                   Copy-Item installer/install.mjs installer/payload/install.mjs
-                  Copy-Item scripts/saifcord/asar.mjs installer/payload/asar.mjs
+                  Copy-Item scripts/saudicord/asar.mjs installer/payload/asar.mjs
                   Copy-Item dist/desktop.asar installer/payload/saifcord.asar
             - name: Setup .NET 8
               uses: actions/setup-dotnet@v4
@@ -115,7 +115,7 @@ jobs:
             - name: Publish native WPF installer
               shell: pwsh
               run: |
-                  dotnet publish installer/WindowsApp/SaifCord.Setup.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o installer/output
+                  dotnet publish installer/WindowsApp/SaudiCord.Setup.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o installer/output
                   if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
                   Rename-Item installer/output/SaifCord.Setup.exe SaifCord-Setup.exe
             - name: Upload SaifCord Setup
