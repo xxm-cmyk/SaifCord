@@ -45,7 +45,7 @@ function propertyName(property: any): string | undefined {
     if (isIdentifier(property.name) || isStringLiteral(property.name)) return property.name.text;
 }
 
-function parsePlugin(filePath: string): AuditedPlugin {
+function parsePlugin(filePath: string): AuditedPlugin | null {
     const source = createSourceFile(filePath, readFileSync(filePath, "utf8"), ScriptTarget.Latest, true);
     const parseDiagnostics = (source as any).parseDiagnostics as readonly unknown[] | undefined;
     if (parseDiagnostics?.length) {
@@ -54,7 +54,7 @@ function parsePlugin(filePath: string): AuditedPlugin {
 
     const statement = source.statements.find(isExportAssignment);
     if (!statement || !isCallExpression(statement.expression) || !isIdentifier(statement.expression.expression) || statement.expression.expression.text !== "definePlugin") {
-        throw new Error("No default export calling definePlugin");
+        return null;
     }
 
     let config = statement.expression.arguments[0];
@@ -124,7 +124,8 @@ async function collectRoot(root: string) {
         if (!filePath) continue;
 
         try {
-            plugins.push(parsePlugin(filePath));
+            const plugin = parsePlugin(filePath);
+            if (plugin) plugins.push(plugin);
         } catch (error) {
             parseFailures.push({
                 path: filePath,
