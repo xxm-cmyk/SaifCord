@@ -28,8 +28,7 @@ export let useReducer: typeof React.useReducer;
 export let useCallback: typeof React.useCallback;
 
 export const ReactDOM: typeof import("react-dom") = findByPropsLazy("createPortal");
-// 299 is an error code used in createRoot and createPortal
-export const createRoot: typeof import("react-dom/client").createRoot = findByCodeLazy("(299));", ".onRecoverableError");
+export const createRoot: typeof import("react-dom/client").createRoot = findByPropsLazy("createRoot").createRoot;
 
 waitFor(["createElement", "useEffect"], m => {
     React = m;
