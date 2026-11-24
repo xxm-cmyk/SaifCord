@@ -8,8 +8,8 @@ import { definePluginI18n } from "@utils/i18n/types";
 
 export default definePluginI18n({
     "description": {
-        "ar": "محرّك مختبر الصوت: يُطبّق إعدادات ميكروفونك (الكسب، إلغاء الضوضاء، إلغاء الصدى، AGC، الحساسية) على كل مكالمة عبر محرّك ديسكورد الأصلي، ويُضيف النقل الستيريو عالي الجودة. لوحته في إعدادات سعودي كورد ← مختبر الصوت.",
-        "en": "Voice Lab engine: applies your microphone settings (gain, noise reduction, echo cancellation, AGC, sensitivity) to every call on Discord's native engine, and adds high-quality stereo transmission. Its panel lives in SaudiCord Settings under Voice Lab."
+        "ar": "محرّك مختبر الصوت: يُطبّق إعدادات ميكروفونك (الكسب، إلغاء الضوضاء، إلغاء الصدى، AGC، الحساسية) على كل مكالمة عبر محرّك ديسكورد الأصلي، ويُضيف النقل الستيريو عالي الجودة. لوحته في إعدادات SaifCord ← مختبر الصوت.",
+        "en": "Voice Lab engine: applies your microphone settings (gain, noise reduction, echo cancellation, AGC, sensitivity) to every call on Discord's native engine, and adds high-quality stereo transmission. Its panel lives in SaifCord Settings under Voice Lab."
     },
     "options": {
         "applyToCalls": {
