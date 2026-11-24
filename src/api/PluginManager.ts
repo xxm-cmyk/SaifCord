@@ -51,6 +51,20 @@ const logger = new Logger("PluginManager", "#a6d189");
 
 export const PMLogger = logger;
 
+const pluginStartGenerations = new WeakMap<Plugin, number>();
+
+function bumpPluginStartGeneration(plugin: Plugin) {
+    const generation = (pluginStartGenerations.get(plugin) ?? 0) + 1;
+    pluginStartGenerations.set(plugin, generation);
+    return generation;
+}
+
+function isPromiseLike(value: unknown): value is PromiseLike<unknown> {
+    return value !== null
+        && (typeof value === "object" || typeof value === "function")
+        && typeof (value as PromiseLike<unknown>).then === "function";
+}
+
 /** Whether we have subscribed to flux events of all the enabled plugins when FluxDispatcher was ready */
 let enabledPluginsSubscribedFlux = false;
 const subscribedFluxEventsPlugins = new Set<string>();
@@ -298,23 +312,16 @@ export const startPlugin = traceFunction("startPlugin", function startPlugin(p: 
         // 🔴 يُقاس هنا لا بـ`traceFunction`: تلك تصير بلا عمل خارج بناء
         // التطوير، فيبقى المستخدم — وهو صاحب السؤال — بلا رقم واحد.
         const startedAt = performance.now();
+        const generation = bumpPluginStartGeneration(p);
         try {
-            /*
-             * 🔴 **و`start()` غير المتزامنة يُلتقط رفضُها أيضاً.**
-             *
-             * `try/catch` لا يرى إلّا ما يُرمى قبل أوّل `await`. فإضافةٌ
-             * `async start()` تفشل بعده تُسجَّل **ناجحة**: مفتاحها يبقى
-             * مُشعَلاً، و`started` تصير `true`، ولا سطر «Failed to start» في
-             * أيّ سجلّ. وقِيس أنّ ذلك يقع فعلاً في إضافاتٍ حسّاسة كقفل
-             * الدخول: يظنّ صاحبه عميله مقفلاً وهو مفتوح.
-             *
-             * ولا يُنتظَر الوعد هنا — انتظارُه يُحوّل بدء كلّ الإضافات إلى
-             * سلسلةٍ متزامنة ويُبطئ الإقلاع. يُلتقط الرفضُ ويُقال، وهذا ما
-             * يُحوّل عطلاً صامتاً إلى عطلٍ مرئيّ.
-             */
             const maybePromise = p.start() as unknown;
-            if (maybePromise instanceof Promise) {
-                maybePromise.catch(e => logger.error(`Failed to start ${name} (async)\n`, e));
+            if (isPromiseLike(maybePromise)) {
+                void Promise.resolve(maybePromise).catch(e => {
+                    if (pluginStartGenerations.get(p) !== generation || !p.started) return;
+
+                    logger.error(`Failed to start ${name} (async)\n`, e);
+                    stopPlugin(p);
+                });
             }
         } catch (e) {
             recordPluginStart(name, performance.now() - startedAt, true, p.startAt ?? StartAt.WebpackReady);
@@ -398,13 +405,17 @@ export const stopPlugin = traceFunction("stopPlugin", function stopPlugin(p: Plu
             return false;
         }
         try {
-            p.stop();
+            const maybePromise = p.stop() as unknown;
+            if (isPromiseLike(maybePromise)) {
+                void Promise.resolve(maybePromise).catch(e => logger.error(`Failed to stop ${name} (async)\n`, e));
+            }
         } catch (e) {
             logger.error(`Failed to stop ${name}\n`, e);
             return false;
         }
     }
 
+    bumpPluginStartGeneration(p);
     p.started = false;
 
     if (commands?.length) {
