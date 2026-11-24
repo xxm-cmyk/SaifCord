@@ -1,6 +1,6 @@
-# SaudiCord Community Plugin Catalog
+# SaifCord Community Plugin Catalog
 
-This directory is the source of truth for community plugins distributed by SaudiCord.
+This directory is the source of truth for community plugins distributed by SaifCord.
 
 - `catalog.json` lists only plugins that have passed automated checks and a human review.
 - Each plugin lives in its own directory under `plugins/<plugin-id>/`.
