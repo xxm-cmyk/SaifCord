@@ -28,7 +28,7 @@ import { Devs, SAUDICORD_GUILD_ID } from "@utils/constants";
 import { copyWithToast } from "@utils/discord";
 import { t } from "@utils/esharqI18n";
 import { Logger } from "@utils/Logger";
-import { esharqTierOf, setSaifCordTeam, shouldShowContributorBadge, shouldShowEquicordContributorBadge } from "@utils/misc";
+import { esharqTierOf, setSaudiCordTeam, shouldShowContributorBadge, shouldShowEquicordContributorBadge } from "@utils/misc";
 import definePlugin from "@utils/types";
 import { ContextMenuApi, GuildMemberStore, Menu, Toasts, Tooltip, UserStore } from "@webpack/common";
 
@@ -496,7 +496,7 @@ async function loadAllBadges(noCache = false) {
     EsharqCustomBadges = {};
     EsharqSelfServeBadges = {};
     EsharqVisibility = {};
-    setSaifCordTeam(team);
+    setSaudiCordTeam(team);
     SaudiCordHighlights = team?.highlight && typeof team.highlight === "object"
         ? team.highlight as Record<string, SaudiCordHighlight>
         : {};
