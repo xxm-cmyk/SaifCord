@@ -344,6 +344,7 @@ export const startPlugin = traceFunction("startPlugin", function startPlugin(p: 
                 void Promise.resolve(maybePromise).catch(e => {
                     if (pluginStartGenerations.get(p) !== generation || !p.started) return;
 
+                    recordPluginStart(name, performance.now() - startedAt, true, p.startAt ?? StartAt.WebpackReady);
                     logger.error(`Failed to start ${name} (async)\n`, e);
                     stopPlugin(p);
                 });
