@@ -27,7 +27,7 @@ import ErrorBoundary from "@components/ErrorBoundary";
 import { HeadingTertiary } from "@components/Heading";
 import { Paragraph } from "@components/Paragraph";
 import { SettingsTab } from "@components/settings";
-import { Card as SaudiCordCard } from "@components/settings/esharq/Card";
+import { Card as SaifCordCard } from "@components/settings/esharq/Card";
 import { CategoryFilter } from "@components/settings/esharq/CategoryFilter";
 import { PluginsHeader } from "@components/settings/esharq/PluginsHeader";
 import { debounce } from "@shared/debounce";
@@ -110,8 +110,8 @@ export const ExcludedReasons: Record<PluginTarget, string> = {
     vesktop: t("تطبيقات Vesktop/Equibop", "Vesktop/Equibop"),
     equibop: t("تطبيقات Vesktop/Equibop", "Vesktop/Equibop"),
     web: t("تطبيقات Vesktop/Equibop ومتصفح Discord", "Vesktop/Equibop and Discord web"),
-    dev: t("إصدار المطورين من SaudiCord", "SaudiCord dev build"),
-    browser: t("نسخة متصفح الويب من SaudiCord", "Web browser version of SaudiCord")
+    dev: t("إصدار المطورين من SaifCord", "SaifCord dev build"),
+    browser: t("نسخة متصفح الويب من SaifCord", "Web browser version of SaifCord")
 };
 
 function ExcludedPluginsList({ search }: { search: string; }) {
@@ -224,11 +224,11 @@ export default function PluginSettings() {
                 break;
             case SearchStatus.EQUICORD:
                 if (!PluginMeta[plugin.name].folderName.startsWith("src/equicordplugins/")) return false;
-                // SaudiCord-branded plugins live here too but belong under "Show SaudiCord", not Equicord.
+                // SaifCord-branded plugins live here too but belong under "Show SaifCord", not Equicord.
                 if (FORK_EXCLUSIVE_PLUGINS.has(plugin.name)) return false;
                 break;
             case SearchStatus.ESHARQ:
-                // SaudiCord-branded plugins only — same predicate that shows the EA badge
+                // SaifCord-branded plugins only — same predicate that shows the EA badge
                 // in PluginCard (isForkBranded = fork-exclusive OR userplugin).
                 if (!FORK_EXCLUSIVE_PLUGINS.has(plugin.name)
                     && !PluginMeta[plugin.name].folderName.startsWith("src/userplugins/")
@@ -236,9 +236,9 @@ export default function PluginSettings() {
                 break;
             case SearchStatus.VENCORD:
                 if (!PluginMeta[plugin.name].folderName.startsWith("src/plugins/")) return false;
-                // ونظير حالة Equicord أعلاه: إضافة SaudiCord قد تسكن `src/plugins/_core/`
+                // ونظير حالة Equicord أعلاه: إضافة SaifCord قد تسكن `src/plugins/_core/`
                 // بالضرورة (تُستورَد قبل أي رقعة)، فترشيحُ المسار وحده يُدرجها تحت
-                // Vencord بينما تحمل شارة SaudiCord — تناقضٌ يراه المستخدم في القائمة نفسها.
+                // Vencord بينما تحمل شارة SaifCord — تناقضٌ يراه المستخدم في القائمة نفسها.
                 if (FORK_EXCLUSIVE_PLUGINS.has(plugin.name)) return false;
                 break;
             case SearchStatus.NEW:
@@ -301,7 +301,7 @@ export default function PluginSettings() {
 
             if (isRequired) {
                 const tooltipText = p.required || !depMap[p.name]
-                    ? t("هذه الإضافة ضرورية لعمل SaudiCord.", "This plugin is required for SaudiCord to function.")
+                    ? t("هذه الإضافة ضرورية لعمل SaifCord.", "This plugin is required for SaifCord to function.")
                     : <PluginDependencyList deps={depMap[p.name]?.filter(d => settings.plugins[d].enabled)} />;
 
                 requiredPlugins.push(
@@ -373,7 +373,7 @@ export default function PluginSettings() {
     }
 
     /**
-     * إعادة الضبط الافتراضي — **إلى ما تُشحن به SaudiCord، لا إلى الفراغ**.
+     * إعادة الضبط الافتراضي — **إلى ما تُشحن به SaifCord، لا إلى الفراغ**.
      *
      * «عطّل الكل» يترك المستخدم بعميل خامد؛ وهذا يُعيده إلى نقطة معروفة:
      * ما كان مُفعَّلاً يوم ثبّت.
@@ -419,8 +419,8 @@ export default function PluginSettings() {
             body: (
                 <>
                     <p style={{ textAlign: "center" }}>
-                        {t(`سيتغيّر تفعيل ${changed.length} إضافة لتعود إلى ما تُشحن به SaudiCord.`,
-                            `${changed.length} plugins will change state to match what SaudiCord ships with.`)}
+                        {t(`سيتغيّر تفعيل ${changed.length} إضافة لتعود إلى ما تُشحن به SaifCord.`,
+                            `${changed.length} plugins will change state to match what SaifCord ships with.`)}
                     </p>
                     <p style={{ textAlign: "center" }}>
                         {t("إعداداتك داخل كل إضافة تبقى كما هي.", "Your settings inside each plugin are left untouched.")}
@@ -447,21 +447,21 @@ export default function PluginSettings() {
         });
     }
 
-    const { totalStockPlugins, totalUserPlugins, totalSaudiCordPlugins, enabledStockPlugins, enabledUserPlugins, enabledPlugins } = useMemo(() => {
+    const { totalStockPlugins, totalUserPlugins, totalSaifCordPlugins, enabledStockPlugins, enabledUserPlugins, enabledPlugins } = useMemo(() => {
         const isApiPlugin = (plugin: string) => plugin.endsWith("API") || Plugins[plugin].required;
 
         const totalPlugins = Object.keys(Plugins).filter(p => !isApiPlugin(p));
         const enabledPlugins = Object.keys(Plugins).filter(p => isPluginEnabled(p) && !isApiPlugin(p));
 
-        // إضافات SaudiCord: تُعرف بمجلدها لا باسمها — نفس مصدر شارة الفرع.
-        const totalSaudiCordPlugins = totalPlugins.filter(p =>
+        // إضافات SaifCord: تُعرف بمجلدها لا باسمها — نفس مصدر شارة الفرع.
+        const totalSaifCordPlugins = totalPlugins.filter(p =>
             PluginMeta[p].folderName?.startsWith("src/esharqplugins/") && !Plugins[p].hidden).length;
 
         const totalStockPlugins = totalPlugins.filter(p => !PluginMeta[p].userPlugin && !Plugins[p].hidden).length;
         const totalUserPlugins = totalPlugins.filter(p => PluginMeta[p].userPlugin).length;
         const enabledStockPlugins = enabledPlugins.filter(p => !PluginMeta[p].userPlugin).length;
         const enabledUserPlugins = enabledPlugins.filter(p => PluginMeta[p].userPlugin).length;
-        return { totalStockPlugins, totalUserPlugins, totalSaudiCordPlugins, enabledStockPlugins, enabledUserPlugins, enabledPlugins };
+        return { totalStockPlugins, totalUserPlugins, totalSaifCordPlugins, enabledStockPlugins, enabledUserPlugins, enabledPlugins };
     }, [settings.plugins]);
 
     /** كم إضافة في كل فئة — يُحسب مرّة، فاللوحة تعرضه بلا مرور جديد. */
@@ -523,10 +523,10 @@ export default function PluginSettings() {
                 <ErrorBoundary noop>
                     <div className="esharq-bisect-banner">
                         {bisectLive
-                            ? t(`جلسة تنصيف انهيار جارية: ${bisectCount} إضافة مخفيّة مؤقّتاً ومفاتيحها مُعطَّلة. إعداداتك لم تتغيّر — أنهِ الجلسة من «الأمان والصحّة ← تنصيف الانهيار» ثمّ أعد تشغيل SaudiCord لتعود.`,
-                                `A crash-bisect session is running: ${bisectCount} plugins are temporarily hidden and their toggles disabled. Your settings are untouched — end the session from “Safety & Health → Crash Bisect”, then restart SaudiCord to bring them back.`)
-                            : t(`انتهت جلسة تنصيف الانهيار، لكن ${bisectCount} إضافة تبقى مخفيّة حتى إعادة التشغيل. إعداداتك لم تتغيّر — أعد تشغيل SaudiCord لتعود.`,
-                                `The crash-bisect session has ended, but ${bisectCount} plugins stay hidden until you restart. Your settings are untouched — restart SaudiCord to bring them back.`)}
+                            ? t(`جلسة تنصيف انهيار جارية: ${bisectCount} إضافة مخفيّة مؤقّتاً ومفاتيحها مُعطَّلة. إعداداتك لم تتغيّر — أنهِ الجلسة من «الأمان والصحّة ← تنصيف الانهيار» ثمّ أعد تشغيل SaifCord لتعود.`,
+                                `A crash-bisect session is running: ${bisectCount} plugins are temporarily hidden and their toggles disabled. Your settings are untouched — end the session from “Safety & Health → Crash Bisect”, then restart SaifCord to bring them back.`)
+                            : t(`انتهت جلسة تنصيف الانهيار، لكن ${bisectCount} إضافة تبقى مخفيّة حتى إعادة التشغيل. إعداداتك لم تتغيّر — أعد تشغيل SaifCord لتعود.`,
+                                `The crash-bisect session has ended, but ${bisectCount} plugins stay hidden until you restart. Your settings are untouched — restart SaifCord to bring them back.`)}
                     </div>
                 </ErrorBoundary>
             )}
@@ -534,7 +534,7 @@ export default function PluginSettings() {
             <PluginsHeader
                 total={totalStockPlugins + totalUserPlugins}
                 enabled={enabledStockPlugins + enabledUserPlugins}
-                esharq={totalSaudiCordPlugins}
+                esharq={totalSaifCordPlugins}
                 userPlugins={totalUserPlugins}
                 onDisableAll={() => openWarningModal(null, undefined, false, enabledPlugins.length, resetCheckAndDo)}
                 onRestoreDefaults={restoreDefaultConfiguration}
@@ -546,7 +546,7 @@ export default function PluginSettings() {
 
             {/* 🔴 عدّاد النتيجة في شارة البطاقة: بدونه لا يعرف من ضيّق البحث إن
                 كان الترشيح وقع أصلاً أم أن ما يراه هو كل شيء. */}
-            <SaudiCordCard
+            <SaifCordCard
                 index={0}
                 title={t("المرشِّحات", "Filters")}
                 subtitle={t(
@@ -581,7 +581,7 @@ export default function PluginSettings() {
                             { label: t("عرض المفضّلة", "Show Favorites"), value: SearchStatus.FAVORITES },
                             { label: t("عرض المفعَّلة", "Show Enabled"), value: SearchStatus.ENABLED },
                             { label: t("عرض المعطَّلة", "Show Disabled"), value: SearchStatus.DISABLED },
-                            { label: t("عرض SaudiCord", "Show SaudiCord"), value: SearchStatus.ESHARQ },
+                            { label: t("عرض SaifCord", "Show SaifCord"), value: SearchStatus.ESHARQ },
                             { label: t("عرض Equicord", "Show Equicord"), value: SearchStatus.EQUICORD },
                             { label: t("عرض Vencord", "Show Vencord"), value: SearchStatus.VENCORD },
                             { label: t("عرض الجديدة", "Show New"), value: SearchStatus.NEW },
@@ -603,9 +603,9 @@ export default function PluginSettings() {
                     />
                 </div>
             </ErrorBoundary>
-            </SaudiCordCard>
+            </SaifCordCard>
 
-            <SaudiCordCard index={1} title={t("الإضافات", "Plugins")}>
+            <SaifCordCard index={1} title={t("الإضافات", "Plugins")}>
                 {plugins.length || requiredPlugins.length
                     ? (
                         <>
@@ -622,14 +622,14 @@ export default function PluginSettings() {
                     )
                     : <ExcludedPluginsList search={search} />
                 }
-            </SaudiCordCard>
+            </SaifCordCard>
 
-            <SaudiCordCard
+            <SaifCordCard
                 index={2}
                 title={t("الإضافات المطلوبة", "Required plugins")}
                 subtitle={t(
-                    "أساس SaudiCord نفسه. هذه لا تُعطَّل لأن بقيّة الإضافات تقوم عليها.",
-                    "SaudiCord's own foundation. These cannot be disabled because the rest is built on them."
+                    "أساس SaifCord نفسه. هذه لا تُعطَّل لأن بقيّة الإضافات تقوم عليها.",
+                    "SaifCord's own foundation. These cannot be disabled because the rest is built on them."
                 )}
                 badge={String(requiredPlugins.length)} badgeTone="info"
             >
@@ -639,7 +639,7 @@ export default function PluginSettings() {
                         : <Paragraph>{t("لا توجد إضافات تطابق معايير البحث.", "No plugins match your search criteria.")}</Paragraph>
                     }
                 </div>
-            </SaudiCordCard>
+            </SaifCordCard>
         </SettingsTab >
     );
 }
