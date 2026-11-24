@@ -176,7 +176,7 @@ function EquicordSettings() {
                     description={
                         isEsharqDonor(user?.id) && isVencordDonor(user?.id)
                             ? t(
-                                "يرى جميع مستخدمي Vencord شارة متبرّع Vencord، ويرى مستخدمو سعودي كورد شارة داعم سعودي كورد. لتغيير شارتك في Vencord تواصل مع @vending.machine، ولشارة سعودي كورد افتح تذكرة في سيرفر سعودي كورد.",
+                                "يرى جميع مستخدمي Vencord شارة متبرّع Vencord، ويرى مستخدمو SaifCord شارة داعم SaifCord. لتغيير شارتك في Vencord تواصل مع @vending.machine، ولشارة SaifCord افتح تذكرة في سيرفر SaifCord.",
                                 "All Vencord users see a Vencord donor badge, and Esharq users see an Esharq supporter badge. To change your Vencord badge contact @vending.machine, and for the Esharq badge open a ticket in the Esharq server."
                             )
                             : isVencordDonor(user?.id)
@@ -185,8 +185,8 @@ function EquicordSettings() {
                                     "All Vencord users can see your badge! You can manage your perks by messaging @vending.machine."
                                 )
                                 : t(
-                                    "يرى جميع مستخدمي سعودي كورد شارتك! يمكنك إدارة مزاياك عبر فتح تذكرة في سيرفر سعودي كورد.",
-                                    "All SaudiCord users can see your badge! You can manage your perks by opening a ticket in the SaudiCord server."
+                                    "يرى جميع مستخدمي SaifCord شارتك! يمكنك إدارة مزاياك عبر فتح تذكرة في سيرفر SaifCord.",
+                                    "All SaifCord users can see your badge! You can manage your perks by opening a ticket in the SaifCord server."
                                 )
                     }
                     cardImage={ESHARQ_LOGO}
@@ -196,10 +196,10 @@ function EquicordSettings() {
                 </SpecialCard>
             ) : (
                 <SpecialCard
-                    title={t("مجتمع سعودي كورد", "SaudiCord Community")}
+                    title={t("مجتمع SaifCord", "SaifCord Community")}
                     description={t(
-                        "انضم إلى مجتمع سعودي كورد وتابع التحديثات واطلب المساعدة.",
-                        "Join the SaudiCord community for updates and support."
+                        "انضم إلى مجتمع SaifCord وتابع التحديثات واطلب المساعدة.",
+                        "Join the SaifCord community for updates and support."
                     )}
                     cardImage={ESHARQ_LOGO}
                     backgroundColor="#c3a3ce"
@@ -212,8 +212,8 @@ function EquicordSettings() {
                     title={t("المساهمات", "Contributions")}
                     subtitle={t("شكراً لمساهمتك!", "Thank you for contributing!")}
                     description={t(
-                        "بفضل مساهمتك في سعودي كورد، حصلت على شارة مميزة!",
-                        "As a contributor to SaudiCord, you earned a special badge!"
+                        "بفضل مساهمتك في SaifCord، حصلت على شارة مميزة!",
+                        "As a contributor to SaifCord, you earned a special badge!"
                     )}
                     cardImage={ESHARQ_LOGO}
                     backgroundColor="#EDCC87"
@@ -290,8 +290,8 @@ function EquicordSettings() {
                 index={2}
                 title={t("إعدادات العميل", "Client Settings")}
                 subtitle={t(
-                    "اضبط كيفية عمل سعودي كورد مع ديسكورد. تؤثر هذه الإعدادات على مظهر وسلوك تطبيق ديسكورد.",
-                    "Configure how SaudiCord works with Discord. These settings affect the appearance and behavior of the Discord app."
+                    "اضبط كيفية عمل SaifCord مع ديسكورد. تؤثر هذه الإعدادات على مظهر وسلوك تطبيق ديسكورد.",
+                    "Configure how SaifCord works with Discord. These settings affect the appearance and behavior of the Discord app."
                 )}
             >
                 {switches.filter((s): s is Exclude<typeof s, false> => !!s).map(
@@ -347,7 +347,7 @@ function EquicordSettings() {
 export default wrapTab(EquicordSettings, "Equicord Settings");
 
 export function isEsharqDonor(userId: string): boolean {
-    // The legacy supporter tier was retired from SaudiCord team ranks.
+    // The legacy supporter tier was retired from SaifCord team ranks.
     return false;
 }
 
