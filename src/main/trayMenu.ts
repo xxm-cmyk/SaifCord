@@ -94,18 +94,18 @@ function openAboutWindow() {
 function createSaudiCordMenuItems(): MenuItemConstructorOptions[] {
     return [
         {
-            label: "SaudiCord",
+            label: "SaifCord",
             submenu: [
                 {
-                    label: "About SaudiCord",
+                    label: "About SaifCord",
                     click: () => openAboutWindow()
                 },
                 {
-                    label: cachedUpdateAvailable ? "Update SaudiCord" : "Check for Updates",
+                    label: cachedUpdateAvailable ? "Update SaifCord" : "Check for Updates",
                     click: () => sendToRenderer(IpcEvents.TRAY_CHECK_UPDATES)
                 },
                 {
-                    label: "Repair SaudiCord",
+                    label: "Repair SaifCord",
                     click: () => sendToRenderer(IpcEvents.TRAY_REPAIR)
                 },
                 { type: "separator" },
@@ -127,7 +127,7 @@ export function patchTrayMenu(): void {
     const originalBuildFromTemplate = Menu.buildFromTemplate;
 
     Menu.buildFromTemplate = function (template: MenuItemConstructorOptions[]) {
-        const alreadyPatched = template.some(item => item.label === "SaudiCord");
+        const alreadyPatched = template.some(item => item.label === "SaifCord");
         if (isTrayMenu(template) && !alreadyPatched) {
             const insertIndex = findInsertIndex(template);
             const saudicordItems = createSaudiCordMenuItems();
