@@ -13,8 +13,8 @@ export default definePluginI18n({
     },
     "options": {
         "includeVencordInfoWhenCopying": {
-            "ar": "نسخ معلومات سعودي كورد (SaudiCord، Electron، Chromium) أيضاً عند النقر على معلومات الإصدار في صفحة الإعدادات",
-            "en": "Also copy SaudiCord info (SaudiCord, Electron, Chromium) when clicking the version info in the bottom-left corner of the settings page."
+            "ar": "نسخ معلومات SaifCord (SaifCord، Electron، Chromium) أيضاً عند النقر على معلومات الإصدار في صفحة الإعدادات",
+            "en": "Also copy SaifCord info (SaifCord, Electron, Chromium) when clicking the version info in the bottom-left corner of the settings page."
         }
     }
 });
