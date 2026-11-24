@@ -14,10 +14,10 @@ import { Alerts, SettingsRouter } from "@webpack/common";
 import gitHash from "~git-hash";
 
 const logger = new Logger("ArabicAutoUpdater");
-const REPO = "xxm-cmyk/SaudiCord";
+const REPO = "xxm-cmyk/SaifCord";
 const RELEASES_PAGE = `https://github.com/${REPO}/releases/latest`;
 const API_URL = `https://api.github.com/repos/${REPO}/releases/latest`;
-const SEEN_KEY = "saudicord-last-seen-release";
+const SEEN_KEY = "saifcord-last-seen-release";
 
 let checked = false;
 
@@ -32,7 +32,7 @@ async function checkForUpdate() {
         if (!res.ok) return;
 
         const data = await res.json();
-        // SaudiCord releases use versioned tags; target_commitish points to
+        // SaifCord releases use versioned tags; target_commitish points to
         // the exact source commit used to build the release.
         const remoteVersion: string = data.tag_name ?? "";
         const remoteCommit: string = data.target_commitish ?? "";
@@ -63,7 +63,7 @@ async function checkForUpdate() {
             title: t("تحديث جديد متاح!", "New update available!"),
             body: (
                 <>
-                    <p>{t("يتوفر إصدار جديد من", "A new version of")} <strong>{t("سعودي كورد", "SaudiCord")}</strong>{t(" متاح.", " is available.")}</p>
+                    <p>{t("يتوفر إصدار جديد من", "A new version of")} <strong>{t("SaifCord", "SaifCord")}</strong>{t(" متاح.", " is available.")}</p>
                     <p>{t("الإصدار الحالي:", "Current version:")} <code>{gitHash.slice(0, 7)}</code></p>
                     <p>{t("الإصدار الجديد:", "New version:")} <code>{remoteVersion}</code></p>
                     <p>{t("هل تريد التحديث الآن؟", "Do you want to update now?")}</p>
@@ -78,7 +78,7 @@ async function checkForUpdate() {
     }
 }
 
-// "تحديث الآن" يفتح قسم "مُحدِّث سعودي كورد" داخل الإعدادات (لا يفتح المتصفّح) حيث يُطبّق المستخدم
+// "تحديث الآن" يفتح قسم "مُحدِّث SaifCord" داخل الإعدادات (لا يفتح المتصفّح) حيث يُطبّق المستخدم
 // التحديث بنفسه عبر المحدّث المدمج. يرجع لصفحة الإصدارات فقط إن كان المحدّث معطّلاً أو على الويب.
 function openUpdaterTab() {
     if (IS_WEB || IS_UPDATER_DISABLED) {
@@ -90,7 +90,7 @@ function openUpdaterTab() {
 
 export default definePlugin({
     name: "ArabicAutoUpdater",
-    description: "Checks the official SaudiCord releases and notifies you when a new version is available",
+    description: "Checks the official SaifCord releases and notifies you when a new version is available",
     authors: [Devs.thororen],
     tags: ["Utility"],
 
