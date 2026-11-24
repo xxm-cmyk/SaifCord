@@ -1,5 +1,5 @@
 /*
- * SaudiCord Windows installer helper
+ * SaifCord Windows installer helper
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 import {
@@ -12,7 +12,7 @@ import { execFileSync } from "node:child_process";
 import { packAsar, readAsarFile } from "./asar.mjs";
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
-const PAYLOAD_SOURCE = join(ROOT, "saudicord.asar");
+const PAYLOAD_SOURCE = join(ROOT, "saifcord.asar");
 const MARKER = "saudicord";
 const BRANCHES = { stable: "Discord", ptb: "DiscordPTB", canary: "DiscordCanary" };
 const args = process.argv.slice(2);
@@ -21,8 +21,8 @@ const uninstall = args.includes("--uninstall");
 const branch = flag("branch") ?? "stable";
 const local = process.env.LOCALAPPDATA;
 const roaming = process.env.APPDATA ?? process.env.HOME;
-const PAYLOAD_DIR = join(roaming, "SaudiCord");
-const PAYLOAD = join(PAYLOAD_DIR, "saudicord.asar");
+const PAYLOAD_DIR = join(roaming, "SaifCord");
+const PAYLOAD = join(PAYLOAD_DIR, "saifcord.asar");
 const argsLog = join(PAYLOAD_DIR, "installer.log");
 
 function fail(message) {
@@ -30,7 +30,7 @@ function fail(message) {
         mkdirSync(PAYLOAD_DIR, { recursive: true });
         writeFileSync(argsLog, message + "\n", "utf8");
     } catch {}
-    console.error("SaudiCord: " + message);
+    console.error("SaifCord: " + message);
     process.exit(1);
 }
 function guarded(fn, target = "ملف Discord") {
@@ -156,7 +156,7 @@ function quarantinePreviousClients() {
     }
 }
 if (uninstall) {
-    if (!isOurs()) fail("التثبيت الحالي ليس SaudiCord؛ لم يتم تغيير أي ملف.");
+    if (!isOurs()) fail("التثبيت الحالي ليس SaifCord؛ لم يتم تغيير أي ملف.");
     const restoreFrom = existsSync(SAUDI_BACKUP) ? SAUDI_BACKUP : LEGACY_BACKUP;
     if (!existsSync(restoreFrom)) fail("النسخة الأصلية مفقودة؛ أوقفت الإزالة لحماية Discord.");
     guarded(() => {
@@ -164,15 +164,15 @@ if (uninstall) {
         renameSync(restoreFrom, APP);
     });
     if (existsSync(PAYLOAD)) rmSync(PAYLOAD, { force: true });
-    console.log("تمت إزالة SaudiCord واستعادة Discord. النسخ الاحتياطية للعملاء السابقين محفوظة داخل " + PAYLOAD_DIR);
+    console.log("تمت إزالة SaifCord واستعادة Discord. النسخ الاحتياطية للعملاء السابقين محفوظة داخل " + PAYLOAD_DIR);
     process.exit(0);
 }
-if (!existsSync(PAYLOAD_SOURCE)) fail("ملف SaudiCord غير موجود بجانب المثبّت.");
+if (!existsSync(PAYLOAD_SOURCE)) fail("ملف SaifCord غير موجود بجانب المثبّت.");
 if (!existsSync(APP)) fail("ملف app.asar غير موجود؛ لم يتم إجراء أي تغيير.");
 if (isOurs() && !existsSync(SAUDI_BACKUP) && !existsSync(LEGACY_BACKUP))
     fail("نسخة Discord الأصلية غير موجودة؛ أوقفت التثبيت لحماية الملفات.");
 if (existsSync(SAUDI_BACKUP) && !isOurs())
-    fail("وجدت نسخة احتياطية سابقة لـ SaudiCord لكن app.asar ليس تابعاً له. لم يتم تغيير أي ملف.");
+    fail("وجدت نسخة احتياطية سابقة لـ SaifCord لكن app.asar ليس تابعاً له. لم يتم تغيير أي ملف.");
 mkdirSync(PAYLOAD_DIR, { recursive: true });
 quarantinePreviousClients();
 copyFileSync(PAYLOAD_SOURCE, PAYLOAD);
@@ -195,7 +195,7 @@ if (!existsSync(SAUDI_BACKUP)) {
 if (!existsSync(LEGACY_BACKUP)) {
     guarded(() => copyPathSync(SAUDI_BACKUP, LEGACY_BACKUP), "نسخة Discord الاحتياطية المتوافقة");
 }
-const indexJs = `// SaudiCord bridge
+const indexJs = `// SaifCord bridge
 require(${JSON.stringify(PAYLOAD)});
 `;
 const packageJson = JSON.stringify({
@@ -210,4 +210,4 @@ guarded(() => {
     if (existsSync(APP)) rmSync(APP, { recursive: true, force: true });
     renameSync(temp, APP);
 }, APP);
-console.log("تم تثبيت SaudiCord على Discord " + branch.toUpperCase() + ". أعد تشغيل Discord.");
+console.log("تم تثبيت SaifCord على Discord " + branch.toUpperCase() + ". أعد تشغيل Discord.");
