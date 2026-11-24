@@ -551,7 +551,7 @@ export default definePlugin({
 
     isHiddenChannel(channel: Channel & { channelId?: string; }, checkConnect = false) {
         try {
-            if (channel == null || Object.hasOwn(channel, "channelId") && channel.channelId == null) return false;
+            if (typeof channel !== "object" || channel === null || Object.hasOwn(channel, "channelId") && channel.channelId == null) return false;
 
             if (channel.channelId != null) channel = ChannelStore.getChannel(channel.channelId);
             if (channel == null || channel.isDM() || channel.isGroupDM() || channel.isMultiUserDM()) return false;
