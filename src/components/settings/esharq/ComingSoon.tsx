@@ -35,8 +35,8 @@ export function ComingSoon({ title }: { title: string; }) {
             <div className="esharq-breathe" style={{ fontSize: 34, color: ACCENT }}>✦</div>
             <div style={{ fontSize: 18, fontWeight: 600 }}>{title}</div>
             <div style={{ opacity: 0.6, maxWidth: 360 }}>
-                {t("هذه الصفحة قيد البناء ضمن تصميم سعودي كورد الجديد.",
-                    "This page is being built as part of the new SaudiCord design.")}
+                {t("هذه الصفحة قيد البناء ضمن تصميم SaifCord الجديد.",
+                    "This page is being built as part of the new SaifCord design.")}
             </div>
         </div>
     );
