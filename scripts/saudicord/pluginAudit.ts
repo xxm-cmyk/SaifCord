@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { readFileSync, readdirSync, type Dirent } from "node:fs";
+import { existsSync, readFileSync, readdirSync, type Dirent } from "node:fs";
 import { join } from "node:path";
 import {
     createSourceFile,
@@ -47,8 +47,9 @@ function propertyName(property: any): string | undefined {
 
 function parsePlugin(filePath: string): AuditedPlugin {
     const source = createSourceFile(filePath, readFileSync(filePath, "utf8"), ScriptTarget.Latest, true);
-    if (source.parseDiagnostics.length) {
-        throw new Error(`TypeScript parse error: ${source.parseDiagnostics.length} diagnostic(s)`);
+    const parseDiagnostics = (source as any).parseDiagnostics as readonly unknown[] | undefined;
+    if (parseDiagnostics?.length) {
+        throw new Error(`TypeScript parse error: ${parseDiagnostics.length} diagnostic(s)`);
     }
 
     const statement = source.statements.find(isExportAssignment);
@@ -98,8 +99,7 @@ function findEntryPoint(root: string, entry: Dirent): string | undefined {
     for (const fileName of ["index.ts", "index.tsx"]) {
         const candidate = join(root, entry.name, fileName);
         try {
-            readFileSync(candidate);
-            return candidate;
+            if (existsSync(candidate)) return candidate;
         } catch { /* try the next extension */ }
     }
 }
