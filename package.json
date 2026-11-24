@@ -1,15 +1,15 @@
 {
-    "name": "saudicord",
+    "name": "saifcord",
     "private": "true",
     "version": "1.15.6.4",
-    "description": "SaudiCord — Arabic-first Discord client mod",
-    "homepage": "https://github.com/xxm-cmyk/SaudiCord#readme",
+    "description": "SaifCord — an independent, Arabic-first Discord client mod",
+    "homepage": "https://github.com/xxm-cmyk/SaifCord#readme",
     "bugs": {
-        "url": "https://github.com/xxm-cmyk/SaudiCord/issues"
+        "url": "https://github.com/xxm-cmyk/SaifCord/issues"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/xxm-cmyk/SaudiCord.git"
+        "url": "git+https://github.com/xxm-cmyk/SaifCord.git"
     },
     "license": "GPL-3.0-or-later",
     "author": "LOSTSTR <noreply@github.com>",
@@ -28,8 +28,8 @@
         "generateEquicordPluginJson": "tsx scripts/generatePluginList.ts --equicord",
         "generateVencordPluginJson": "tsx scripts/generatePluginList.ts --vencord",
         "generateTypes": "tspc --emitDeclarationOnly --declaration --outDir packages/vencord-types --allowJs false",
-        "inject": "node scripts/saudicordInject.mjs",
-        "uninject": "node scripts/saudicordInject.mjs --uninstall",
+        "inject": "node scripts/saifcordInject.mjs",
+        "uninject": "node scripts/saifcordInject.mjs --uninstall",
         "lint": "eslint",
         "lint-styles": "stylelint \"src/**/*.css\" --ignore-pattern src/userplugins --ignore-pattern src/esharqplugins",
         "lint-styles:fix": "pnpm lint-styles --fix",
@@ -40,9 +40,9 @@
         "testWeb": "pnpm lint:fix && pnpm buildWeb && pnpm testTsc",
         "lint:overlay": "node scripts/lintOverlayOptions.mjs",
         "testTsc": "tsc --noEmit",
-        "securityAudit": "node scripts/saudicordSecurityAudit.mjs",
-        "inject:canary": "node scripts/saudicordInject.mjs --branch canary",
-        "uninject:canary": "node scripts/saudicordInject.mjs --branch canary --uninstall",
+        "securityAudit": "node scripts/saifcordSecurityAudit.mjs",
+        "inject:canary": "node scripts/saifcordInject.mjs --branch canary",
+        "uninject:canary": "node scripts/saifcordInject.mjs --branch canary --uninstall",
         "intl:harvest": "node scripts/saudicord/harvestIntl.mjs",
         "intl:accept": "node scripts/saudicord/harvestIntl.mjs --accept",
         "intl:build": "node scripts/saudicord/buildArabicTable.mjs",
@@ -55,7 +55,7 @@
         "testCommunity": "tsx scripts/saudicord/communityValidateSelfTest.ts",
         "testIntlAst": "node scripts/saudicord/intlAstSelfTest.mjs",
         "testThemeLibrary": "tsx scripts/saudicord/themeLibraryParseSelfTest.ts",
-        "testSaudiCord": "node scripts/saudicordCheck.mjs && node scripts/lintOverlayOptions.mjs && pnpm testCoverage && pnpm testPrefs && pnpm testRedact && pnpm testCommunity && pnpm testThemeLibrary && pnpm testIntlAst && pnpm intl:lint && pnpm intl:verify && node scripts/saudicordSecurityAudit.mjs && tsc --noEmit -p tsconfig.saudicord.json && stylelint \"src/esharqplugins/**/*.css\""
+        "testSaifCord": "node scripts/saifcordCheck.mjs && node scripts/lintOverlayOptions.mjs && pnpm testCoverage && pnpm testPrefs && pnpm testRedact && pnpm testCommunity && pnpm testThemeLibrary && pnpm testIntlAst && pnpm intl:lint && pnpm intl:verify && node scripts/saifcordSecurityAudit.mjs && tsc --noEmit -p tsconfig.saudicord.json && stylelint \"src/esharqplugins/**/*.css\""
     },
     "dependencies": {
         "@ffmpeg/ffmpeg": "^0.12.10",
