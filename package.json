@@ -56,7 +56,7 @@
         "testIntlAst": "node scripts/saudicord/intlAstSelfTest.mjs",
         "testThemeLibrary": "tsx scripts/saudicord/themeLibraryParseSelfTest.ts",
         "testPluginDependencies": "tsx scripts/saudicord/pluginDependenciesSelfTest.ts",
-        "auditPlugins": "tsx scripts/saudicord/pluginAudit.ts",
+        "auditPlugins": "tsx scripts/saudicord/pluginAudit.ts --strict",
         "testSaifCord": "node scripts/saudicordCheck.mjs && node scripts/lintOverlayOptions.mjs && pnpm testCoverage && pnpm testPrefs && pnpm testRedact && pnpm testCommunity && pnpm testThemeLibrary && pnpm testPluginDependencies && pnpm auditPlugins && pnpm testIntlAst && pnpm intl:lint && pnpm intl:verify && node scripts/saudicordSecurityAudit.mjs && tsc --noEmit -p tsconfig.saudicord.json && stylelint \"src/esharqplugins/**/*.css\""
     },
     "dependencies": {
