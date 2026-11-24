@@ -5,7 +5,7 @@
  */
 
 /**
- * مُثبِّت سعودي كورد — **مستقلّ تماماً**، بلا `EquilotlCli` وبلا أي تبعية.
+ * مُثبِّت SaifCord — **مستقلّ تماماً**، بلا `EquilotlCli` وبلا أي تبعية.
  *
  *   node scripts/saudicordInject.mjs --branch canary
  *   node scripts/saudicordInject.mjs --branch canary --uninstall
@@ -15,8 +15,8 @@
  *
  * المُثبِّت الخارجي كان يكتب في ديسكورد سطراً واحداً:
  * `require("%APPDATA%\\Equicord\\equicord.asar")` — أي أن **بصمة التثبيت
- * ومسار الحمولة باسم مشروع آخر**. سعودي كورد نسخة مستقلّة بإشاراتها، فحمولته
- * في `%APPDATA%\SaudiCord\saudicord.asar` ومُثبِّته من عنده.
+ * ومسار الحمولة باسم مشروع آخر**. SaifCord نسخة مستقلّة بإشاراتها، فحمولته
+ * في `%APPDATA%\SaifCord\saudicord.asar` ومُثبِّته من عنده.
  *
  * ## الآلية (مُثبَتة عملياً على ديسكورد حديث)
  *
@@ -36,7 +36,7 @@ import { packAsar, readAsarFile } from "./saudicord/asar.mjs";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 
 /** بصمتنا داخل الأرشيف الصغير — بها نعرف تثبيتنا من تثبيت غيرنا. */
-const MARKER = "saudicord";
+const MARKER = "saifcord";
 
 /** مجلدات ديسكورد على ويندوز. */
 const BRANCHES = {
@@ -129,16 +129,17 @@ const APP = join(RESOURCES, "app.asar");
 const BACKUP = join(RESOURCES, "_app.asar");
 
 /** حمولتنا: خارج مجلد ديسكورد فلا يمحوها تحديثه. */
-const PAYLOAD_DIR = join(process.env.APPDATA ?? process.env.HOME ?? ".", "SaudiCord");
-const PAYLOAD = join(PAYLOAD_DIR, "saudicord.asar");
+const PAYLOAD_DIR = join(process.env.APPDATA ?? process.env.HOME ?? ".", "SaifCord");
+const PAYLOAD = join(PAYLOAD_DIR, "saifcord.asar");
 
 /** Legacy path used by earlier Esharq installs; kept only for safe detection and restore. */
 const LEGACY_PAYLOAD_DIR = join(process.env.APPDATA ?? process.env.HOME ?? ".", "Esharq");
+const LEGACY_SAUDICORD_PAYLOAD_DIR = join(process.env.APPDATA ?? process.env.HOME ?? ".", "SaifCord");
 
 /**
  * مدخل بناء المطوّر داخل المستودع نفسه.
  *
- * 🔴 **لماذا مسارٌ لا نسخة**: مُحدِّث سعودي كورد في بناء المطوّر يمرّ عبر git
+ * 🔴 **لماذا مسارٌ لا نسخة**: مُحدِّث SaifCord في بناء المطوّر يمرّ عبر git
  * (`IS_STANDALONE === false` ⇒ `src/main/updater/git.ts`)، وهو يشتقّ مكان
  * المستودع من `__dirname` وحده: `join(__dirname, "..")` للأوامر و
  * `join(__dirname, "../../")` لتشغيل البناء. فحين تُنسَخ الحزمة إلى
@@ -161,7 +162,7 @@ const DEV_ENTRY = join(ROOT, "dist", "desktop", "patcher.js");
  * مضاعفة (`C:\\Users\\…`) لا مفردة.
  */
 function referencesOurLoad(text) {
-    return [PAYLOAD_DIR, LEGACY_PAYLOAD_DIR, DEV_ENTRY].some(path =>
+    return [PAYLOAD_DIR, LEGACY_PAYLOAD_DIR, LEGACY_SAUDICORD_PAYLOAD_DIR, DEV_ENTRY].some(path =>
         text.includes(path) || text.includes(path.split("\\").join("\\\\")));
 }
 
@@ -190,7 +191,10 @@ function isOurs() {
 
     try {
         const raw = readAsarFile(APP, "package.json");
-        if (raw !== undefined && JSON.parse(raw.toString("utf8"))[MARKER] !== undefined) return true;
+        if (raw !== undefined) {
+            const metadata = JSON.parse(raw.toString("utf8"));
+            if (metadata[MARKER] !== undefined || metadata.saudicord !== undefined) return true;
+        }
     } catch { /* ليس أرشيفاً نقرأه */ }
 
     // احتياط: أرشيف بلا علامة لكنه يُحمّل حمولتنا (نسخة أقدم من المُثبِّت).
@@ -249,7 +253,7 @@ if (standalone && !existsSync(BUILT)) {
 /** ما سيُحمّله ديسكورد فعلاً. */
 const TARGET = standalone ? PAYLOAD : DEV_ENTRY;
 
-// 🔴 تثبيت مُعدِّل آخر: نتوقّف. استبداله يكسر تثبيته ويُلام عليه سعودي كورد.
+// 🔴 تثبيت مُعدِّل آخر: نتوقّف. استبداله يكسر تثبيته ويُلام عليه SaifCord.
 if (existsSync(BACKUP) && !isOurs()) {
     fail("_app.asar موجود و app.asar ليس أرشيفنا — مُعدِّل آخر مثبَّت. أزله أوّلاً.");
 }
@@ -259,7 +263,7 @@ if (standalone) {
     copyFileSync(BUILT, PAYLOAD);
 }
 
-const indexJs = `// مُولَّد بواسطة سعودي كورد — لا تُحرّره.
+const indexJs = `// مُولَّد بواسطة SaifCord — لا تُحرّره.
 require(${JSON.stringify(TARGET)});
 `;
 
@@ -312,7 +316,7 @@ if (!existsSync(BACKUP)) {
     }
 }
 
-console.log(`✔ ثُبِّت سعودي كورد في ${RESOURCES}`);
+console.log(`✔ ثُبِّت SaifCord في ${RESOURCES}`);
 // يُقال الفرع صراحةً: بلا وسائط يُختار المستقرّ، ومن ظنّ أنه يحقن كناري
 // يرى هنا أنه لم يفعل — بدل أن يكتشفه بعد إعادة تشغيل لا تُغيّر شيئاً.
 console.log(`  الفرع     : ${branch ?? "stable (افتراضي)"}`);
