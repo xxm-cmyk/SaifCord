@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-// saudicordCheck — quality gate for the SaudiCord layer (src/esharqplugins + i18n overlays).
+// saifcordCheck — quality gate for the SaifCord layer (src/esharqplugins + i18n overlays).
 //
 // 1. Arabic dictionary validation (HARD FAIL). The dictionary is no longer read
 //    at runtime — buildArabicTable.mjs parses it line by line to compile the
@@ -17,12 +17,12 @@
 //    - empty Arabic values
 //    - {placeholder} tokens present in the Arabic value but absent from the
 //      English key (they would render literally, untranslated)
-// 2. i18n coverage report for SaudiCord's plugins (WARN ONLY): a plugin counts as
+// 2. i18n coverage report for SaifCord's plugins (WARN ONLY): a plugin counts as
 //    localized if it has an overlay in src/i18n/plugins/ or uses inline t()
 //    from @utils/esharqI18n. Warnings don't fail the build — some plugins are
 //    legitimately English-only (e.g. pure-CSS with an overlay-less alias).
 //
-// Run: node scripts/saudicordCheck.mjs   (exit 1 on hard errors)
+// Run: node scripts/saifcordCheck.mjs   (exit 1 on hard errors)
 
 import { readdirSync, readFileSync, statSync } from "fs";
 import { join } from "path";
@@ -83,7 +83,7 @@ src.split("\n").forEach((line, i) => {
 console.log(`  ${entries} entries parsed, ${seen.size} unique normalized keys`);
 
 // ── 2. userplugins i18n coverage (warn only) ─────────────────────────────────
-console.log("── SaudiCord plugins i18n coverage ──");
+console.log("── SaifCord plugins i18n coverage ──");
 let overlaySet;
 try {
     overlaySet = new Set(readdirSync(OVERLAYS).filter(f => f.endsWith(".ts")).map(f => f.slice(0, -3)));
@@ -154,5 +154,5 @@ if (strays === 0) console.log(`  ${PLUGIN_DIRS.length} directories hold plugins 
 
 // ── result ───────────────────────────────────────────────────────────────────
 console.log("──────────────────────────────────");
-console.log(`saudicordCheck: ${errors} error(s), ${warnings} warning(s)`);
+console.log(`saifcordCheck: ${errors} error(s), ${warnings} warning(s)`);
 if (errors > 0) process.exit(1);
