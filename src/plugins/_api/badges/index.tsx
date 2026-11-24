@@ -28,7 +28,7 @@ import { Devs, SAUDICORD_GUILD_ID } from "@utils/constants";
 import { copyWithToast } from "@utils/discord";
 import { t } from "@utils/esharqI18n";
 import { Logger } from "@utils/Logger";
-import { esharqTierOf, setSaudiCordTeam, shouldShowContributorBadge, shouldShowEquicordContributorBadge } from "@utils/misc";
+import { esharqTierOf, setSaifCordTeam, shouldShowContributorBadge, shouldShowEquicordContributorBadge } from "@utils/misc";
 import definePlugin from "@utils/types";
 import { ContextMenuApi, GuildMemberStore, Menu, Toasts, Tooltip, UserStore } from "@webpack/common";
 
@@ -51,9 +51,9 @@ const SAUDICORD_BADGES = "https://raw.githubusercontent.com/xxm-cmyk/SaudiCord-B
  * فهي علامة الانتماء لا مرتبة فوق غيرها.
  */
 const SAUDICORD_TIER_META = {
-    owner: { img: "Owner/owner.png", label: "مالك SaudiCord · SaudiCord Owner" },
-    admin: { img: "admin/admin.png", label: "مدير SaudiCord · SaudiCord Admin" },
-    user: { img: "user/user.png", label: "مستخدم SaudiCord · SaudiCord User" },
+    owner: { img: "Owner/owner.png", label: "مالك SaifCord · SaifCord Owner" },
+    admin: { img: "admin/admin.png", label: "مدير SaifCord · SaifCord Admin" },
+    user: { img: "user/user.png", label: "مستخدم SaifCord · SaifCord User" },
 } as const;
 
 const tierIcon = (tier: keyof typeof SAUDICORD_TIER_META) =>
@@ -71,7 +71,7 @@ const EsharqTierBadge: ProfileBadge = {
     // اسمٌ عامّ لا تفصيليّ: الشارة مكوّن، والمكوّن يعرف الرتبة فيُظهر اسمها
     // الدقيق في تلميحه. أمّا هذا الحقل فيقرؤه ديسكورد وصفحة «ملفّي» في إعدادات
     // إشراق، وكان فارغاً — فكانت الشارة تغيب عن تلك الصفحة كلّياً.
-    description: "رتبة SaudiCord · SaudiCord Rank",
+    description: "رتبة SaifCord · SaifCord Rank",
     position: BadgePosition.START,
     shouldShow: ({ userId }) => esharqTierOf(userId) !== null && badgeVisible(userId, "tier", "profile"),
     component: ({ userId }: BadgeUserArgs) => {
@@ -116,7 +116,7 @@ const isSaudiCordMember = (userId: string) => GuildMemberStore.isMember(SAUDICOR
 
 const SaudiCordHighlightBadge: ProfileBadge = {
     id: "saudicord_highlight_badge",
-    description: "تميّز SaudiCord · SaudiCord Highlight",
+    description: "تميّز SaifCord · SaifCord Highlight",
     position: BadgePosition.START,
     shouldShow: ({ userId }) => Boolean(SaudiCordHighlights[userId]) && badgeVisible(userId, "user", "profile"),
     component: ({ userId }: BadgeUserArgs) => {
@@ -228,7 +228,7 @@ const EsharqCustomChatBadge = ({ userId }: { userId: string; }) => {
 // gives the className back, which is what makes a per-member effect possible at all.
 const EsharqSelfServeBadge: ProfileBadge = {
     id: "esharq_selfserve_badge",
-    description: "داعم SaudiCord · SaudiCord Supporter",
+    description: "داعم SaifCord · SaifCord Supporter",
     position: BadgePosition.START,
     shouldShow: ({ userId }) => selfServeVisible(userId, "profile"),
     component: ({ userId }: ProfileBadge & BadgeUserArgs) => {
@@ -489,14 +489,14 @@ async function loadBadges(url: string, noCache = false) {
 
 async function loadAllBadges(noCache = false) {
     const vencordBadges = await loadBadges("https://badges.vencord.dev/badges.json", noCache);
-    // SaudiCord team data: owner/admin arrays + highlight map keyed by Discord user ID.
+    // SaifCord team data: owner/admin arrays + highlight map keyed by Discord user ID.
     const team = await loadBadges("https://raw.githubusercontent.com/xxm-cmyk/SaudiCord-Bored/main/team.json", noCache).catch(() => null);
 
     DonorBadges = vencordBadges;
     EsharqCustomBadges = {};
     EsharqSelfServeBadges = {};
     EsharqVisibility = {};
-    setSaudiCordTeam(team);
+    setSaifCordTeam(team);
     SaudiCordHighlights = team?.highlight && typeof team.highlight === "object"
         ? team.highlight as Record<string, SaudiCordHighlight>
         : {};
