@@ -1,5 +1,5 @@
 /*
- * SaudiCord, a Discord client mod
+ * SaifCord, a Discord client mod
  * Copyright (c) 2026 LOSTSTR
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -27,12 +27,12 @@ export function ReleaseChannelsPage() {
         return () => { active = false; };
     }, []);
 
-    const repoName = repo?.split("/").slice(-2).join("/") ?? "xxm-cmyk/SaudiCord";
+    const repoName = repo?.split("/").slice(-2).join("/") ?? "xxm-cmyk/SaifCord";
 
     return (
         <>
             <Card index={0}
-                title={t("قنوات إصدار سعودي كورد", "SaudiCord release channels")}
+                title={t("قنوات إصدار SaifCord", "SaifCord release channels")}
                 subtitle={t("تعرف على مصدر نسختك وروابط الإصدارات الرسمية.", "See your build source and the official release streams.")}>
                 <StatRow items={[
                     { label: t("النسخة الحالية", "Current build"), value: gitHash },
@@ -45,14 +45,14 @@ export function ReleaseChannelsPage() {
                         <p style={{ opacity: 0.7, margin: "5px 0 8px" }}>
                             {t("الإصدارات المنشورة والمناسبة للاستخدام اليومي.", "Published releases intended for everyday use.")}
                         </p>
-                        <Link href="https://github.com/xxm-cmyk/SaudiCord/releases">{t("عرض الإصدارات الرسمية", "Browse official releases")}</Link>
+                        <Link href="https://github.com/xxm-cmyk/SaifCord/releases">{t("عرض الإصدارات الرسمية", "Browse official releases")}</Link>
                     </div>
                     <div>
                         <strong>{t("التطوير والمعاينة", "Development / Preview")}</strong>
                         <p style={{ opacity: 0.7, margin: "5px 0 8px" }}>
                             {t("تغييرات أحدث قد تحتوي على أخطاء، وهي موجهة للاختبار.", "Newer changes may contain bugs and are intended for testing.")}
                         </p>
-                        <Link href="https://github.com/xxm-cmyk/SaudiCord/commits/main">{t("عرض سجل التطوير", "Browse development commits")}</Link>
+                        <Link href="https://github.com/xxm-cmyk/SaifCord/commits/main">{t("عرض سجل التطوير", "Browse development commits")}</Link>
                     </div>
                 </div>
             </Card>
