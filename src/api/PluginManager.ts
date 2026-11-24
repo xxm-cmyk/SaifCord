@@ -510,28 +510,43 @@ export const initPluginManager = onlyOnce(function init() {
 
     const neededApiPlugins = new Set<string>();
 
-    // First round-trip to mark and force enable dependencies
-    //
-    // FIXME: might need to revisit this if there's ever nested (dependencies of dependencies) dependencies since this only
-    // goes for the top level and their children, but for now this works okay with the current API plugins
-    for (const p of pluginsValues) if (isPluginEnabled(p.name)) {
-        p.dependencies?.forEach(d => {
-            const dep = Plugins[d];
+    const dependencyVisited = new Set<string>();
+    const dependencyStack = new Set<string>();
 
-            if (!dep) {
-                const error = new Error(`Plugin ${p.name} has unresolved dependency ${d}`);
+    function enableDependencies(plugin: Plugin) {
+        if (dependencyStack.has(plugin.name)) {
+            logger.error(new Error(`Circular plugin dependency detected: ${[...dependencyStack, plugin.name].join(" -> ")}`));
+            return;
+        }
+        if (dependencyVisited.has(plugin.name)) return;
 
-                if (IS_DEV) {
-                    throw error;
-                }
+        dependencyStack.add(plugin.name);
+        for (const name of plugin.dependencies ?? []) {
+            if (dependencyStack.has(name)) {
+                logger.error(new Error(`Circular plugin dependency detected: ${[...dependencyStack, name].join(" -> ")}`));
+                continue;
+            }
+            if (dependencyVisited.has(name)) continue;
 
+            const dependency = Plugins[name];
+            const dependencySettings = settings[name];
+            if (!dependency || !dependencySettings) {
+                const error = new Error(`Plugin ${plugin.name} has unresolved dependency ${name}`);
+                if (IS_DEV) throw error;
                 logger.warn(error);
-                return;
+                continue;
             }
 
-            settings[d].enabled = true;
-            dep.isDependency = true;
-        });
+            dependencySettings.enabled = true;
+            dependency.isDependency = true;
+            enableDependencies(dependency);
+        }
+        dependencyStack.delete(plugin.name);
+        dependencyVisited.add(plugin.name);
+    }
+
+    for (const p of pluginsValues) if (isPluginEnabled(p.name)) {
+        enableDependencies(p);
 
         if (p.commands?.length) neededApiPlugins.add("CommandsAPI");
         if (p.onBeforeMessageEdit || p.onBeforeMessageSend || p.onMessageClick) neededApiPlugins.add("MessageEventsAPI");
