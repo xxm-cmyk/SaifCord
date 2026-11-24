@@ -109,25 +109,25 @@ export function DevelopersPage() {
     const username = developer?.username ? `@${developer.username}` : "جارٍ تحميل اسم المستخدم…";
 
     return (
-        <div className="saudicord-devs">
-            <section className="saudicord-devs-card" aria-label="المطوّر">
-                <div className="saudicord-devs-profile">
-                    <div className="saudicord-devs-avatar-wrap">
+        <div className="saifcord-devs">
+            <section className="saifcord-devs-card" aria-label="المطوّر">
+                <div className="saifcord-devs-profile">
+                    <div className="saifcord-devs-avatar-wrap">
                         {developer
-                            ? <img className="saudicord-devs-avatar" src={getAvatar(developer)} alt="" />
-                            : <div className="saudicord-devs-avatar saudicord-devs-avatar-placeholder" />}
+                            ? <img className="saifcord-devs-avatar" src={getAvatar(developer)} alt="" />
+                            : <div className="saifcord-devs-avatar saifcord-devs-avatar-placeholder" />}
                     </div>
-                    <div className="saudicord-devs-identity">
-                        <div className="saudicord-devs-name">
+                    <div className="saifcord-devs-identity">
+                        <div className="saifcord-devs-name">
                             <span>{loading && !developer ? "جارٍ التحميل…" : displayName}</span>
                             <OwnerCrownIcon width={18} height={18} />
                         </div>
-                        <div className="saudicord-devs-username">{username}</div>
-                        <div className="saudicord-devs-role">مؤسس ومطوّر SaifCord</div>
+                        <div className="saifcord-devs-username">{username}</div>
+                        <div className="saifcord-devs-role">مؤسس ومطوّر SaifCord</div>
                     </div>
                 </div>
 
-                <div className="saudicord-devs-actions">
+                <div className="saifcord-devs-actions">
                     <button type="button" onClick={openMessage} disabled={busy !== null}>
                         {busy === "message" ? "جارٍ الفتح…" : "رسالة"}
                     </button>
@@ -137,30 +137,30 @@ export function DevelopersPage() {
                 </div>
             </section>
 
-            <section className="saudicord-devs-credits">
-                <div className="saudicord-devs-credits-heading">
+            <section className="saifcord-devs-credits">
+                <div className="saifcord-devs-credits-heading">
                     <h2>حقوق النشر</h2>
                     <p>SaifCord مشروع مشتق يجمع أعمالاً وتعديلات من مشاريع مفتوحة المصدر.</p>
                 </div>
 
-                <div className="saudicord-devs-credit-row">
+                <div className="saifcord-devs-credit-row">
                     <div><strong>SaifCord</strong><span>تعديلات SaifCord وواجهته</span></div>
                     <small>xxm-cmyk</small>
                 </div>
-                <div className="saudicord-devs-credit-row">
+                <div className="saifcord-devs-credit-row">
                     <div><strong>SaifCord</strong><span>الأعمال الأصلية والتعريب والواجهات والإضافات</span></div>
                     <small>LOSTSTR</small>
                 </div>
-                <div className="saudicord-devs-credit-row">
+                <div className="saifcord-devs-credit-row">
                     <div><strong>Equicord</strong><span>المشروع الأساسي ومساهماته</span></div>
                     <small>Equicord contributors</small>
                 </div>
-                <div className="saudicord-devs-credit-row">
+                <div className="saifcord-devs-credit-row">
                     <div><strong>Vencord</strong><span>الأساس البرمجي والمساهمات الأصلية</span></div>
                     <small>Vendicated and contributors</small>
                 </div>
 
-                <p className="saudicord-devs-legal">
+                <p className="saifcord-devs-legal">
                     تبقى حقوق أصحاب المشاريع وترويسات ملفاتهم وتراخيصهم محفوظة كما هي.
                     راجع ملفات NOTICE.md وLICENSE وTRADEMARK.md في المستودع للاطلاع على
                     الإسناد الكامل وشروط الاستخدام والتوزيع.
