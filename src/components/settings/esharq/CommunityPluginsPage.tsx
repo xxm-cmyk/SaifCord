@@ -249,8 +249,8 @@ function PluginRow({ entry, loadError, onChanged, onRescan, rescanning }: {
                         {compat.items.filter(i => i.status !== "ok" && i.status !== "substituted").map(i => i.specifier).join(" · ")}
                         <div className="esharq-cp-compat-why">
                             {compat.blocked > 0
-                                ? t("هذه من Node أو من العملية الرئيسية، ولا تصلها أيّ إضافة داخل صفحة ديسكورد — ولا إضافات سعودي كورد نفسها.",
-                                    "These come from Node or the main process, and no plugin inside the Discord page can reach them — not even SaudiCord's built-in plugins.")
+                                ? t("هذه من Node أو من العملية الرئيسية، ولا تصلها أيّ إضافة داخل صفحة ديسكورد — ولا إضافات SaifCord نفسها.",
+                                    "These come from Node or the main process, and no plugin inside the Discord page can reach them — not even SaifCord's built-in plugins.")
                                 : t("أسماءٌ خاصّة بشوكةٍ أخرى غالباً. استورد الإضافة التي تُكمّلها، أو احذف السطر إن كان لزينةٍ لا تُستعمل.",
                                     "Most likely names specific to another fork. Import the plugin that completes it, or delete the line if it is unused.")}
                         </div>
@@ -281,7 +281,7 @@ function PluginRow({ entry, loadError, onChanged, onRescan, rescanning }: {
                 <div className="esharq-cp-actions">
                     {/*
                       * 🔴 إضافات المجتمع تُسجَّل بـ`hidden: true` لتُدار من هنا وحدها،
-                      * فلا تظهر في صفحة إضافات سعودي كورد — ومعها اختفى **الطريق الوحيد**
+                      * فلا تظهر في صفحة إضافات SaifCord — ومعها اختفى **الطريق الوحيد**
                       * إلى إعداداتها. من ثبّت إضافةً لها خيارات لم يجد كيف يبلغها.
                       *
                       * يُفتَح هنا نفس المُكوّن الذي تفتحه صفحة الإضافات
@@ -296,7 +296,7 @@ function PluginRow({ entry, loadError, onChanged, onRescan, rescanning }: {
                       * 🔴 «افحص وأصلح»: يُعاد الاستيراد من النسخة المحفوظة
                       * بمُحرّكٍ صار يعرف أكثر.
                       *
-                      * ما استُورد قبل أن يتعلّم سعودي كورد وحدةً جديدة يبقى على
+                      * ما استُورد قبل أن يتعلّم SaifCord وحدةً جديدة يبقى على
                       * حاله: حزمته المبنيّة قديمة، ولا يحمل جرد الأسماء
                       * المطلوبة فلا يُفحَص فحصاً كاملاً. وكل تحديثٍ يُضيف
                       * وحدةً يجعل إضافاتٍ كانت تسقط قابلةً للعمل — بلا أن
@@ -324,7 +324,7 @@ function PluginRow({ entry, loadError, onChanged, onRescan, rescanning }: {
 /**
  * **صفحة إضافات المجتمع.**
  *
- * إضافات المجتمع **لا تظهر في قائمة إضافات سعودي كورد**: تُسجَّل بـ`hidden` ويُدار
+ * إضافات المجتمع **لا تظهر في قائمة إضافات SaifCord**: تُسجَّل بـ`hidden` ويُدار
  * تفعيلها من هنا وحدها. والسبب أن خلطهما يُوهم أن إشراق يقف خلفها — وهو لا
  * يقف. هنا مكانها، وهنا يُقال من يملكها.
  */
@@ -344,12 +344,12 @@ export function CommunityPluginsPage() {
             <GateOverlay
                 unlocked={false}
                 title={t("إضافات المجتمع", "Community plugins")}
-                subtitle={t("قسم يُشغّل إضافات كتبها أشخاص من خارج سعودي كورد.",
-                    "A section that runs plugins written by people outside SaudiCord.")}
+                subtitle={t("قسم يُشغّل إضافات كتبها أشخاص من خارج SaifCord.",
+                    "A section that runs plugins written by people outside SaifCord.")}
                 slideLabel={t("اسحب لفتح القسم", "Slide to open the section")}
                 warnings={[
-                    t("هذه إضافات ليست من سعودي كورد. نحن نوفّر الميزة التي تُشغّلها فقط — لا نكتبها ولا نُراجعها ولا نُحدّثها.",
-                        "These plugins are not part of SaudiCord. We only provide the feature that runs them — we don't write, review or update them."),
+                    t("هذه إضافات ليست من SaifCord. نحن نوفّر الميزة التي تُشغّلها فقط — لا نكتبها ولا نُراجعها ولا نُحدّثها.",
+                        "These plugins are not part of SaifCord. We only provide the feature that runs them — we don't write, review or update them."),
                     // 🔴 كان البند الأوّل يقول «ولا نُصلحها» — وصار العميل يُصلح
                     // فروق البنية فعلاً. تركُ الجملة يجعل وعدنا كاذباً أوّل مرّة،
                     // فتُحدَّد حدود ما نفعله بدل أن يُنفى أصله.
@@ -357,10 +357,10 @@ export function CommunityPluginsPage() {
                         "And we only bridge structural differences: module names that differ between forks, and an import form our compiler does not understand. We never change a plugin's logic or fix its bugs, and anything we have no counterpart for is left alone and named for you."),
                     t("الإضافة تعمل داخل ديسكورد بصلاحيات أي إضافة، فتستطيع ما تستطيعه أي إضافة. لا تُشغّل إلّا ما تثق بمصدره أنت.",
                         "A plugin runs inside Discord with the same privileges as any plugin, so it can do whatever any plugin can. Only run what you trust."),
-                    t("ما تستورده يبقى على جهازك وحده: لا يُرفَع ولا يُشارَك، ولا يصل سعودي كورد ولا أي مستخدم آخر، ولا يدخل النسخ الاحتياطية ولا المزامنة.",
-                        "What you import stays on your machine alone: never uploaded or shared, never reaching SaudiCord or any other user, and never included in backups or sync."),
-                    t("القرار قرارك وحدك، وسعودي كورد لا يتحمّل مسؤولية ما تستورده ولا ما ينتج عنه.",
-                        "The decision is yours alone. SaudiCord takes no responsibility for what you import, or for what comes of it.")
+                    t("ما تستورده يبقى على جهازك وحده: لا يُرفَع ولا يُشارَك، ولا يصل SaifCord ولا أي مستخدم آخر، ولا يدخل النسخ الاحتياطية ولا المزامنة.",
+                        "What you import stays on your machine alone: never uploaded or shared, never reaching SaifCord or any other user, and never included in backups or sync."),
+                    t("القرار قرارك وحدك، وSaifCord لا يتحمّل مسؤولية ما تستورده ولا ما ينتج عنه.",
+                        "The decision is yours alone. SaifCord takes no responsibility for what you import, or for what comes of it.")
                 ]}
                 onUnlock={() => {
                     Settings.plugins.Settings.communityPluginsUnlocked = true;
@@ -438,14 +438,14 @@ function CommunityPluginsContent({ onRelock }: { onRelock: () => void; }) {
             title: t("سنُعدّل نسخةً من الإضافة", "We will edit a copy of the plugin"),
             body: (
                 <p style={{ textAlign: "center", lineHeight: 1.75 }}>
-                    {t(`الإصلاح يقع على النسخة التي يحتفظ بها سعودي كورد. مجلدك الأصلي يُقرأ ولا يُكتَب فيه حرف.
+                    {t(`الإصلاح يقع على النسخة التي يحتفظ بها SaifCord. مجلدك الأصلي يُقرأ ولا يُكتَب فيه حرف.
 
 وما يُبدَّل فروقُ البنية وحدها: اسم وحدةٍ من شوكةٍ أخرى يُوضَع مكانه ما يقابله عندنا، وصيغةُ استيرادٍ لا يفهمها مُترجِمنا. لا يُضاف منطق ولا يُحذف سطرٌ يفعل شيئاً.
 
 وما لا نعرف له مقابلاً يبقى كما هو ويُقال لك باسمه — البديل المخترَع أسوأ من عطلٍ صريح، لأنّه يعمل ويكذب.
 
 كل هذا على جهازك: لا يُرفَع مصدرٌ ولا يُرسَل طلب. وسترى ما تغيّر قبل أن تُفعّل شيئاً.`,
-                        `The fix is applied to the SaudiCord-managed copy. Your original folder is read, never written to.
+                        `The fix is applied to the SaifCord-managed copy. Your original folder is read, never written to.
 
 Only structural differences change: a module name from another fork is replaced with its counterpart here, and an import form our compiler does not understand. No logic is added, and no working line is removed.
 
@@ -481,8 +481,8 @@ All of this is on your machine: no source is uploaded and no request is sent. An
             body: (
                 <p style={{ textAlign: "center", lineHeight: 1.75 }}>
                     {t(
-                        "سيُنزل سعودي كورد ملفات المصدر من مستودعه عند إصدار مثبت، ويتحقق من بصمة SHA-256 لكل ملف، ثم يمررها عبر فاحص الإضافات المحلي. لن تُفعّل الإضافة تلقائيًا. الفحص الثابت ليس عزلًا ولا ضمانًا للأمان؛ راجع المصدر ولا تشغّل إلا ما تثق به.",
-                        "SaudiCord will download source files from its repository at a pinned revision, verify every SHA-256 hash, and pass them through the local plugin scanner. The plugin will not be enabled automatically. Static scanning is not sandboxing or a safety guarantee; review the source and only run what you trust."
+                        "سيُنزل SaifCord ملفات المصدر من مستودعه عند إصدار مثبت، ويتحقق من بصمة SHA-256 لكل ملف، ثم يمررها عبر فاحص الإضافات المحلي. لن تُفعّل الإضافة تلقائيًا. الفحص الثابت ليس عزلًا ولا ضمانًا للأمان؛ راجع المصدر ولا تشغّل إلا ما تثق به.",
+                        "SaifCord will download source files from its repository at a pinned revision, verify every SHA-256 hash, and pass them through the local plugin scanner. The plugin will not be enabled automatically. Static scanning is not sandboxing or a safety guarantee; review the source and only run what you trust."
                     )}
                 </p>
             ),
@@ -534,8 +534,8 @@ All of this is on your machine: no source is uploaded and no request is sent. An
     return (
         <>
             <NoticeStrip tone="danger">
-                {t("هذه إضافات ليست من سعودي كورد: لا نكتبها ولا نُراجعها ولا نُحدّثها. تعمل بصلاحيات أي إضافة داخل ديسكورد، وما تستورده يبقى على جهازك وحده. القرار قرارك.",
-                    "These plugins are not part of SaudiCord: we don't write, review or update them. They run with the same privileges as any plugin inside Discord, and what you import stays on your machine alone. The decision is yours.")}
+                {t("هذه إضافات ليست من SaifCord: لا نكتبها ولا نُراجعها ولا نُحدّثها. تعمل بصلاحيات أي إضافة داخل ديسكورد، وما تستورده يبقى على جهازك وحده. القرار قرارك.",
+                    "These plugins are not part of SaifCord: we don't write, review or update them. They run with the same privileges as any plugin inside Discord, and what you import stays on your machine alone. The decision is yours.")}
             </NoticeStrip>
 
             <Card index={0}
@@ -591,8 +591,8 @@ All of this is on your machine: no source is uploaded and no request is sent. An
                         </NoticeStrip>
                         {/* مجلدك لا يُمَسّ — يُقال في كل مرّة، لا مرّةً في نصٍّ يُقرأ ثمّ يُنسى. */}
                         <div className="esharq-cp-compat-why">
-                            {t("عُدّلت نسخة سعودي كورد وحدها؛ مجلدك الأصلي كما تركتَه.",
-                                "Only the SaudiCord-managed copy was edited; your original folder is exactly as you left it.")}
+                            {t("عُدّلت نسخة SaifCord وحدها؛ مجلدك الأصلي كما تركتَه.",
+                                "Only the SaifCord-managed copy was edited; your original folder is exactly as you left it.")}
                         </div>
                         <Findings findings={rescanResult.findings} />
                     </div>
@@ -608,12 +608,12 @@ All of this is on your machine: no source is uploaded and no request is sent. An
 
             <Card index={1}
                 title={t("كتالوج إضافات المجتمع", "Community catalogue")}
-                subtitle={t("إضافات منشورة في مستودع سعودي كورد بعد مراجعة المساهمة وفحص ملفاتها. التصفح لا يعني أن الإضافة آمنة بالكامل.", "Plugins listed in the SaudiCord repository after contribution review and file checks. Listing does not guarantee that a plugin is completely safe.")}>
+                subtitle={t("إضافات منشورة في مستودع SaifCord بعد مراجعة المساهمة وفحص ملفاتها. التصفح لا يعني أن الإضافة آمنة بالكامل.", "Plugins listed in the SaifCord repository after contribution review and file checks. Listing does not guarantee that a plugin is completely safe.")}>
                 <div style={{ display: "flex", gap: UNIT, flexWrap: "wrap", marginBottom: UNIT * 2 }}>
                     <Btn label={catalogLoading ? t("جارٍ التحديث…", "Refreshing…") : t("تحديث الكتالوج", "Refresh catalogue")}
                         disabled={catalogLoading} onClick={refreshCatalog} />
                     <Btn label={t("طريقة نشر إضافة", "How to submit a plugin")}
-                        onClick={() => (window as any).VencordNative?.native?.openExternal?.("https://github.com/xxm-cmyk/SaudiCord/blob/main/.github/COMMUNITY_PLUGINS_CONTRIBUTING.md")} />
+                        onClick={() => (window as any).VencordNative?.native?.openExternal?.("https://github.com/xxm-cmyk/SaifCord/blob/main/.github/COMMUNITY_PLUGINS_CONTRIBUTING.md")} />
                 </div>
                 {catalogError !== null ? (
                     <NoticeStrip tone="danger">{t("تعذّر تحميل الكتالوج:", "Could not load catalogue:")} {catalogError}</NoticeStrip>
@@ -621,7 +621,7 @@ All of this is on your machine: no source is uploaded and no request is sent. An
                     <div className="esharq-cp-empty">{t("جارٍ تحميل الكتالوج…", "Loading catalogue…")}</div>
                 ) : catalog.length === 0 ? (
                     <div className="esharq-cp-empty">
-                        {t("ما فيه إضافات منشورة حاليًا. تقدر تستورد إضافة من جهازك، أو تساهم بإضافة عبر طلب دمج في مستودع سعودي كورد.", "No plugins have been published yet. You can import a plugin from your device or contribute one through a pull request to the SaudiCord repository.")}
+                        {t("ما فيه إضافات منشورة حاليًا. تقدر تستورد إضافة من جهازك، أو تساهم بإضافة عبر طلب دمج في مستودع SaifCord.", "No plugins have been published yet. You can import a plugin from your device or contribute one through a pull request to the SaifCord repository.")}
                     </div>
                 ) : (
                     <div className="esharq-cp-list">
@@ -643,7 +643,7 @@ All of this is on your machine: no source is uploaded and no request is sent. An
                                         tone="accent" disabled={catalogInstalling !== null}
                                         onClick={() => doCatalogInstall(plugin)} />
                                     <Btn label={t("عرض المصدر", "View source")}
-                                        onClick={() => (window as any).VencordNative?.native?.openExternal?.(`https://github.com/xxm-cmyk/SaudiCord/tree/${plugin.commit}/community-plugins/plugins/${plugin.id}`)} />
+                                        onClick={() => (window as any).VencordNative?.native?.openExternal?.(`https://github.com/xxm-cmyk/SaifCord/tree/${plugin.commit}/community-plugins/plugins/${plugin.id}`)} />
                                 </div>
                             </div>
                         ))}
@@ -656,8 +656,8 @@ All of this is on your machine: no source is uploaded and no request is sent. An
 
             <Card index={2}
                 title={t("المستورَدة", "Imported")}
-                subtitle={t("تفعيلها وتعطيلها من هنا — ولا تظهر في قائمة إضافات سعودي كورد.",
-                    "Enable and disable them here — they never appear in the built-in SaudiCord plugins list.")}>
+                subtitle={t("تفعيلها وتعطيلها من هنا — ولا تظهر في قائمة إضافات SaifCord.",
+                    "Enable and disable them here — they never appear in the built-in SaifCord plugins list.")}>
                 {entries === null ? (
                     <div className="esharq-cp-empty">{listError === null ? t("جارٍ القراءة…", "Reading…") : t("تعذّرت قراءة القائمة. استخدم زر إعادة المحاولة أعلاه.", "The list could not be read. Use the retry button above.")}</div>
                 ) : list.length === 0 ? (
@@ -686,8 +686,8 @@ All of this is on your machine: no source is uploaded and no request is sent. An
                     <div>{t("④ TypeScript وJSX مدعومان ويُحوَّلان عند الاستيراد؛ لا تحتاج بناءً.", "④ TypeScript and JSX are supported and converted at import time; no build needed.")}</div>
                 </div>
                 <NoticeStrip>
-                    {t("وحدات Node مثل fs وchild_process لا تعمل هنا — ليس منعاً منّا، بل لأن صفحة ديسكورد تعمل بلا Node، وهذا يسري على إضافات سعودي كورد نفسها.",
-                        "Node modules such as fs and child_process do not work here — not a restriction we impose, but because Discord's page runs without Node. The same applies to SaudiCord's built-in plugins.")}
+                    {t("وحدات Node مثل fs وchild_process لا تعمل هنا — ليس منعاً منّا، بل لأن صفحة ديسكورد تعمل بلا Node، وهذا يسري على إضافات SaifCord نفسها.",
+                        "Node modules such as fs and child_process do not work here — not a restriction we impose, but because Discord's page runs without Node. The same applies to SaifCord's built-in plugins.")}
                 </NoticeStrip>
             </Card>
         </>
