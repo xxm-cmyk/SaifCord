@@ -256,7 +256,7 @@ function runPlugin(bundle: { id: string; name: string; modules: { path: string; 
                 "IS_WEB", "IS_DEV", "IS_STANDALONE", "IS_UPDATER_DISABLED", "IS_REPORTER",
                 "IS_DISCORD_DESKTOP", "IS_VESKTOP", "IS_EQUIBOP", "IS_EXTENSION", "IS_USERSCRIPT",
                 "VERSION", "BUILD_TIMESTAMP",
-                `"use strict";\n${code}\n//# sourceURL=saudicord-community/${bundle.name}/${path}`
+                `"use strict";\n${code}\n//# sourceURL=saifcord-community/${bundle.name}/${path}`
             );
             fn(
                 module, exports, makeRequire(path), lazyReact,
