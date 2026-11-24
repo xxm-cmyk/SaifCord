@@ -1,5 +1,5 @@
 /*
- * SaudiCord community extension security inspection.
+ * SaifCord community extension security inspection.
  * Copyright (c) 2026 LOSTSTR
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
