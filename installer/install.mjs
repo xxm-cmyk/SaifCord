@@ -13,7 +13,7 @@ import { packAsar, readAsarFile } from "./asar.mjs";
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const PAYLOAD_SOURCE = join(ROOT, "saifcord.asar");
-const MARKER = "saudicord";
+const MARKER = "saifcord";
 const BRANCHES = { stable: "Discord", ptb: "DiscordPTB", canary: "DiscordCanary" };
 const args = process.argv.slice(2);
 const flag = name => { const i = args.indexOf("--" + name); return i < 0 ? undefined : args[i + 1]; };
@@ -131,7 +131,10 @@ function isOurs() {
     }
     try {
         const pkg = readAsarFile(APP, "package.json");
-        if (pkg && JSON.parse(pkg.toString("utf8"))[MARKER]) return true;
+        if (pkg) {
+            const metadata = JSON.parse(pkg.toString("utf8"));
+            if (metadata[MARKER] || metadata.saudicord) return true;
+        }
     } catch {}
     try {
         const index = readAsarFile(APP, "index.js");
