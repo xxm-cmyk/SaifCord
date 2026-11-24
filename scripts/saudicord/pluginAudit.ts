@@ -96,7 +96,7 @@ function parsePlugin(filePath: string): AuditedPlugin {
 
 function findEntryPoint(root: string, entry: Dirent): string | undefined {
     if (entry.isFile()) {
-        if (/\\.tsx?$/.test(entry.name) && entry.name !== "index.ts" && !entry.name.endsWith(".d.ts")) {
+        if (/\.tsx?$/.test(entry.name) && entry.name !== "index.ts" && !entry.name.endsWith(".d.ts")) {
             return join(root, entry.name);
         }
         return;
