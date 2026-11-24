@@ -348,8 +348,8 @@ export function SurveillancePage() {
                         "① It does not mean these sites took anything from you. It means the client is allowed to download from them.")}</p>
                     <p>{t("② لا تعني أن العميل اتّصل بها فعلاً. أكثرها لا يُلمَس أبداً ما لم تُشغّل ثيماً يستعمله.",
                         "② It does not mean the client actually contacted them. Most are never touched unless you run a theme that uses one.")}</p>
-                    <p>{t("③ لا تشمل ديسكورد نفسه: طلباته لا تمرّ بهذه القائمة ولا يتحكّم بها سعودي كورد.",
-                        "③ It does not cover Discord itself: its own requests don't go through this list and SaudiCord doesn't govern them.")}</p>
+                    <p>{t("③ لا تشمل ديسكورد نفسه: طلباته لا تمرّ بهذه القائمة ولا يتحكّم بها SaifCord.",
+                        "③ It does not cover Discord itself: its own requests don't go through this list and SaifCord doesn't govern them.")}</p>
                     <p>{t("④ ولا تشمل مكالماتك: الصوت يمرّ في وحدة ديسكورد الأصلية خارج المتصفّح كلّه.",
                         "④ It does not cover your calls: voice runs in Discord's native module, outside the browser entirely.")}</p>
                 </div>
