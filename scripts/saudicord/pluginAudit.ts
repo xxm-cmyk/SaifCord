@@ -95,12 +95,17 @@ function parsePlugin(filePath: string): AuditedPlugin {
 }
 
 function findEntryPoint(root: string, entry: Dirent): string | undefined {
+    if (entry.isFile()) {
+        if (/\\.tsx?$/.test(entry.name) && entry.name !== "index.ts" && !entry.name.endsWith(".d.ts")) {
+            return join(root, entry.name);
+        }
+        return;
+    }
+
     if (!entry.isDirectory()) return;
     for (const fileName of ["index.ts", "index.tsx"]) {
         const candidate = join(root, entry.name, fileName);
-        try {
-            if (existsSync(candidate)) return candidate;
-        } catch { /* try the next extension */ }
+        if (existsSync(candidate)) return candidate;
     }
 }
 
