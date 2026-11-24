@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-// Minimal shared AI helper for SaudiCord plugins. Uses Groq's OpenAI-compatible endpoint with each
+// Minimal shared AI helper for SaifCord plugins. Uses Groq's OpenAI-compatible endpoint with each
 // user's OWN free API key (console.groq.com/keys), stored in that plugin's own settings. No key
 // is ever placed in the source, and there is no shared/hardcoded key — every user creates their
 // own. This keeps requests private, avoids abuse/bans of a shared key, and leaks nothing publicly.
