@@ -63,9 +63,9 @@ export function recordPluginStart(name: string, ms: number, failed: boolean, sta
     const record = recordFor(name);
     // إعادة التفعيل اليدويّ تُنادي `start` ثانيةً: نُبقي قياس الإقلاع الأوّل
     // لأن الصفحة تصف الإقلاع لا آخر نقرة.
+    if (failed) record.failed = true;
     if (record.startMs === 0) {
         record.startMs = ms;
-        record.failed = failed;
         record.startAt = startAt;
     }
 }
