@@ -1,5 +1,5 @@
 /*
- * SaudiCord Developers Page
+ * SaifCord Developers Page
  * Copyright notices for upstream projects remain in NOTICE.md and LICENSE files.
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -123,7 +123,7 @@ export function DevelopersPage() {
                             <OwnerCrownIcon width={18} height={18} />
                         </div>
                         <div className="saudicord-devs-username">{username}</div>
-                        <div className="saudicord-devs-role">مؤسس ومطوّر سعودي كورد</div>
+                        <div className="saudicord-devs-role">مؤسس ومطوّر SaifCord</div>
                     </div>
                 </div>
 
@@ -140,15 +140,15 @@ export function DevelopersPage() {
             <section className="saudicord-devs-credits">
                 <div className="saudicord-devs-credits-heading">
                     <h2>حقوق النشر</h2>
-                    <p>سعودي كورد مشروع مشتق يجمع أعمالاً وتعديلات من مشاريع مفتوحة المصدر.</p>
+                    <p>SaifCord مشروع مشتق يجمع أعمالاً وتعديلات من مشاريع مفتوحة المصدر.</p>
                 </div>
 
                 <div className="saudicord-devs-credit-row">
-                    <div><strong>SaudiCord</strong><span>تعديلات سعودي كورد وواجهته</span></div>
+                    <div><strong>SaifCord</strong><span>تعديلات SaifCord وواجهته</span></div>
                     <small>xxm-cmyk</small>
                 </div>
                 <div className="saudicord-devs-credit-row">
-                    <div><strong>SaudiCord</strong><span>الأعمال الأصلية والتعريب والواجهات والإضافات</span></div>
+                    <div><strong>SaifCord</strong><span>الأعمال الأصلية والتعريب والواجهات والإضافات</span></div>
                     <small>LOSTSTR</small>
                 </div>
                 <div className="saudicord-devs-credit-row">
