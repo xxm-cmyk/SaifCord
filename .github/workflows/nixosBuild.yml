@@ -12,9 +12,9 @@ permissions:
 
 jobs:
     Build:
-        name: Build SaudiCord
+        name: Build SaifCord
         # المستودع العام فقط — الخاص نسخة احتياطية لا تبني يومياً.
-        if: github.repository == 'xxm-cmyk/-SaudiCord-' && vars.BUILD_NIXOS == 'true'
+        if: github.repository == 'xxm-cmyk/SaifCord' && vars.BUILD_NIXOS == 'true'
         runs-on: ubuntu-latest
 
         steps:
@@ -65,7 +65,7 @@ jobs:
               id: date
               run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
 
-            - name: Upload SaudiCord Stable
+            - name: Upload SaifCord Stable
               if: ${{ vars.ACT == 'false' }}
               run: |
                   gh release create ${{ steps.date.outputs.date }} --latest=false
