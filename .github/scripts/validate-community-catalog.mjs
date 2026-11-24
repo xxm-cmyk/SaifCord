@@ -25,8 +25,8 @@ try {
   process.exit(1);
 }
 
-if (catalog.schemaVersion !== 1 || catalog.repository !== "xxm-cmyk/SaudiCord" || !Array.isArray(catalog.plugins)) {
-  fail("Catalog must declare schemaVersion 1, repository xxm-cmyk/SaudiCord, and a plugins array.");
+if (catalog.schemaVersion !== 1 || catalog.repository !== "xxm-cmyk/SaifCord" || !Array.isArray(catalog.plugins)) {
+  fail("Catalog must declare schemaVersion 1, repository xxm-cmyk/SaifCord, and a plugins array.");
 }
 
 const ids = new Set();
