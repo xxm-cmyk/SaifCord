@@ -49,7 +49,7 @@ import { relaunch } from "./utils/native";
 import { checkForUpdates, isOutdated as getIsOutdated, update, UpdateLogger } from "./utils/updater";
 import { onceReady } from "./webpack";
 import { patches } from "./webpack/patchWebpack";
-import { startSaudiCordGate } from "./utils/saudiCordGate";
+import { startSaifCordGate } from "./utils/saudiCordGate";
 
 if (IS_REPORTER) {
     require("./debug/runReporter");
@@ -151,7 +151,7 @@ async function runUpdateCheck() {
                 notifiedForUpdatesThisSession = true;
 
                 showNotice(
-                    t("تم تحديث سعودي كورد!", "SaudiCord has been updated!"),
+                    t("تم تحديث SaifCord!", "SaifCord has been updated!"),
                     t("إعادة تشغيل", "Restart"),
                     relaunch
                 );
@@ -163,7 +163,7 @@ async function runUpdateCheck() {
         notifiedForUpdatesThisSession = true;
 
         showNotice(
-            t("يتوفر إصدار جديد من سعودي كورد!", "A new version of SaudiCord is available!"),
+            t("يتوفر إصدار جديد من SaifCord!", "A new version of SaifCord is available!"),
             t("عرض التحديث", "View Update"),
             () => openSettingsTabModal(UpdaterTab!)
         );
@@ -205,7 +205,7 @@ function initTrayIpc() {
 
 async function init() {
     await onceReady;
-    startSaudiCordGate();
+    startSaifCordGate();
     startAllPlugins(StartAt.WebpackReady);
 
     syncSettings();
