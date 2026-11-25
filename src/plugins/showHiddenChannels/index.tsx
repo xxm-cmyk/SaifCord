@@ -26,7 +26,7 @@ import { t } from "@utils/esharqI18n";
 import { classes } from "@utils/misc";
 import definePlugin, { OptionType } from "@utils/types";
 import type { Channel, Role } from "@vencord/discord-types";
-import { ChannelStore, FluxDispatcher, PermissionsBits, PermissionStore, Tooltip } from "@webpack/common";
+import { ChannelStore, FluxDispatcher, PermissionStore, Tooltip } from "@webpack/common";
 
 import HiddenChannelLockScreen, { setChannelBeginHeader } from "./components/HiddenChannelLockScreen";
 
@@ -45,6 +45,7 @@ const enum ChannelStyle {
     MutedUnread,
 }
 
+const VIEW_CHANNEL = 1n << 10n;
 const CONNECT = 1n << 20n;
 
 export const settings = definePluginSettings({
@@ -541,9 +542,11 @@ export default definePlugin({
     },
 
     swapViewChannelWithConnectPermission(mergedPermissions: bigint, channel: Channel) {
-        if (!PermissionStore.can(PermissionsBits.CONNECT, channel)) {
-            mergedPermissions &= ~PermissionsBits.VIEW_CHANNEL;
-            mergedPermissions |= PermissionsBits.CONNECT;
+        if (typeof PermissionStore?.can !== "function") return mergedPermissions;
+
+        if (!PermissionStore.can(CONNECT, channel)) {
+            mergedPermissions &= ~VIEW_CHANNEL;
+            mergedPermissions |= CONNECT;
         }
 
         return mergedPermissions;
@@ -551,13 +554,24 @@ export default definePlugin({
 
     isHiddenChannel(channel: Channel & { channelId?: string; }, checkConnect = false) {
         try {
-            if (typeof channel !== "object" || channel === null || Object.hasOwn(channel, "channelId") && channel.channelId == null) return false;
+            if (typeof channel !== "object" || channel === null) return false;
 
-            if (channel.channelId != null) channel = ChannelStore.getChannel(channel.channelId);
-            if (channel == null || channel.isDM() || channel.isGroupDM() || channel.isMultiUserDM()) return false;
+            const channelId = channel.channelId;
+            if (Object.hasOwn(channel, "channelId") && channelId == null) return false;
+
+            if (channelId != null) {
+                if (typeof ChannelStore?.getChannel !== "function") return false;
+                channel = ChannelStore.getChannel(channelId);
+            }
+
+            if (typeof channel !== "object" || channel === null) return false;
+            if (typeof channel.isDM === "function" && channel.isDM()) return false;
+            if (typeof channel.isGroupDM === "function" && channel.isGroupDM()) return false;
+            if (typeof channel.isMultiUserDM === "function" && channel.isMultiUserDM()) return false;
             if (["browse", "customize", "guide"].includes(channel.id)) return false;
+            if (typeof PermissionStore?.can !== "function") return false;
 
-            return !PermissionStore.can(PermissionsBits.VIEW_CHANNEL, channel) || checkConnect && !PermissionStore.can(PermissionsBits.CONNECT, channel);
+            return !PermissionStore.can(VIEW_CHANNEL, channel) || checkConnect && !PermissionStore.can(CONNECT, channel);
         } catch (e) {
             console.error("[ViewHiddenChannels#isHiddenChannel]: ", e);
             return false;
@@ -577,7 +591,15 @@ export default definePlugin({
             res[key] ??= [];
 
             for (const objChannel of maybeObjChannels) {
-                if (isUncategorized(objChannel) || objChannel.channel.id === null || !this.isHiddenChannel(objChannel.channel)) res[key].push(objChannel);
+                const channel = objChannel?.channel;
+                if (!channel || typeof channel !== "object") {
+                    res[key].push(objChannel);
+                    continue;
+                }
+
+                if (isUncategorized(objChannel) || channel.id == null || !this.isHiddenChannel(channel)) {
+                    res[key].push(objChannel);
+                }
             }
         }
 
