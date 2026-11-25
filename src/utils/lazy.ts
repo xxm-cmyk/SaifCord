@@ -115,11 +115,15 @@ export function proxyLazy<T>(factory: () => T, attempts = 5, isChild = false): T
             // `const { meow } = findByPropsLazy("meow");`
             if (!isChild && isSameTick)
                 return proxyLazy(
-                    () => Reflect.get(target[SYM_LAZY_GET](), p, receiver),
+                    () => {
+                        const lazyTarget = target[SYM_LAZY_GET]();
+                        return lazyTarget == null ? undefined : Reflect.get(lazyTarget, p, receiver);
+                    },
                     attempts,
                     true
                 );
             const lazyTarget = target[SYM_LAZY_GET]();
+            if (lazyTarget == null) return undefined;
             if (typeof lazyTarget === "object" || typeof lazyTarget === "function") {
                 return Reflect.get(lazyTarget, p, receiver);
             }
