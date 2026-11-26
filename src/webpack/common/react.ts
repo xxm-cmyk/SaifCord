@@ -3,9 +3,9 @@
  * Copyright (c) 2023 Vendicated and contributors
  *
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -46,7 +46,12 @@ export const createRoot: typeof import("react-dom/client").createRoot = ((contai
         resolvedCreateRoot = candidate;
     }
 
-    return resolvedCreateRoot(container, options);
+    const createRootFn = resolvedCreateRoot;
+    if (!createRootFn) {
+        throw new Error("Could not resolve Discord's ReactDOMClient.createRoot");
+    }
+
+    return createRootFn(container, options);
 }) as typeof import("react-dom/client").createRoot;
 
 waitFor(["createElement", "useEffect"], m => {
