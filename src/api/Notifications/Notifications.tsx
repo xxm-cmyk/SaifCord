@@ -44,12 +44,21 @@ window.addEventListener("focus", () => {
     }
 });
 
-function getRoot() {
+function getRoot(): Root | null {
     if (!reactRoot) {
         const container = document.createElement("div");
         container.id = "vc-notification-container";
         document.body.append(container);
-        reactRoot = createRoot(container);
+
+        // Discord's current webpack bundle no longer matches our createRoot
+        // code finder. Keep that mismatch from becoming an uncaught rejection
+        // every time an in-app notification is queued.
+        try {
+            reactRoot = createRoot(container);
+        } catch {
+            container.remove();
+            return null;
+        }
     }
     return reactRoot;
 }
@@ -79,14 +88,21 @@ export interface NotificationData {
 
 function _showNotification(notification: NotificationData, id: number) {
     const root = getRoot();
+    if (!root) return Promise.resolve();
+
     return new Promise<void>(resolve => {
-        root.render(
-            <NotificationComponent key={id} {...notification} onClose={() => {
-                notification.onClose?.();
-                root.render(null);
-                resolve();
-            }} />,
-        );
+        try {
+            root.render(
+                <NotificationComponent key={id} {...notification} onClose={() => {
+                    notification.onClose?.();
+                    root.render(null);
+                    resolve();
+                }} />,
+            );
+        } catch {
+            // A notification must never crash the Discord renderer.
+            resolve();
+        }
     });
 }
 
