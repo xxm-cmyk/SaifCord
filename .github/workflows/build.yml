@@ -79,8 +79,10 @@ jobs:
               run: |
                   VERSION=$(node -p "require('./package.json').version")
                   TAG="v$VERSION"
-                  gh release create "$TAG" --target "$GITHUB_SHA" --title "SaifCord $VERSION" --notes "Official Release" 2>/dev/null || \
-                  gh release edit "$TAG" --title "SaifCord $VERSION" --notes "Official Release"
+                  SHORT_SHA="${GITHUB_SHA:0:7}"
+                  TITLE="SaifCord $VERSION $SHORT_SHA"
+                  gh release create "$TAG" --target "$GITHUB_SHA" --title "$TITLE" --notes "Official Release" 2>/dev/null || \
+                  gh release edit "$TAG" --title "$TITLE" --notes "Official Release"
                   # Replace assets with matching names instead of failing on re-runs.
                   gh release upload "$TAG" dist/release/* --clobber
 
@@ -126,8 +128,10 @@ jobs:
               run: |
                   $version = node -p "require('./package.json').version"
                   $tag = "v$version"
-                  gh release create $tag --target $env:GITHUB_SHA --title "SaifCord $version" --notes "Official Release" 2>$null
+                  $shortSha = $env:GITHUB_SHA.Substring(0, 7)
+                  $title = "SaifCord $version $shortSha"
+                  gh release create $tag --target $env:GITHUB_SHA --title $title --notes "Official Release" 2>$null
                   if ($LASTEXITCODE -ne 0) {
-                    gh release edit $tag --title "SaifCord $version" --notes "Official Release"
+                    gh release edit $tag --title $title --notes "Official Release"
                   }
                   gh release upload $tag --clobber installer/output/SaifCord-Setup.exe
