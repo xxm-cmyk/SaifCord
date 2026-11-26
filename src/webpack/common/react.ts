@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { findByCodeLazy, findByPropsLazy, waitFor } from "@webpack";
+import { find, filters, findByPropsLazy, waitFor } from "@webpack";
 
 export let React: typeof import("react");
 export let useState: typeof React.useState;
@@ -28,8 +28,26 @@ export let useReducer: typeof React.useReducer;
 export let useCallback: typeof React.useCallback;
 
 export const ReactDOM: typeof import("react-dom") = findByPropsLazy("createPortal");
-// 299 is an error code used in createRoot and createPortal.
-export const createRoot: typeof import("react-dom/client").createRoot = findByCodeLazy("(299));", ".onRecoverableError");
+// Resolve ReactDOMClient by its public export first. Discord can change the
+// minified implementation of createRoot, so matching its internal source is
+// only a fallback.
+let resolvedCreateRoot: typeof import("react-dom/client").createRoot | undefined;
+
+export const createRoot: typeof import("react-dom/client").createRoot = ((container, options) => {
+    if (!resolvedCreateRoot) {
+        const module = find(filters.byProps("createRoot"))
+            ?? find(filters.byCode("(299));", ".onRecoverableError"));
+
+        const candidate = typeof module === "function" ? module : module?.createRoot;
+        if (typeof candidate !== "function") {
+            throw new Error("Could not resolve Discord's ReactDOMClient.createRoot");
+        }
+
+        resolvedCreateRoot = candidate;
+    }
+
+    return resolvedCreateRoot(container, options);
+}) as typeof import("react-dom/client").createRoot;
 
 waitFor(["createElement", "useEffect"], m => {
     React = m;
